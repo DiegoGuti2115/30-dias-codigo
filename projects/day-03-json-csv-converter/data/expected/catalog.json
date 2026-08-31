@@ -1,0 +1,14 @@
+[
+  {
+    "codigo": "0012",
+    "activo": "true",
+    "referencia": "2026-09-01",
+    "descripcion": "Valor con coma, comillas y texto"
+  },
+  {
+    "codigo": "0042",
+    "activo": "false",
+    "referencia": "0007",
+    "descripcion": "Texto simple"
+  }
+]

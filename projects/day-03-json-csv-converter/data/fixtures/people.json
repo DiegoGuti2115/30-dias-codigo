@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1,
+    "nombre": "Ana, Pérez",
+    "activo": true
+  },
+  {
+    "id": 2,
+    "nombre": "Luis",
+    "nota": "Primera línea\nSegunda línea",
+    "activo": null
+  }
+]

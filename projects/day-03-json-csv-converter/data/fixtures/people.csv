@@ -1,0 +1,4 @@
+id,nombre,activo,nota
+1,"Ana, Pérez",true,
+2,Luis,,"Primera línea
+Segunda línea"

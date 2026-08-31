@@ -78,8 +78,9 @@ projects/day-01-download-sorter/
 
 Desde la raíz del repositorio, el programa recibe como último argumento el directorio que debe organizar:
 
-```powershell
-python projects/day-01-download-sorter/src/main.py "<directorio-de-entrada>"
+python "30-dias-codigo/projects/day-01-download-sorter/src/main.py" "30-dias-codigo/projects/day-01-download-sorter/data/fixture-downloads"
+
+python "30-dias-codigo/projects/day-01-download-sorter/src/main.py" "30-dias-codigo/projects/day-01-download-sorter/data/fixture-downloads"
 ```
 
 El directorio de entrada se modifica al ejecutar el clasificador. Para preservar el fixture base, copie [`data/fixture-downloads`](data/fixture-downloads) a un directorio temporal y ejecute la herramienta sobre esa copia.

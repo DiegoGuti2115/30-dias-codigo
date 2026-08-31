@@ -1,0 +1,3 @@
+codigo,activo,referencia,descripcion
+0012,true,2026-09-01,"Valor con coma, comillas y texto"
+0042,false,0007,Texto simple
