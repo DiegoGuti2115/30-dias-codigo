@@ -1,0 +1,208 @@
+{
+  "version": 1,
+  "operation": "rename",
+  "created_at": "2026-08-30T14:59:27.887797+00:00",
+  "directory": "C:\\Users\\Diego\\Desktop\\Arquitecto de IA\\30Dias\\30-dias-codigo\\projects\\day-02-bulk-file-renamer\\data\\demo-files-50",
+  "entries": [
+    {
+      "source": "informe-01-draft.txt",
+      "target": "informe-01-final.txt"
+    },
+    {
+      "source": "informe-02-draft.txt",
+      "target": "informe-02-final.txt"
+    },
+    {
+      "source": "informe-03-draft.txt",
+      "target": "informe-03-final.txt"
+    },
+    {
+      "source": "informe-04-draft.txt",
+      "target": "informe-04-final.txt"
+    },
+    {
+      "source": "informe-05-draft.txt",
+      "target": "informe-05-final.txt"
+    },
+    {
+      "source": "informe-06-draft.txt",
+      "target": "informe-06-final.txt"
+    },
+    {
+      "source": "informe-07-draft.txt",
+      "target": "informe-07-final.txt"
+    },
+    {
+      "source": "informe-08-draft.txt",
+      "target": "informe-08-final.txt"
+    },
+    {
+      "source": "informe-09-draft.txt",
+      "target": "informe-09-final.txt"
+    },
+    {
+      "source": "informe-10-draft.txt",
+      "target": "informe-10-final.txt"
+    },
+    {
+      "source": "informe-11-draft.txt",
+      "target": "informe-11-final.txt"
+    },
+    {
+      "source": "informe-12-draft.txt",
+      "target": "informe-12-final.txt"
+    },
+    {
+      "source": "informe-13-draft.txt",
+      "target": "informe-13-final.txt"
+    },
+    {
+      "source": "informe-14-draft.txt",
+      "target": "informe-14-final.txt"
+    },
+    {
+      "source": "informe-15-draft.txt",
+      "target": "informe-15-final.txt"
+    },
+    {
+      "source": "informe-16-draft.txt",
+      "target": "informe-16-final.txt"
+    },
+    {
+      "source": "informe-17-draft.txt",
+      "target": "informe-17-final.txt"
+    },
+    {
+      "source": "informe-18-draft.txt",
+      "target": "informe-18-final.txt"
+    },
+    {
+      "source": "informe-19-draft.txt",
+      "target": "informe-19-final.txt"
+    },
+    {
+      "source": "informe-20-draft.txt",
+      "target": "informe-20-final.txt"
+    },
+    {
+      "source": "informe-21-draft.txt",
+      "target": "informe-21-final.txt"
+    },
+    {
+      "source": "informe-22-draft.txt",
+      "target": "informe-22-final.txt"
+    },
+    {
+      "source": "informe-23-draft.txt",
+      "target": "informe-23-final.txt"
+    },
+    {
+      "source": "informe-24-draft.txt",
+      "target": "informe-24-final.txt"
+    },
+    {
+      "source": "informe-25-draft.txt",
+      "target": "informe-25-final.txt"
+    },
+    {
+      "source": "informe-26-draft.txt",
+      "target": "informe-26-final.txt"
+    },
+    {
+      "source": "informe-27-draft.txt",
+      "target": "informe-27-final.txt"
+    },
+    {
+      "source": "informe-28-draft.txt",
+      "target": "informe-28-final.txt"
+    },
+    {
+      "source": "informe-29-draft.txt",
+      "target": "informe-29-final.txt"
+    },
+    {
+      "source": "informe-30-draft.txt",
+      "target": "informe-30-final.txt"
+    },
+    {
+      "source": "informe-31-draft.txt",
+      "target": "informe-31-final.txt"
+    },
+    {
+      "source": "informe-32-draft.txt",
+      "target": "informe-32-final.txt"
+    },
+    {
+      "source": "informe-33-draft.txt",
+      "target": "informe-33-final.txt"
+    },
+    {
+      "source": "informe-34-draft.txt",
+      "target": "informe-34-final.txt"
+    },
+    {
+      "source": "informe-35-draft.txt",
+      "target": "informe-35-final.txt"
+    },
+    {
+      "source": "informe-36-draft.txt",
+      "target": "informe-36-final.txt"
+    },
+    {
+      "source": "informe-37-draft.txt",
+      "target": "informe-37-final.txt"
+    },
+    {
+      "source": "informe-38-draft.txt",
+      "target": "informe-38-final.txt"
+    },
+    {
+      "source": "informe-39-draft.txt",
+      "target": "informe-39-final.txt"
+    },
+    {
+      "source": "informe-40-draft.txt",
+      "target": "informe-40-final.txt"
+    },
+    {
+      "source": "informe-41-draft.txt",
+      "target": "informe-41-final.txt"
+    },
+    {
+      "source": "informe-42-draft.txt",
+      "target": "informe-42-final.txt"
+    },
+    {
+      "source": "informe-43-draft.txt",
+      "target": "informe-43-final.txt"
+    },
+    {
+      "source": "informe-44-draft.txt",
+      "target": "informe-44-final.txt"
+    },
+    {
+      "source": "informe-45-draft.txt",
+      "target": "informe-45-final.txt"
+    },
+    {
+      "source": "informe-46-draft.txt",
+      "target": "informe-46-final.txt"
+    },
+    {
+      "source": "informe-47-draft.txt",
+      "target": "informe-47-final.txt"
+    },
+    {
+      "source": "informe-48-draft.txt",
+      "target": "informe-48-final.txt"
+    },
+    {
+      "source": "informe-49-draft.txt",
+      "target": "informe-49-final.txt"
+    },
+    {
+      "source": "informe-50-draft.txt",
+      "target": "informe-50-final.txt"
+    }
+  ]
+}

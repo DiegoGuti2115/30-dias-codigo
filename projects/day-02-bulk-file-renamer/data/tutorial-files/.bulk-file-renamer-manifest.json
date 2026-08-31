@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "operation": "rename",
+  "created_at": "2026-08-28T12:11:55.434875+00:00",
+  "directory": "C:\\Users\\Diego\\Desktop\\Arquitecto de IA\\30Dias\\30-dias-codigo\\projects\\day-02-bulk-file-renamer\\data\\tutorial-files",
+  "entries": [
+    {
+      "source": "informe-enero-draft.txt",
+      "target": "informe-enero-final.txt"
+    },
+    {
+      "source": "informe-febrero-draft.txt",
+      "target": "informe-febrero-final.txt"
+    }
+  ]
+}
