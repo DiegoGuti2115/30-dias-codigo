@@ -1,0 +1,24 @@
+{
+  "format": "common",
+  "total_lines": 6,
+  "valid_events": 2,
+  "invalid_lines": 4,
+  "level_counts": {
+    "DEBUG": 0,
+    "INFO": 2,
+    "WARNING": 0,
+    "ERROR": 0,
+    "CRITICAL": 0
+  },
+  "top_messages": [
+    {
+      "message": "Evento válido antes de errores",
+      "count": 1
+    },
+    {
+      "message": "Evento válido después de errores",
+      "count": 1
+    }
+  ],
+  "error_line_numbers": []
+}

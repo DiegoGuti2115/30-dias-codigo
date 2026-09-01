@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Demo educativa del analizador local de logs del Día 04.">
+  <title>Día 04 · Analizador local de logs</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07101f;
+      --surface: rgba(16, 31, 55, .68);
+      --surface-strong: rgba(20, 39, 67, .9);
+      --line: rgba(196, 217, 255, .17);
+      --text: #f4f7ff;
+      --muted: #b8c4da;
+      --cyan: #6de7ff;
+      --violet: #a991ff;
+      --green: #7be3af;
+      --amber: #ffd070;
+      --red: #ff929c;
+      --critical: #ec79ff;
+      --shadow: 0 24px 80px rgba(0, 0, 0, .32);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(109, 231, 255, .17), transparent 27rem),
+        radial-gradient(circle at 94% 7%, rgba(169, 145, 255, .20), transparent 30rem),
+        var(--bg);
+    }
+    a { color: var(--cyan); text-underline-offset: .2em; }
+    a:focus-visible, button:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--cyan);
+      outline-offset: 3px;
+    }
+    .skip-link { position: absolute; left: 1rem; top: -4rem; z-index: 10; padding: .7rem 1rem; background: var(--cyan); color: #02131c; border-radius: 0 0 10px 10px; font-weight: 800; }
+    .skip-link:focus { top: 0; }
+    .container { width: min(1160px, calc(100% - 2rem)); margin: auto; }
+    .glass { background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+    header { position: sticky; top: 0; z-index: 5; border-bottom: 1px solid var(--line); background: rgba(7, 16, 31, .78); backdrop-filter: blur(18px); }
+    .nav { min-height: 4.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .brand { color: var(--text); text-decoration: none; font-weight: 850; letter-spacing: -.03em; }
+    nav ul { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .3rem .9rem; list-style: none; padding: 0; margin: 0; }
+    nav a { font-size: .9rem; color: var(--muted); text-decoration: none; }
+    nav a:hover { color: var(--cyan); }
+    .hero { padding: 5.5rem 0 3rem; display: grid; grid-template-columns: 1.15fr .85fr; gap: 2rem; align-items: center; }
+    .eyebrow { display: inline-flex; align-items: center; gap: .45rem; margin: 0 0 1rem; color: var(--cyan); font-size: .86rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; }
+    .eyebrow::before { content: ""; width: .65rem; height: .65rem; border-radius: 50%; background: var(--green); box-shadow: 0 0 16px var(--green); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 12ch; margin-bottom: 1.15rem; font-size: clamp(2.7rem, 7vw, 5.7rem); line-height: .98; letter-spacing: -.07em; }
+    h2 { margin-bottom: .65rem; font-size: clamp(1.7rem, 4vw, 2.55rem); letter-spacing: -.045em; }
+    h3 { font-size: 1.08rem; }
+    .lead { max-width: 61ch; color: var(--muted); font-size: 1.13rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: .45rem; min-height: 2.8rem; padding: .65rem 1rem; border: 1px solid transparent; border-radius: 999px; cursor: pointer; font: inherit; font-weight: 800; text-decoration: none; transition: transform .2s ease, background .2s ease; }
+    .button:hover { transform: translateY(-2px); }
+    .primary { color: #04131a; background: linear-gradient(115deg, var(--cyan), #b5f4ff); }
+    .secondary { color: var(--text); border-color: var(--line); background: rgba(255,255,255,.05); }
+    .hero-card { padding: 1.25rem; border-radius: var(--radius); overflow: hidden; }
+    .terminal-title { display: flex; align-items: center; gap: .45rem; color: var(--muted); font-size: .82rem; }
+    .dots { display: flex; gap: .35rem; margin-left: auto; }
+    .dots span { width: .56rem; height: .56rem; border-radius: 50%; background: #ff7f91; }
+    .dots span:nth-child(2) { background: #ffd070; }.dots span:nth-child(3) { background: #7be3af; }
+    pre { overflow: auto; margin: .9rem 0 0; padding: 1rem; border-radius: 14px; color: #dce7ff; background: rgba(1, 8, 20, .7); font: .8rem/1.6 ui-monospace, SFMono-Regular, Consolas, monospace; white-space: pre-wrap; }
+    .command { color: var(--green); }.terminal-accent { color: var(--cyan); }
+    section { padding: 2.5rem 0; scroll-margin-top: 5rem; }
+    .section-intro { max-width: 66ch; color: var(--muted); }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .card { padding: 1.25rem; border-radius: var(--radius); }
+    .card p { margin-bottom: 0; color: var(--muted); }
+    .number { display: block; margin-bottom: .5rem; color: var(--violet); font-size: 1.6rem; font-weight: 900; }
+    .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; margin-top: 1.25rem; }
+    .step { position: relative; min-height: 10rem; padding: 1rem; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); }
+    .step:not(:last-child)::after { content: "→"; position: absolute; right: -.78rem; top: 50%; z-index: 1; color: var(--cyan); font-size: 1.4rem; transform: translateY(-50%); }
+    .step strong { display: block; margin-bottom: .4rem; }.step span { color: var(--muted); font-size: .92rem; }
+    .demo { padding: 1.25rem; border-radius: 28px; }
+    .demo-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
+    .notice { max-width: 40rem; margin: 0; padding: .8rem 1rem; border-left: 3px solid var(--amber); border-radius: 0 10px 10px 0; color: #f8e4b6; background: rgba(255, 208, 112, .09); font-size: .92rem; }
+    .controls { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem; align-items: end; }
+    label { display: block; margin-bottom: .45rem; font-weight: 750; }
+    select, textarea { width: 100%; color: var(--text); border: 1px solid var(--line); border-radius: 13px; background: rgba(0, 8, 22, .57); font: inherit; }
+    select { min-height: 2.8rem; padding: .6rem .75rem; }
+    textarea { min-height: 17rem; padding: .95rem; resize: vertical; font: .85rem/1.55 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .actions { display: flex; flex-wrap: wrap; gap: .65rem; margin: 1rem 0; }
+    .status { min-height: 1.5rem; margin: 0 0 1rem; color: var(--muted); font-size: .92rem; }.status.error { color: var(--red); }.status.success { color: var(--green); }
+    .results[hidden], .diagnostics[hidden] { display: none; }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
+    .metric { padding: 1rem; border: 1px solid var(--line); border-radius: 16px; background: rgba(2, 10, 25, .32); }.metric-value { display: block; font-size: 1.8rem; font-weight: 900; letter-spacing: -.05em; }.metric-label { color: var(--muted); font-size: .84rem; }
+    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+    .panel { padding: 1rem; border: 1px solid var(--line); border-radius: 16px; background: rgba(2, 10, 25, .28); }.panel h3 { margin-bottom: .75rem; }
+    .level-list, .message-list, .error-list, .diagnostic-list { list-style: none; padding: 0; margin: 0; }.level-list li, .message-list li, .error-list li, .diagnostic-list li { padding: .55rem 0; border-bottom: 1px solid rgba(196,217,255,.1); }.level-list li:last-child, .message-list li:last-child, .error-list li:last-child, .diagnostic-list li:last-child { border-bottom: 0; }
+    .level-list li { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }.badge { display: inline-flex; align-items: center; min-width: 4.75rem; padding: .22rem .48rem; border-radius: 99px; font-size: .72rem; font-weight: 900; }.DEBUG { background: #335f8c; }.INFO { background: #20735b; }.WARNING { color: #231a00; background: var(--amber); }.ERROR { background: #9b3847; }.CRITICAL { background: #78358d; }
+    .message-count { float: right; color: var(--cyan); font-weight: 850; }.error-meta, .diagnostic-list small { display: block; color: var(--muted); font-size: .79rem; }
+    .explain { margin-top: 1rem; padding: 1rem; border-radius: 16px; border: 1px solid rgba(109,231,255,.26); background: rgba(109,231,255,.07); }.explain p:last-child { margin-bottom: 0; }
+    .two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }.list-card { padding: 1.25rem; border-radius: var(--radius); }.list-card ul { padding-left: 1.15rem; color: var(--muted); }.list-card li + li { margin-top: .55rem; }
+    footer { margin-top: 2rem; padding: 2rem 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+    @media (max-width: 780px) { .hero, .result-grid, .two-columns { grid-template-columns: 1fr; }.cards { grid-template-columns: 1fr; }.flow { grid-template-columns: 1fr 1fr; }.step:not(:last-child)::after { display: none; }.metrics { grid-template-columns: repeat(3, 1fr); }.nav { padding: .6rem 0; align-items: flex-start; }.brand { padding-top: .2rem; } }
+    @media (max-width: 520px) { h1 { font-size: clamp(2.5rem, 17vw, 4rem); }.controls { grid-template-columns: 1fr; }.metrics { grid-template-columns: 1fr; }.flow { grid-template-columns: 1fr; } nav ul { justify-content: flex-start; }.hero { padding-top: 3.5rem; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#demo">Saltar a la demostración</a>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#inicio">Día 04 / Log Analyzer</a>
+      <nav aria-label="Navegación principal"><ul><li><a href="#problema">Propósito</a></li><li><a href="#flujo">Flujo</a></li><li><a href="#demo">Demo</a></li><li><a href="#limites">Límites</a></li></ul></nav>
+    </div>
+  </header>
+  <main id="inicio">
+    <section class="container hero" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">Proyecto 04 · CLI local</p>
+        <h1 id="page-title">De líneas de log a señales operativas.</h1>
+        <p class="lead">Un analizador local que procesa un archivo UTF-8 de forma secuencial y entrega un resumen por severidad, los mensajes más frecuentes y, opcionalmente, los eventos <strong>ERROR</strong> y <strong>CRITICAL</strong>.</p>
+        <div class="hero-actions"><a class="button primary" href="#demo">Probar simulación</a><a class="button secondary" href="../README.md">Ver README del proyecto</a></div>
+      </div>
+      <aside class="hero-card glass" aria-label="Ejemplo del comando real">
+        <div class="terminal-title"><span>terminal · ejecución local</span><span class="dots" aria-hidden="true"><span></span><span></span><span></span></span></div>
+        <pre><span class="command">python src/main.py analyze</span> data/fixtures/common-valid.log \
+  --format <span class="terminal-accent">common</span> --errors
+
+Resumen de análisis
+Eventos válidos: 7
+Líneas inválidas: 0
+
+Reporte de errores
+- línea 4 | ... | ERROR | ...</pre>
+      </aside>
+    </section>
+
+    <section id="problema"><div class="container">
+      <p class="eyebrow">Qué resuelve</p><h2>Inspección reproducible sin convertir el log en una caja negra.</h2>
+      <p class="section-intro">En vez de revisar manualmente cada línea, el proyecto normaliza las entradas válidas, cuenta lo que encontró y conserva las líneas inválidas fuera del análisis. La selección de formato es explícita: no hay autodetección ambigua.</p>
+      <div class="cards">
+        <article class="card glass"><span class="number">01</span><h3>Entrada controlada</h3><p>Admite los formatos <code>common</code> y <code>jsonl</code>. El archivo real se lee con UTF-8, una línea por vez.</p></article>
+        <article class="card glass"><span class="number">02</span><h3>Señales verificables</h3><p>Mide líneas leídas, eventos válidos, líneas inválidas, distribución de los cinco niveles y hasta tres mensajes frecuentes.</p></article>
+        <article class="card glass"><span class="number">03</span><h3>Prioridad visible</h3><p>Con <code>--errors</code>, presenta únicamente ERROR y CRITICAL respetando el orden físico de entrada.</p></article>
+      </div>
+    </div></section>
+
+    <section id="flujo"><div class="container">
+      <p class="eyebrow">Cómo funciona</p><h2>Un flujo simple, explícito y determinista.</h2>
+      <div class="flow" aria-label="Flujo de análisis">
+        <div class="step"><strong>1. Selecciona formato</strong><span><code>common</code> o <code>jsonl</code>; la persona usuaria lo indica.</span></div>
+        <div class="step"><strong>2. Procesa línea a línea</strong><span>Valida timestamp, nivel y mensaje por cada línea física.</span></div>
+        <div class="step"><strong>3. Normaliza</strong><span>Los niveles se convierten a mayúsculas y los eventos válidos se agregan.</span></div>
+        <div class="step"><strong>4. Reporta</strong><span>Genera métricas, top de mensajes y eventos por encima del umbral.</span></div>
+      </div>
+    </div></section>
+
+    <section id="demo"><div class="container">
+      <p class="eyebrow">Laboratorio interactivo</p><h2>Explora el contrato desde el navegador.</h2>
+      <div class="demo glass">
+        <div class="demo-head"><p class="notice"><strong>Simulación educativa:</strong> esta página reproduce en JavaScript las reglas visibles del CLI local para fines de demostración. La herramienta real se ejecuta con Python 3.11+ mediante <code>python src/main.py analyze …</code>; no se ejecuta Python dentro del navegador.</p></div>
+        <div class="controls">
+          <div><label for="format">Formato de entrada</label><select id="format" aria-describedby="format-help"><option value="common">common — timestamp NIVEL mensaje</option><option value="jsonl">jsonl — un objeto JSON por línea</option></select><small id="format-help">La demo no autodetecta el formato, igual que el CLI.</small></div>
+          <button class="button secondary" id="load-jsonl" type="button">Cargar ejemplo JSONL</button>
+        </div>
+        <label for="log-input" style="margin-top:1rem">Contenido del archivo de logs</label>
+        <textarea id="log-input" spellcheck="false" aria-describedby="input-help"></textarea>
+        <small id="input-help">Edita el ejemplo o pega líneas nuevas. Las líneas inválidas se contabilizan y no se incluyen en las métricas de eventos.</small>
+        <div class="actions"><button class="button primary" id="analyze" type="button">Analizar logs</button><button class="button secondary" id="clear" type="button">Limpiar</button><button class="button secondary" id="reset" type="button">Restablecer common</button></div>
+        <p id="status" class="status" role="status" aria-live="polite">Ejemplo common cargado: listo para analizar.</p>
+        <section id="results" class="results" aria-labelledby="results-title" hidden>
+          <h3 id="results-title">Resultados de la simulación</h3>
+          <div class="metrics" aria-label="Métricas principales"><div class="metric"><span class="metric-value" id="total-lines">0</span><span class="metric-label">Líneas leídas</span></div><div class="metric"><span class="metric-value" id="valid-events">0</span><span class="metric-label">Eventos válidos</span></div><div class="metric"><span class="metric-value" id="invalid-lines">0</span><span class="metric-label">Líneas inválidas</span></div></div>
+          <div class="result-grid"><article class="panel"><h3>Por nivel</h3><ul id="level-counts" class="level-list"></ul></article><article class="panel"><h3>Mensajes frecuentes</h3><ul id="top-messages" class="message-list"></ul></article></div>
+          <div class="result-grid"><article class="panel"><h3>Reporte de errores</h3><ul id="error-events" class="error-list"></ul></article><article class="panel diagnostics" id="diagnostics-panel" hidden><h3>Diagnósticos de validación</h3><ul id="diagnostics" class="diagnostic-list"></ul></article></div>
+          <aside class="explain"><h3>Cómo interpretar estos resultados</h3><p id="explanation"></p></aside>
+        </section>
+      </div>
+    </div></section>
+
+    <section id="limites"><div class="container two-columns">
+      <article class="list-card glass"><h2>Lo que sí cubre v1</h2><ul><li>Lectura local UTF-8 y procesamiento secuencial.</li><li>Validación de timestamps ISO 8601, niveles admitidos y mensajes no vacíos.</li><li>Normalización de los niveles DEBUG, INFO, WARNING, ERROR y CRITICAL.</li><li>Conteos deterministas y top 3 por frecuencia con desempate por primera aparición.</li></ul></article>
+      <article class="list-card glass"><h2>Lo que no afirma cubrir</h2><ul><li>No autodetecta el formato.</li><li>No analiza códigos HTTP ni rutas como métricas independientes.</li><li>No recibe múltiples archivos, no exporta resultados ni monitoriza en tiempo real.</li><li>No muestra el contenido de líneas inválidas en la salida textual del CLI.</li></ul></article>
+    </div></section>
+  </main>
+  <footer><div class="container">Día 04 del reto 30 Días, 30 Proyectos · <a href="LINKEDIN.md">Plan de publicación</a> · <a href="CONTRATO.md">Contrato v1</a> · <a href="../README.md">Documentación operativa</a></div></footer>
+  <script>
+    (() => {
+      'use strict';
+      const LEVELS = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'];
+      const commonExample = `2026-09-01T08:30:00Z DEBUG Verificación de salud iniciada\n2026-09-01T08:30:01Z INFO Servicio API iniciado\n2026-09-01T08:30:02Z WARNING Latencia elevada en /clientes\n2026-09-01T08:30:03Z ERROR Conexión rechazada por el proveedor\n2026-09-01T08:30:04Z CRITICAL Servicio de pagos no disponible\n2026-09-01T08:30:05Z ERROR Conexión rechazada por el proveedor\n2026-09-01T08:30:06Z INFO Usuario José inició sesión`;
+      const jsonlExample = `{"timestamp":"2026-09-01T09:00:00Z","level":"debug","message":"Tarea de mantenimiento iniciada","service":"worker"}\n{"timestamp":"2026-09-01T09:00:01Z","level":"INFO","message":"Solicitud procesada","request_id":"req-001"}\n{"timestamp":"2026-09-01T09:00:02Z","level":"warning","message":"Espacio de disco al 85%","host":"nodo-1"}\n{"timestamp":"2026-09-01T09:00:03Z","level":"error","message":"Tiempo de espera agotado","service":"gateway"}\n{"timestamp":"2026-09-01T09:00:04Z","level":"CRITICAL","message":"Pérdida de conexión con clúster","cluster":"principal"}\n{"timestamp":"2026-09-01T09:00:05Z","level":"ERROR","message":"Tiempo de espera agotado","service":"gateway"}`;
+      const format = document.querySelector('#format'); const input = document.querySelector('#log-input'); const results = document.querySelector('#results'); const status = document.querySelector('#status');
+      const setStatus = (message, type = '') => { status.textContent = message; status.className = `status ${type}`; };
+      const escapeHtml = (value) => String(value).replace(/[&<>]/g, (character) => ({ '&': '&', '<': '<', '>': '>' }[character]));
+      const isTimestamp = (value) => {
+        if (typeof value !== 'string' || !value || value.trim() !== value || !value.includes('T')) return false;
+        const normalized = value.endsWith('Z') ? `${value.slice(0, -1)}+00:00` : value;
+        const pattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,6})?)?(?:Z|[+-]\d{2}:\d{2})$/;
+        return pattern.test(value) && !Number.isNaN(Date.parse(normalized));
+      };
+      const parseCommon = (line, lineNumber) => {
+        if (!line.trim()) return { diagnostic: [lineNumber, 'Línea vacía'] };
+        const match = line.match(/^(\S+)[ \t]+(\S+)[ \t]+(.+)$/);
+        if (!match) return { diagnostic: [lineNumber, 'Estructura common inválida'] };
+        const [, timestamp, rawLevel, message] = match; const level = rawLevel.toUpperCase();
+        if (!isTimestamp(timestamp)) return { diagnostic: [lineNumber, 'Timestamp ISO 8601 inválido'] };
+        if (!LEVELS.includes(level)) return { diagnostic: [lineNumber, 'Nivel no admitido'] };
+        if (!message.trim()) return { diagnostic: [lineNumber, 'Mensaje vacío'] };
+        return { event: { lineNumber, timestamp, level, message } };
+      };
+      const parseJsonl = (line, lineNumber) => {
+        if (!line.trim()) return { diagnostic: [lineNumber, 'Línea vacía'] };
+        let data; try { data = JSON.parse(line); } catch { return { diagnostic: [lineNumber, 'JSON inválido'] }; }
+        if (!data || Array.isArray(data) || typeof data !== 'object') return { diagnostic: [lineNumber, 'El JSON debe ser un objeto'] };
+        for (const key of ['timestamp', 'level', 'message']) { if (!(key in data)) return { diagnostic: [lineNumber, `Falta el campo ${key}`] }; if (typeof data[key] !== 'string') return { diagnostic: [lineNumber, `El campo ${key} debe ser texto`] }; if (!data[key].trim()) return { diagnostic: [lineNumber, `El campo ${key} está vacío`] }; }
+        const level = data.level.toUpperCase();
+        if (!isTimestamp(data.timestamp)) return { diagnostic: [lineNumber, 'Timestamp ISO 8601 inválido'] };
+        if (!LEVELS.includes(level)) return { diagnostic: [lineNumber, 'Nivel no admitido'] };
+        return { event: { lineNumber, timestamp: data.timestamp, level, message: data.message } };
+      };
+      const analyze = () => {
+        const value = input.value; if (!value.trim()) { results.hidden = true; setStatus('Introduce al menos una línea para analizar.', 'error'); input.focus(); return; }
+        const lines = value.split(/\r?\n/); const events = []; const diagnostics = []; const parser = format.value === 'common' ? parseCommon : parseJsonl;
+        lines.forEach((line, index) => { const result = parser(line, index + 1); if (result.event) events.push(result.event); else diagnostics.push(result.diagnostic); });
+        if (!events.length) { results.hidden = true; setStatus('No hay eventos válidos: el CLI real devolvería un error de análisis sin resumen.', 'error'); renderDiagnostics(diagnostics); return; }
+        const counts = Object.fromEntries(LEVELS.map((level) => [level, 0])); events.forEach((event) => { counts[event.level] += 1; });
+        const frequencies = new Map(); events.forEach((event, position) => { const current = frequencies.get(event.message) || { count: 0, position }; current.count += 1; frequencies.set(event.message, current); });
+        const top = [...frequencies.entries()].sort((a, b) => b[1].count - a[1].count || a[1].position - b[1].position).slice(0, 3);
+        const errors = events.filter((event) => event.level === 'ERROR' || event.level === 'CRITICAL');
+        document.querySelector('#total-lines').textContent = lines.length; document.querySelector('#valid-events').textContent = events.length; document.querySelector('#invalid-lines').textContent = diagnostics.length;
+        document.querySelector('#level-counts').innerHTML = LEVELS.map((level) => `<li><span class="badge ${level}">${level}</span><strong>${counts[level]}</strong></li>`).join('');
+        document.querySelector('#top-messages').innerHTML = top.map(([message, data]) => `<li>${escapeHtml(message)} <span class="message-count">${data.count} ×</span></li>`).join('') || '<li>Sin mensajes válidos.</li>';
+        document.querySelector('#error-events').innerHTML = errors.length ? errors.map((event) => `<li><span class="badge ${event.level}">${event.level}</span> ${escapeHtml(event.message)}<span class="error-meta">línea ${event.lineNumber} · ${escapeHtml(event.timestamp)}</span></li>`).join('') : '<li>Sin eventos ERROR o CRITICAL.</li>';
+        renderDiagnostics(diagnostics);
+        document.querySelector('#explanation').textContent = `Se analizaron ${events.length} eventos válidos de ${lines.length} líneas. Las ${diagnostics.length} líneas inválidas no alteran los conteos por severidad ni los mensajes frecuentes. El reporte conserva ${errors.length} evento(s) ERROR o CRITICAL en el orden de entrada.`;
+        results.hidden = false; setStatus(`Análisis completado en formato ${format.value}: ${events.length} evento(s) válido(s).`, 'success'); results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      };
+      const renderDiagnostics = (diagnostics) => { const panel = document.querySelector('#diagnostics-panel'); const list = document.querySelector('#diagnostics'); if (!diagnostics.length) { list.innerHTML = ''; panel.hidden = true; return; } list.innerHTML = diagnostics.map(([line, message]) => `<li><strong>Línea ${line}</strong><small>${escapeHtml(message)}</small></li>`).join(''); panel.hidden = false; };
+      document.querySelector('#analyze').addEventListener('click', analyze);
+      document.querySelector('#clear').addEventListener('click', () => { input.value = ''; results.hidden = true; document.querySelector('#diagnostics-panel').hidden = true; setStatus('Contenido limpiado. Introduce logs para ejecutar la simulación.'); input.focus(); });
+      document.querySelector('#reset').addEventListener('click', () => { format.value = 'common'; input.value = commonExample; results.hidden = true; document.querySelector('#diagnostics-panel').hidden = true; setStatus('Ejemplo common restablecido.'); input.focus(); });
+      document.querySelector('#load-jsonl').addEventListener('click', () => { format.value = 'jsonl'; input.value = jsonlExample; results.hidden = true; document.querySelector('#diagnostics-panel').hidden = true; setStatus('Ejemplo JSON Lines cargado.'); input.focus(); });
+      input.value = commonExample;
+    })();
+  </script>
+</body>
+</html>

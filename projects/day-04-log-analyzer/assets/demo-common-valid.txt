@@ -1,0 +1,31 @@
+Demostración local reproducible — fixture common válido
+
+Comando ejecutado desde la raíz del proyecto:
+
+python src/main.py analyze data/fixtures/common-valid.log --format common --errors
+
+Salida esperada (código 0):
+
+Resumen de análisis
+Ruta: data/fixtures/common-valid.log
+Formato: common
+Líneas leídas: 7
+Eventos válidos: 7
+Líneas inválidas: 0
+Por nivel:
+- DEBUG: 1
+- INFO: 2
+- WARNING: 1
+- ERROR: 2
+- CRITICAL: 1
+Mensajes frecuentes:
+- 2 × Conexión rechazada por el proveedor
+- 1 × Verificación de salud iniciada
+- 1 × Servicio API iniciado
+
+Reporte de errores
+- línea 4 | 2026-09-01T08:30:03Z | ERROR | Conexión rechazada por el proveedor
+- línea 5 | 2026-09-01T08:30:04Z | CRITICAL | Servicio de pagos no disponible
+- línea 6 | 2026-09-01T08:30:05Z | ERROR | Conexión rechazada por el proveedor
+
+Los datos del fixture son sintéticos y no contienen credenciales ni datos de producción.

@@ -1,0 +1,6 @@
+{"timestamp":"2026-09-01T09:00:00Z","level":"debug","message":"Tarea de mantenimiento iniciada","service":"worker"}
+{"timestamp":"2026-09-01T09:00:01Z","level":"INFO","message":"Solicitud procesada","request_id":"req-001"}
+{"timestamp":"2026-09-01T09:00:02Z","level":"warning","message":"Espacio de disco al 85%","host":"nodo-1"}
+{"timestamp":"2026-09-01T09:00:03Z","level":"error","message":"Tiempo de espera agotado","service":"gateway"}
+{"timestamp":"2026-09-01T09:00:04Z","level":"CRITICAL","message":"Pérdida de conexión con clúster","cluster":"principal"}
+{"timestamp":"2026-09-01T09:00:05Z","level":"ERROR","message":"Tiempo de espera agotado","service":"gateway"}

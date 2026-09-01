@@ -1,0 +1,8 @@
+{"timestamp":"2026-09-01T09:10:00Z","level":"INFO","message":"Evento válido antes de errores"}
+{"timestamp":"2026-09-01T09:10:01Z","level":"ERROR","message":"JSON incompleto"
+{"timestamp":"2026-09-01T09:10:02Z","level":"WARN","message":"Nivel no admitido"}
+{"timestamp":"2026-09-01T09:10:03Z","level":"INFO"}
+{"timestamp":"","level":"INFO","message":"Timestamp vacío"}
+["no", "es", "un", "objeto"]
+
+{"timestamp":"2026-09-01T09:10:04Z","level":"CRITICAL","message":"Evento válido después de errores","service":"api"}

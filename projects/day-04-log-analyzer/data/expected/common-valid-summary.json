@@ -1,0 +1,28 @@
+{
+  "format": "common",
+  "total_lines": 7,
+  "valid_events": 7,
+  "invalid_lines": 0,
+  "level_counts": {
+    "DEBUG": 1,
+    "INFO": 2,
+    "WARNING": 1,
+    "ERROR": 2,
+    "CRITICAL": 1
+  },
+  "top_messages": [
+    {
+      "message": "Conexión rechazada por el proveedor",
+      "count": 2
+    },
+    {
+      "message": "Verificación de salud iniciada",
+      "count": 1
+    },
+    {
+      "message": "Servicio API iniciado",
+      "count": 1
+    }
+  ],
+  "error_line_numbers": [4, 5, 6]
+}

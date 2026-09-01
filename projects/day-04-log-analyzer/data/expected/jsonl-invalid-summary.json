@@ -1,0 +1,24 @@
+{
+  "format": "jsonl",
+  "total_lines": 8,
+  "valid_events": 2,
+  "invalid_lines": 6,
+  "level_counts": {
+    "DEBUG": 0,
+    "INFO": 1,
+    "WARNING": 0,
+    "ERROR": 0,
+    "CRITICAL": 1
+  },
+  "top_messages": [
+    {
+      "message": "Evento válido antes de errores",
+      "count": 1
+    },
+    {
+      "message": "Evento válido después de errores",
+      "count": 1
+    }
+  ],
+  "error_line_numbers": [8]
+}
