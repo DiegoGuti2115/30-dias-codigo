@@ -1,0 +1,9 @@
+ {
+  "headings": [
+    {"line": 1, "level": 4, "text": "Título con cierre", "anchor": "titulo-con-cierre", "depth": 0},
+    {"line": 2, "level": 2, "text": "Tres espacios permitidos", "anchor": "tres-espacios-permitidos", "depth": 0},
+    {"line": 9, "level": 1, "text": "Título con --- guiones y   espacios", "anchor": "titulo-con-guiones-y-espacios", "depth": 0},
+    {"line": 10, "level": 2, "text": "[Enlace](https://ejemplo.test) y `código`", "anchor": "enlacehttpsejemplotest-y-codigo", "depth": 1}
+  ],
+  "toc": "- [Título con cierre](#titulo-con-cierre)\n- [Tres espacios permitidos](#tres-espacios-permitidos)\n- [Título con --- guiones y   espacios](#titulo-con-guiones-y-espacios)\n  - [[Enlace](https://ejemplo.test) y `código`](#enlacehttpsejemplotest-y-codigo)"
+}

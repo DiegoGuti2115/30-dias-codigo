@@ -1,0 +1,8 @@
+{
+  "headings": [
+    {"line": 1, "level": 1, "text": "Visible antes", "anchor": "visible-antes", "depth": 0}
+  ],
+  "toc": "- [Visible antes](#visible-antes)",
+  "excluded_from_line": 3,
+  "reason": "El bloque de código de virgulillas abierto en la línea 3 no encuentra un cierre válido; las líneas posteriores no son encabezados elegibles."
+}

@@ -1,0 +1,32 @@
+{
+  "missing-block.md": {
+    "diagnostic": "Bloque de índice ausente.",
+    "exit_code": 1,
+    "write_permitted": false
+  },
+  "incomplete-block.md": {
+    "diagnostic": "Bloque de índice incompleto.",
+    "exit_code": 1,
+    "write_permitted": false
+  },
+  "inverted-block.md": {
+    "diagnostic": "Bloque de índice invertido.",
+    "exit_code": 1,
+    "write_permitted": false
+  },
+  "duplicate-block.md": {
+    "diagnostic": "Bloque de índice duplicado.",
+    "exit_code": 1,
+    "write_permitted": false
+  },
+  "invalid-marker.md": {
+    "diagnostic": "Bloque de índice inválido.",
+    "exit_code": 1,
+    "write_permitted": false
+  },
+  "empty.md": {
+    "diagnostic": "Bloque de índice ausente.",
+    "exit_code": 1,
+    "write_permitted": false
+  }
+}
