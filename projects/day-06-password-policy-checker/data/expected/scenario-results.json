@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "rule_order": ["length", "uppercase", "lowercase", "digit", "special"],
+  "privacy": {
+    "stores_input": false,
+    "stores_exact_length": false,
+    "stores_character_positions": false
+  },
+  "results": {
+    "all-rules-satisfied": {
+      "is_valid": true,
+      "rules": [true, true, true, true, true],
+      "has_whitespace": false
+    },
+    "length-below-minimum": {
+      "is_valid": false,
+      "rules": [false, true, true, true, true],
+      "has_whitespace": false
+    },
+    "missing-uppercase": {
+      "is_valid": false,
+      "rules": [true, false, true, true, true],
+      "has_whitespace": false
+    },
+    "missing-lowercase": {
+      "is_valid": false,
+      "rules": [true, true, false, true, true],
+      "has_whitespace": false
+    },
+    "missing-decimal-digit": {
+      "is_valid": false,
+      "rules": [true, true, true, false, true],
+      "has_whitespace": false
+    },
+    "missing-special": {
+      "is_valid": false,
+      "rules": [true, true, true, true, false],
+      "has_whitespace": false
+    },
+    "combined-failures": {
+      "is_valid": false,
+      "rules": [false, false, true, false, false],
+      "has_whitespace": false
+    },
+    "empty-input": {
+      "is_valid": false,
+      "rules": [false, false, false, false, false],
+      "has_whitespace": false
+    },
+    "minimum-length": {
+      "is_valid": true,
+      "rules": [true, true, true, true, true],
+      "has_whitespace": false
+    },
+    "maximum-length": {
+      "is_valid": true,
+      "rules": [true, true, true, true, true],
+      "has_whitespace": false
+    },
+    "above-maximum-length": {
+      "is_valid": false,
+      "rules": [false, true, true, true, true],
+      "has_whitespace": false
+    },
+    "unicode-categories": {
+      "is_valid": true,
+      "rules": [true, true, true, true, true],
+      "has_whitespace": false
+    },
+    "combining-marks-only": {
+      "is_valid": false,
+      "rules": [true, false, false, false, false],
+      "has_whitespace": false
+    },
+    "whitespace-present": {
+      "is_valid": false,
+      "rules": [true, true, true, true, true],
+      "has_whitespace": true
+    }
+  }
+}

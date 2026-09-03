@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "description": "Metadatos de escenarios sintéticos. No contiene contraseñas ni fragmentos reutilizables.",
+  "injection_strategy": "Cada prueba construye un valor efímero en memoria a partir de las categorías y longitudes descritas aquí.",
+  "scenarios": [
+    {
+      "id": "all-rules-satisfied",
+      "categories": ["uppercase", "lowercase", "decimal-digit", "special"],
+      "length": 12,
+      "whitespace": false
+    },
+    {
+      "id": "length-below-minimum",
+      "categories": ["uppercase", "lowercase", "decimal-digit", "special"],
+      "length": 11,
+      "whitespace": false
+    },
+    {
+      "id": "missing-uppercase",
+      "categories": ["lowercase", "decimal-digit", "special"],
+      "length": 12,
+      "whitespace": false
+    },
+    {
+      "id": "missing-lowercase",
+      "categories": ["uppercase", "decimal-digit", "special"],
+      "length": 12,
+      "whitespace": false
+    },
+    {
+      "id": "missing-decimal-digit",
+      "categories": ["uppercase", "lowercase", "special"],
+      "length": 12,
+      "whitespace": false
+    },
+    {
+      "id": "missing-special",
+      "categories": ["uppercase", "lowercase", "decimal-digit"],
+      "length": 12,
+      "whitespace": false
+    },
+    {
+      "id": "combined-failures",
+      "categories": ["lowercase"],
+      "length": 11,
+      "whitespace": false
+    },
+    {
+      "id": "empty-input",
+      "categories": [],
+      "length": 0,
+      "whitespace": false
+    },
+    {
+      "id": "minimum-length",
+      "categories": ["uppercase", "lowercase", "decimal-digit", "special"],
+      "length": 12,
+      "whitespace": false
+    },
+    {
+      "id": "maximum-length",
+      "categories": ["uppercase", "lowercase", "decimal-digit", "special"],
+      "length": 128,
+      "whitespace": false
+    },
+    {
+      "id": "above-maximum-length",
+      "categories": ["uppercase", "lowercase", "decimal-digit", "special"],
+      "length": 129,
+      "whitespace": false
+    },
+    {
+      "id": "unicode-categories",
+      "categories": ["unicode-uppercase", "unicode-lowercase", "unicode-decimal-digit", "special"],
+      "length": 12,
+      "whitespace": false
+    },
+    {
+      "id": "combining-marks-only",
+      "categories": ["combining-mark"],
+      "length": 12,
+      "whitespace": false
+    },
+    {
+      "id": "whitespace-present",
+      "categories": ["uppercase", "lowercase", "decimal-digit", "special"],
+      "length": 13,
+      "whitespace": true
+    }
+  ]
+}

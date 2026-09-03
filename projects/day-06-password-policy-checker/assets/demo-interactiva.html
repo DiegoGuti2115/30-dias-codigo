@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Landing local y demostración educativa del Validador de políticas de contraseña v1.">
+  <title>Política v1 · Validador local de contraseñas</title>
+  <style>
+    :root { color-scheme: dark; --bg:#09111f; --surface:rgba(18,31,53,.72); --line:rgba(196,214,255,.18); --text:#f4f7ff; --muted:#b8c4dc; --blue:#78a7ff; --cyan:#70ead8; --good:#83edb4; --bad:#ff9da8; --shadow:0 22px 60px rgba(0,0,0,.32); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; min-width:320px; background:radial-gradient(circle at 8% -10%,#273d72 0,transparent 34rem),radial-gradient(circle at 92% 8%,#164f5b 0,transparent 30rem),var(--bg); color:var(--text); font:16px/1.6 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
+    a { color:var(--cyan); text-underline-offset:3px; }
+    a:hover { color:#b5fff4; }
+    :focus-visible { outline:3px solid #f6d877; outline-offset:4px; }
+    .skip-link { position:absolute; left:1rem; top:-5rem; z-index:10; padding:.7rem 1rem; border-radius:.5rem; background:#fff; color:#101a2e; font-weight:700; }
+    .skip-link:focus { top:1rem; }
+    .container { width:min(1120px,calc(100% - 2.5rem)); margin:auto; }
+    .site-header { position:sticky; z-index:5; top:0; border-bottom:1px solid var(--line); background:rgba(9,17,31,.82); backdrop-filter:blur(16px); }
+    .nav { min-height:4.5rem; display:flex; gap:1.5rem; align-items:center; justify-content:space-between; }
+    .brand { color:var(--text); font-weight:800; text-decoration:none; letter-spacing:-.02em; }
+    .brand span { color:var(--cyan); }
+    .nav-links { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:1rem; font-size:.92rem; }
+    .nav-links a { color:var(--muted); text-decoration:none; }
+    .nav-links a:hover { color:var(--text); }
+    .hero { padding:7rem 0 4rem; display:grid; grid-template-columns:1.2fr .8fr; align-items:center; gap:2.5rem; }
+    .eyebrow { margin:0 0 1rem; color:var(--cyan); font-size:.8rem; font-weight:800; letter-spacing:.13em; text-transform:uppercase; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { max-width:760px; margin-bottom:1.2rem; font-size:clamp(2.6rem,7vw,5.8rem); line-height:.98; letter-spacing:-.065em; }
+    h2 { font-size:clamp(1.8rem,4vw,3rem); line-height:1.07; letter-spacing:-.045em; }
+    h3 { font-size:1.1rem; }
+    .lead { max-width:650px; color:var(--muted); font-size:1.15rem; }
+    .actions { display:flex; flex-wrap:wrap; gap:.8rem; margin-top:1.8rem; }
+    .button { display:inline-flex; align-items:center; justify-content:center; min-height:2.85rem; padding:.7rem 1rem; border:1px solid var(--line); border-radius:.7rem; background:transparent; color:var(--text); font:inherit; font-weight:700; text-decoration:none; cursor:pointer; }
+    .button.primary { border-color:transparent; background:linear-gradient(120deg,#7ba7ff,#65e3d2); color:#071321; }
+    .button:hover { transform:translateY(-1px); filter:brightness(1.07); }
+    .glass { border:1px solid var(--line); border-radius:1.25rem; background:var(--surface); box-shadow:var(--shadow); backdrop-filter:blur(18px); }
+    .hero-card { padding:1.5rem; }
+    .hero-card p { color:var(--muted); }
+    code,pre { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; }
+    pre { overflow:auto; margin:1rem 0 0; padding:1rem; border-radius:.8rem; background:#08101d; color:#dbe7ff; font-size:.86rem; }
+    .terminal-accent { color:var(--cyan); }
+    section { padding:4.5rem 0; }
+    .section-heading { max-width:760px; margin-bottom:2rem; }
+    .section-heading p { color:var(--muted); }
+    .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+    .card { padding:1.35rem; }
+    .card p,.card li { color:var(--muted); }
+    .number { display:block; margin-bottom:.65rem; color:var(--cyan); font-weight:800; }
+    .rules { display:grid; grid-template-columns:repeat(2,1fr); gap:.75rem; list-style:none; padding:0; margin:0; }
+    .rules li { padding:1rem; border:1px solid var(--line); border-radius:.85rem; background:rgba(255,255,255,.035); }
+    .rules strong { display:block; color:var(--text); }
+    .demo { padding:clamp(1rem,4vw,2rem); }
+    .notice { padding:.9rem 1rem; border-left:3px solid var(--cyan); border-radius:.45rem; background:rgba(112,234,216,.09); color:var(--muted); }
+    form { display:grid; gap:1rem; margin-top:1.4rem; }
+    label { font-weight:700; }
+    input { width:100%; min-height:3rem; padding:.7rem .85rem; border:1px solid var(--line); border-radius:.7rem; background:#091425; color:var(--text); font:inherit; }
+    input::placeholder { color:#8e9bb3; }
+    .help { margin:0; color:var(--muted); font-size:.9rem; }
+    .demo-actions { display:flex; flex-wrap:wrap; gap:.75rem; }
+    .results { margin-top:1.4rem; padding:1.15rem; border:1px solid var(--line); border-radius:.9rem; background:rgba(4,10,20,.43); }
+    .result-status { margin:0 0 .5rem; font-weight:800; }
+    .result-status.valid { color:var(--good); }
+    .result-status.invalid { color:var(--bad); }
+    .diagnostics { margin:.4rem 0 1rem; padding-left:1.2rem; color:var(--muted); }
+    .rule-results { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.55rem; list-style:none; padding:0; margin:0; }
+    .rule-results li { padding:.65rem .75rem; border-radius:.6rem; background:rgba(255,255,255,.04); color:var(--muted); }
+    .rule-results .pass::before { content:"✓ "; color:var(--good); font-weight:800; }
+    .rule-results .fail::before { content:"× "; color:var(--bad); font-weight:800; }
+    .flow { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; }
+    .flow article { position:relative; padding:1.2rem; }
+    .flow article:not(:last-child)::after { content:"→"; position:absolute; top:50%; right:-.75rem; z-index:1; color:var(--cyan); font-size:1.4rem; }
+    .two-columns { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .list { margin:0; padding-left:1.2rem; color:var(--muted); }
+    footer { padding:2rem 0 3rem; border-top:1px solid var(--line); color:var(--muted); font-size:.92rem; }
+    @media (max-width:800px) { .hero,.two-columns { grid-template-columns:1fr; } .cards { grid-template-columns:1fr; } .flow { grid-template-columns:repeat(2,1fr); } .flow article:nth-child(2)::after { display:none; } }
+    @media (max-width:560px) { .container { width:min(100% - 1.5rem,1120px); } .nav { padding:.7rem 0; align-items:flex-start; } .nav-links { gap:.6rem; font-size:.82rem; } .hero { padding-top:4rem; } .rules,.rule-results,.flow { grid-template-columns:1fr; } .flow article::after { display:none; } }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#demo">Saltar a la demostración</a>
+  <header class="site-header">
+    <nav class="container nav" aria-label="Navegación principal">
+      <a class="brand" href="#inicio">política<span>.v1</span></a>
+      <div class="nav-links"><a href="#reglas">Reglas</a><a href="#demo">Demo</a><a href="#privacidad">Privacidad</a><a href="#calidad">Calidad</a></div>
+    </nav>
+  </header>
+  <main id="inicio">
+    <section class="container hero" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">Día 06 · Python 3.11+ · Local</p>
+        <h1>Una política clara. Una evaluación privada.</h1>
+        <p class="lead">Validador de políticas de contraseña v1 es una herramienta CLI que comprueba requisitos explícitos sin persistir, registrar ni exponer la entrada evaluada.</p>
+        <div class="actions"><a class="button primary" href="#demo">Probar con un ejemplo sintético</a><a class="button" href="../README.md">Ver el proyecto</a></div>
+      </div>
+      <aside class="hero-card glass" aria-label="Comando real de la herramienta">
+        <p class="eyebrow">Interfaz real</p>
+        <p>El producto v1 es una CLI de un único comando. Solicita la entrada sin eco y entrega solo el resultado contractual.</p>
+        <pre><code>python src/main.py <span class="terminal-accent">check</span></code></pre>
+      </aside>
+    </section>
+
+    <section id="reglas"><div class="container">
+      <div class="section-heading"><p class="eyebrow">Contrato fijo</p><h2>Qué comprueba exactamente</h2><p>No estima fortaleza ni garantiza seguridad. Comprueba el cumplimiento de una política v1 documentada, con diagnósticos en un orden determinista.</p></div>
+      <ul class="rules" aria-label="Reglas de la política v1">
+        <li><strong>Longitud Unicode</strong>Entre 12 y 128 caracteres.</li>
+        <li><strong>Mayúscula</strong>Al menos una letra mayúscula Unicode.</li>
+        <li><strong>Minúscula</strong>Al menos una letra minúscula Unicode.</li>
+        <li><strong>Dígito decimal</strong>Al menos un dígito decimal Unicode.</li>
+        <li><strong>Carácter especial</strong>Un carácter que no sea letra, dígito decimal, marca combinante ni espacio.</li>
+        <li><strong>Sin espacios</strong>No se permite ningún carácter de espacio Unicode.</li>
+      </ul>
+    </div></section>
+
+    <section id="demo"><div class="container">
+      <div class="section-heading"><p class="eyebrow">Demostración local</p><h2>Explora la política sin compartir datos</h2><p>Esta reproducción educativa corre en el navegador y refleja la lógica documentada. No sustituye a la CLI.</p></div>
+      <div class="demo glass">
+        <p class="notice"><strong>Entorno educativo local:</strong> utiliza exclusivamente texto sintético. La página no realiza llamadas de red, no guarda la entrada y no debe recibir una contraseña real.</p>
+        <form id="policy-form" novalidate>
+          <div><label for="candidate">Texto sintético para evaluar</label><input id="candidate" name="candidate" type="password" autocomplete="off" spellcheck="false" placeholder="Ejemplo ficticio; no introduzcas una contraseña real"><p class="help">El contenido y la longitud exacta no se muestran en el resultado.</p></div>
+          <div class="demo-actions"><button class="button primary" type="submit">Evaluar política</button><button class="button" type="button" id="generate">Generar ejemplo sintético</button><button class="button" type="button" id="clear">Limpiar</button></div>
+        </form>
+        <section id="results" class="results" aria-live="polite" aria-atomic="true" hidden aria-labelledby="results-title">
+          <h3 id="results-title">Resultado de la evaluación</h3><p id="result-status" class="result-status"></p><p id="diagnostic-heading" class="help"></p><ul id="diagnostics" class="diagnostics"></ul><ul id="rule-results" class="rule-results" aria-label="Estado por regla"></ul>
+        </section>
+      </div>
+    </div></section>
+
+    <section><div class="container">
+      <div class="section-heading"><p class="eyebrow">Flujo</p><h2>Un núcleo puro detrás de una frontera segura</h2></div>
+      <div class="flow" aria-label="Flujo del validador">
+        <article class="glass"><span class="number">01</span><h3>Entrada sin eco</h3><p>La CLI usa <code>getpass</code> y rechaza argumentos, archivos, stdin y variables de entorno.</p></article>
+        <article class="glass"><span class="number">02</span><h3>Evaluación pura</h3><p>El núcleo aplica la política fija sin conservar el texto ni su longitud exacta.</p></article>
+        <article class="glass"><span class="number">03</span><h3>Diagnóstico estable</h3><p>La presentación informa solo de las reglas que no se cumplen, siempre en el mismo orden.</p></article>
+        <article class="glass"><span class="number">04</span><h3>Salida acotada</h3><p>El proceso devuelve 0 si es válida, 1 ante fallo seguro o invalidez, y 2 ante uso incorrecto.</p></article>
+      </div>
+    </div></section>
+
+    <section id="privacidad"><div class="container two-columns">
+      <article class="glass card"><p class="eyebrow">Privacidad por diseño</p><h2>Lo que el proyecto no hace</h2><ul class="list"><li>No registra ni persiste contraseñas.</li><li>No muestra texto, fragmentos, derivados ni longitud exacta.</li><li>No realiza red, telemetría, APIs ni llamadas a terceros.</li><li>No interpreta la conformidad como una garantía de seguridad.</li></ul></article>
+      <article class="glass card"><p class="eyebrow">Documentación</p><h2>Un alcance verificable</h2><p>La política, sus límites y los escenarios de referencia se documentan antes de la evaluación. La demo usa ese contrato público y conserva sus mensajes.</p><p><a href="../docs/CONTRATO.md">Leer contrato</a> · <a href="../docs/USO_SEGURO.md">Uso seguro</a> · <a href="../docs/WEB.md">Guía de la web</a></p></article>
+    </div></section>
+
+    <section id="calidad"><div class="container">
+      <div class="section-heading"><p class="eyebrow">Calidad</p><h2>Diseñada para revisar, no para adivinar</h2></div>
+      <div class="cards"><article class="glass card"><h3>Contrato y referencias</h3><p>Política inmutable, catálogo de escenarios sintéticos y resultados esperados estructurados.</p></article><article class="glass card"><h3>Pruebas locales</h3><p>Suite <code>unittest</code> para el núcleo, la CLI y salvaguardas estáticas de la landing.</p></article><article class="glass card"><h3>Accesibilidad</h3><p>Estructura semántica, enlace de salto, foco visible, resultados anunciados y movimiento reducido cuando el sistema lo solicita.</p></article></div>
+    </div></section>
+  </main>
+  <footer><div class="container">Validador de políticas de contraseña v1 · Recurso estático, local y educativo · <a href="../README.md">Documentación del proyecto</a></div></footer>
+  <script>
+    (() => {
+      "use strict";
+      const form = document.querySelector("#policy-form");
+      const candidate = document.querySelector("#candidate");
+      const generate = document.querySelector("#generate");
+      const clear = document.querySelector("#clear");
+      const results = document.querySelector("#results");
+      const status = document.querySelector("#result-status");
+      const diagnosticHeading = document.querySelector("#diagnostic-heading");
+      const diagnostics = document.querySelector("#diagnostics");
+      const ruleResults = document.querySelector("#rule-results");
+      const rules = [
+        ["length", "Longitud entre 12 y 128", "No cumple la longitud requerida."],
+        ["uppercase", "Incluye una mayúscula", "Falta una letra mayúscula."],
+        ["lowercase", "Incluye una minúscula", "Falta una letra minúscula."],
+        ["digit", "Incluye un dígito decimal", "Falta un dígito decimal."],
+        ["special", "Incluye un carácter especial", "Falta un carácter especial."]
+      ];
+      const evaluate = (value) => {
+        const characters = Array.from(value);
+        const hasWhitespace = characters.some((character) => /\s/u.test(character));
+        const states = {
+          length: characters.length >= 12 && characters.length <= 128,
+          uppercase: characters.some((character) => /\p{Lu}/u.test(character)),
+          lowercase: characters.some((character) => /\p{Ll}/u.test(character)),
+          digit: characters.some((character) => /\p{Nd}/u.test(character)),
+          special: characters.some((character) => !/\s|\p{L}|\p{Nd}|\p{M}/u.test(character))
+        };
+        return { states, hasWhitespace, isValid: Object.values(states).every(Boolean) && !hasWhitespace };
+      };
+      const display = (value) => {
+        const evaluation = evaluate(value);
+        const failures = rules.filter(([id]) => !evaluation.states[id]).map(([, , message]) => message);
+        if (evaluation.hasWhitespace) failures.push("No se permiten espacios en blanco.");
+        results.hidden = false;
+        status.textContent = evaluation.isValid ? "Contraseña válida según la política v1." : "Contraseña no válida según la política v1.";
+        status.className = `result-status ${evaluation.isValid ? "valid" : "invalid"}`;
+        diagnosticHeading.textContent = failures.length ? "Diagnósticos aplicables:" : "Todas las reglas se cumplen.";
+        diagnostics.replaceChildren(...failures.map((message) => { const item = document.createElement("li"); item.textContent = message; return item; }));
+        ruleResults.replaceChildren(...rules.map(([id, label]) => { const item = document.createElement("li"); const passed = evaluation.states[id]; item.className = passed ? "pass" : "fail"; item.textContent = label; return item; }));
+      };
+      form.addEventListener("submit", (event) => { event.preventDefault(); display(candidate.value); });
+      generate.addEventListener("click", () => { candidate.value = "DemoLocal#2026Aa"; candidate.focus(); display(candidate.value); });
+      clear.addEventListener("click", () => { candidate.value = ""; results.hidden = true; candidate.focus(); });
+    })();
+  </script>
+</body>
+</html>
