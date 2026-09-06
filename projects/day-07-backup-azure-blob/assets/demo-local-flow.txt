@@ -1,0 +1,10 @@
+Day 07 — Local backup CLI demonstration
+
+Command shape:
+python src/main.py backup <SOURCE_PATH> <DESTINATION_DIRECTORY> [--azure]
+
+Expected local success:
+Local backup verified: <DESTINATION_DIRECTORY>/<SOURCE_BASENAME>
+
+The guided, reproducible demonstration uses only synthetic fixtures and is documented in examples/USO.md.
+Azure is not attempted during Phase 4; --azure reports the retained local fallback after a successful local backup.

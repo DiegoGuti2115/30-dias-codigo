@@ -1,0 +1,2 @@
+# Optional Azure Blob SDK, loaded only when --azure is requested.
+azure-storage-blob>=12.0,<13.0

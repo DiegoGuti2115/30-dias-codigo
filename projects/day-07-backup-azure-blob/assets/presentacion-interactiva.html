@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Presentación interactiva del proyecto Backup Azure Blob: una copia local verificada antes de la publicación remota opcional.">
+  <title>Backup Azure Blob · Presentación interactiva</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f6f8ff;
+      --muted: #aebbd4;
+      --bg: #060914;
+      --surface: rgba(18, 27, 49, .65);
+      --surface-strong: rgba(25, 37, 67, .82);
+      --line: rgba(180, 201, 255, .16);
+      --blue: #91a9ff;
+      --cyan: #74ead8;
+      --green: #8ae9b5;
+      --amber: #ffd78c;
+      --red: #ff9eae;
+      --shadow: 0 28px 76px rgba(0, 0, 0, .46);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body {
+      min-width: 320px;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(81, 106, 214, .34), transparent 30rem),
+        radial-gradient(circle at 92% 18%, rgba(31, 150, 153, .25), transparent 28rem),
+        radial-gradient(circle at 50% 100%, rgba(104, 74, 184, .18), transparent 33rem),
+        var(--bg);
+      font: 16px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
+    button { font: inherit; }
+    :focus-visible { outline: 3px solid var(--amber); outline-offset: 4px; }
+    .skip-link { position: fixed; z-index: 20; top: -5rem; left: 1rem; padding: .7rem 1rem; border-radius: .7rem; color: #0a1021; background: #fff; font-weight: 800; }
+    .skip-link:focus { top: 1rem; }
+
+    .presentation { width: min(1240px, calc(100% - 2.5rem)); min-height: 100svh; margin: auto; display: grid; grid-template-rows: auto 1fr auto; gap: 1.25rem; padding: 1.25rem 0 1.5rem; }
+    .topbar, .controls, .slide, .step, .fact, .proof, .limit { border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .8rem 1rem; border-radius: 1rem; }
+    .brand { display: flex; align-items: center; gap: .7rem; min-width: 0; font-weight: 800; letter-spacing: -.02em; }
+    .brand-mark { display: grid; place-items: center; width: 2rem; height: 2rem; border: 1px solid rgba(116, 234, 216, .6); border-radius: .65rem; color: var(--cyan); background: rgba(116, 234, 216, .09); }
+    .brand small { display: block; color: var(--muted); font-size: .73rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .counter { color: var(--muted); font-size: .9rem; font-variant-numeric: tabular-nums; }
+
+    main { position: relative; min-height: 0; }
+    .slide { display: none; min-height: min(670px, calc(100svh - 10.4rem)); padding: clamp(1.4rem, 4vw, 4rem); border-radius: 1.5rem; overflow: hidden; }
+    .slide[aria-hidden="false"] { display: grid; animation: reveal .48s ease both; }
+    .slide::before { content: ""; position: absolute; width: 27rem; height: 27rem; right: -12rem; bottom: -14rem; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, rgba(116, 234, 216, .15), transparent 66%); }
+    .slide > * { position: relative; z-index: 1; }
+
+    .eyebrow { margin: 0 0 .85rem; color: var(--cyan); font-size: .75rem; font-weight: 850; letter-spacing: .15em; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 940px; margin-bottom: 1.25rem; font-size: clamp(2.85rem, 7.5vw, 6.85rem); line-height: .94; letter-spacing: -.07em; }
+    h2 { margin-bottom: .85rem; font-size: clamp(2rem, 4.6vw, 4.2rem); line-height: 1; letter-spacing: -.06em; }
+    h3 { margin-bottom: .45rem; font-size: 1.05rem; }
+    .lead { max-width: 750px; color: var(--muted); font-size: clamp(1.03rem, 2vw, 1.28rem); }
+    .accent { color: var(--cyan); }
+    .good { color: var(--green); }
+    .warning { color: var(--amber); }
+    code { padding: .12rem .35rem; border: 1px solid rgba(180, 201, 255, .14); border-radius: .35rem; color: #dce6ff; background: rgba(2, 5, 14, .36); font: .88em ui-monospace, SFMono-Regular, Consolas, monospace; }
+
+    .cover { align-content: center; }
+    .cover-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr); gap: clamp(1.5rem, 5vw, 4rem); align-items: end; }
+    .answer-card { padding: 1.4rem; border: 1px solid rgba(116, 234, 216, .28); border-radius: 1.1rem; background: linear-gradient(145deg, rgba(116, 234, 216, .13), rgba(111, 132, 255, .09)); }
+    .answer-card strong { display: block; margin-bottom: .4rem; color: var(--cyan); font-size: 1.4rem; }
+    .answer-card p { margin: 0; color: var(--muted); }
+
+    .flow-slide { align-content: center; }
+    .flow { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .65rem; margin-top: 2rem; }
+    .step { position: relative; min-height: 11.5rem; padding: 1rem; border-radius: 1rem; }
+    .step-number { display: block; margin-bottom: .7rem; color: var(--cyan); font-weight: 850; font-size: .76rem; letter-spacing: .1em; }
+    .step p { margin: 0; color: var(--muted); font-size: .91rem; }
+    .step.optional { border-color: rgba(138, 233, 181, .34); background: rgba(38, 83, 72, .35); }
+    .badge { display: inline-flex; align-items: center; gap: .35rem; margin-top: .75rem; padding: .2rem .5rem; border: 1px solid rgba(138, 233, 181, .32); border-radius: 999px; color: var(--green); font-size: .72rem; font-weight: 800; }
+    .flow-note { margin: 1.4rem 0 0; color: var(--muted); }
+
+    .security-slide { align-content: center; }
+    .security-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem; margin-top: 1.6rem; }
+    .fact { padding: 1.15rem; border-radius: 1rem; }
+    .fact-icon { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; margin-bottom: .8rem; border-radius: .7rem; color: var(--cyan); background: rgba(116, 234, 216, .1); font-weight: 900; }
+    .fact p { margin: 0; color: var(--muted); }
+
+    .testing-slide { align-content: center; }
+    .testing-layout { display: grid; grid-template-columns: .92fr 1.08fr; gap: 1.2rem; align-items: start; margin-top: 1.5rem; }
+    .proof { padding: 1.25rem; border-radius: 1rem; }
+    .proof p { margin-bottom: .9rem; color: var(--muted); }
+    .proof ul { margin: 0; padding-left: 1.2rem; color: var(--muted); }
+    .proof li + li { margin-top: .45rem; }
+    .test-chain { display: grid; gap: .7rem; }
+    .test-item { display: grid; grid-template-columns: 2.1rem 1fr; gap: .8rem; align-items: start; padding: .85rem; border-radius: .8rem; background: rgba(255, 255, 255, .035); }
+    .test-item b { display: grid; place-items: center; width: 2.1rem; height: 2.1rem; border-radius: .6rem; color: var(--green); background: rgba(138, 233, 181, .11); }
+    .test-item p { margin: 0; color: var(--muted); font-size: .92rem; }
+    .operational-note { margin-top: 1rem; padding: .9rem; border-left: 3px solid var(--amber); border-radius: .5rem; color: var(--muted); background: rgba(255, 215, 140, .08); }
+
+    .limits-slide { align-content: center; }
+    .limit-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; margin: 1.4rem 0; }
+    .limit { padding: .95rem 1rem; border-radius: .9rem; }
+    .limit strong { display: block; margin-bottom: .2rem; color: var(--cyan); }
+    .limit span { color: var(--muted); font-size: .92rem; }
+    .takeaway { max-width: 900px; margin: .4rem 0 0; padding: 1.1rem 1.2rem; border: 1px solid rgba(145, 169, 255, .34); border-radius: 1rem; background: linear-gradient(110deg, rgba(115, 134, 255, .16), rgba(116, 234, 216, .08)); color: #e9eeff; font-size: clamp(1.05rem, 2.1vw, 1.3rem); }
+
+    .controls { display: grid; grid-template-columns: auto 1fr auto; gap: .8rem; align-items: center; padding: .75rem; border-radius: 1rem; }
+    .nav-button, .slide-button { border: 1px solid var(--line); color: var(--ink); background: rgba(255, 255, 255, .045); cursor: pointer; transition: transform .2s ease, background .2s ease, border-color .2s ease; }
+    .nav-button { min-width: 6.8rem; min-height: 2.75rem; padding: .6rem .9rem; border-radius: .75rem; font-weight: 800; }
+    .nav-button:hover, .slide-button:hover { border-color: rgba(116, 234, 216, .58); background: rgba(116, 234, 216, .12); transform: translateY(-1px); }
+    .nav-button:active, .slide-button:active { transform: translateY(0); background: rgba(116, 234, 216, .2); }
+    .nav-button:disabled { cursor: not-allowed; color: #7b879e; border-color: rgba(180, 201, 255, .08); background: rgba(255, 255, 255, .02); transform: none; }
+    .progress { display: flex; justify-content: center; gap: .5rem; }
+    .slide-button { width: 2.25rem; height: 2.25rem; border-radius: 50%; color: var(--muted); font-size: .86rem; }
+    .slide-button[aria-current="true"] { color: #06121b; border-color: transparent; background: var(--cyan); box-shadow: 0 0 0 4px rgba(116, 234, 216, .14); }
+    .hint { margin: 0; text-align: center; color: var(--muted); font-size: .78rem; }
+
+    @keyframes reveal { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 940px) { .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); } .step { min-height: 9.5rem; } }
+    @media (max-width: 720px) { .presentation { width: min(100% - 1.25rem, 1240px); padding-top: .65rem; } .cover-grid, .testing-layout { grid-template-columns: 1fr; } .security-grid, .limit-grid { grid-template-columns: 1fr; } .slide { min-height: min(690px, calc(100svh - 9rem)); padding: 1.4rem; } .topbar { align-items: flex-start; } .controls { grid-template-columns: 1fr 1fr; } .progress { grid-column: 1 / -1; grid-row: 1; } .hint { display: none; } }
+    @media (max-width: 510px) { .flow { grid-template-columns: 1fr 1fr; } .counter { display: none; } h1 { font-size: clamp(2.6rem, 15vw, 4.5rem); } .nav-button { min-width: 0; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#slides">Saltar a las diapositivas</a>
+  <div class="presentation">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">↗</span><span>backup<span class="accent">.azure</span><small>Día 07 · Python 3.11+</small></span></div>
+      <span class="counter" id="counter" aria-live="polite">Diapositiva 1 de 5</span>
+    </header>
+
+    <main id="slides" aria-live="polite">
+      <section class="slide cover" data-slide aria-hidden="false" aria-labelledby="slide-1-title">
+        <div class="cover-grid">
+          <div>
+            <p class="eyebrow">Proyecto · Backup Azure Blob</p>
+            <h1 id="slide-1-title">¿Qué pasa si Azure falla después de copiar?</h1>
+            <p class="lead">La copia local ya ha sido <span class="accent">verificada</span>, publicada y sigue siendo utilizable. Azure es una publicación remota opcional, no el único punto de éxito.</p>
+          </div>
+          <aside class="answer-card" aria-label="Respuesta principal">
+            <strong>Local primero.</strong>
+            <p>El diseño protege una copia válida antes de intentar la fase remota y comunica una degradación segura si la publicación Azure no puede completarse.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide flow-slide" data-slide aria-hidden="true" aria-labelledby="slide-2-title">
+        <div>
+          <p class="eyebrow">Flujo contractual</p>
+          <h2 id="slide-2-title">Primero se conserva una copia confiable.</h2>
+          <p class="lead">Cada fase prepara la siguiente; la publicación Azure ocurre únicamente después de una publicación local correcta.</p>
+          <div class="flow" aria-label="Origen, validación, temporal, verificación, publicación local y Azure opcional">
+            <article class="step"><span class="step-number">01 · ORIGEN</span><h3>Seleccionar</h3><p>Archivo o directorio regular permitido por el contrato.</p></article>
+            <article class="step"><span class="step-number">02 · VALIDACIÓN</span><h3>Planificar</h3><p>Rechaza rutas inseguras, conflictos y relaciones peligrosas.</p></article>
+            <article class="step"><span class="step-number">03 · TEMPORAL</span><h3>Copiar aislado</h3><p>La copia no aparece aún como resultado final.</p></article>
+            <article class="step"><span class="step-number">04 · VERIFICACIÓN</span><h3>Comparar</h3><p>Estructura, tamaño y SHA-256 antes de publicar.</p></article>
+            <article class="step"><span class="step-number">05 · LOCAL</span><h3>Publicar</h3><p>La copia local verificada se convierte en el resultado base.</p></article>
+            <article class="step optional"><span class="step-number">06 · AZURE</span><h3>Publicar remoto</h3><p>Sube archivos publicados con prefijo <code>backups/</code>.</p><span class="badge">Opcional</span></article>
+          </div>
+          <p class="flow-note"><span class="good">Resultado clave:</span> si la fase remota falla después, el resultado local permanece disponible.</p>
+        </div>
+      </section>
+
+      <section class="slide security-slide" data-slide aria-hidden="true" aria-labelledby="slide-3-title">
+        <div>
+          <p class="eyebrow">Seguridad e integridad</p>
+          <h2 id="slide-3-title">Controles explícitos antes de confiar.</h2>
+          <p class="lead">El proyecto prefiere rechazar una entrada ambigua o insegura antes que producir una copia difícil de verificar.</p>
+          <div class="security-grid">
+            <article class="fact"><div class="fact-icon" aria-hidden="true">↯</div><h3>Sin enlaces</h3><p>Se rechazan enlaces simbólicos, junctions de Windows y entradas especiales tanto en la validación como en la verificación.</p></article>
+            <article class="fact"><div class="fact-icon" aria-hidden="true">⊘</div><h3>Sin sobrescritura</h3><p>La publicación local falla ante un destino final existente; la subida remota usa <code>overwrite=False</code>.</p></article>
+            <article class="fact"><div class="fact-icon" aria-hidden="true">#</div><h3>SHA-256 efímero</h3><p>Se comparan rutas, tamaños y hashes por archivo durante la operación, sin persistir los hashes como inventario.</p></article>
+            <article class="fact"><div class="fact-icon" aria-hidden="true">◇</div><h3>Secretos fuera del repo</h3><p>La configuración Azure usa variables de entorno no versionadas; ni cadenas de conexión ni valores sensibles forman parte del proyecto.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide testing-slide" data-slide aria-hidden="true" aria-labelledby="slide-4-title">
+        <div>
+          <p class="eyebrow">Estrategia de pruebas</p>
+          <h2 id="slide-4-title">Validar el contrato sin exponer secretos.</h2>
+          <div class="testing-layout">
+            <article class="proof">
+              <h3>Una evidencia revisable</h3>
+              <p>La suite local no necesita red, SDK activo ni una cuenta Azure para demostrar el comportamiento contractual.</p>
+              <ul>
+                <li>Fixtures sintéticos y manifiestos de referencia.</li>
+                <li>Pruebas de núcleo local, CLI y errores controlados.</li>
+                <li>Adaptador Azure aislado con clientes falsos.</li>
+                <li>Diagnósticos sin valores de configuración.</li>
+              </ul>
+            </article>
+            <div class="test-chain" aria-label="Capas de comprobación">
+              <article class="test-item"><b aria-hidden="true">1</b><p><strong>Local:</strong> copia temporal, verificación exacta y limpieza de artefactos propios.</p></article>
+              <article class="test-item"><b aria-hidden="true">2</b><p><strong>CLI:</strong> las variables Azure faltantes bloquean la mutación local antes de crear contenido.</p></article>
+              <article class="test-item"><b aria-hidden="true">3</b><p><strong>Azure:</strong> dobles prueban prefijos, ausencia de sobrescritura y fallo de proveedor controlado.</p></article>
+            </div>
+          </div>
+          <p class="operational-note"><span class="warning">Comprobación operativa documentada:</span> se confirmó el SDK y una sesión de Azure CLI sin exponer datos. Cuando no existen credenciales contractuales autorizadas, no se ejecuta transferencia real; la validación del adaptador se sostiene con dobles.</p>
+        </div>
+      </section>
+
+      <section class="slide limits-slide" data-slide aria-hidden="true" aria-labelledby="slide-5-title">
+        <div>
+          <p class="eyebrow">Límites v1 · aprendizaje</p>
+          <h2 id="slide-5-title">Fiabilidad no es depender de la nube.</h2>
+          <div class="limit-grid">
+            <div class="limit"><strong>Azure opcional</strong><span>La operación local es el mínimo funcional y verificable.</span></div>
+            <div class="limit"><strong>Sin credenciales expuestas</strong><span>La configuración se aporta fuera del repositorio.</span></div>
+            <div class="limit"><strong>Sin sobrescritura</strong><span>Conflictos locales y remotos no reemplazan contenido existente.</span></div>
+            <div class="limit"><strong>Verificación antes de publicar</strong><span>Solo una copia contrastada pasa a ser el resultado local final.</span></div>
+            <div class="limit"><strong>Degradación segura</strong><span>Azure no disponible o no autorizado no invalida la copia local ya publicada.</span></div>
+            <div class="limit"><strong>Alcance acotado</strong><span>v1 no pretende resolver retención, recuperación ni sincronización continua.</span></div>
+          </div>
+          <p class="takeaway"><strong>Aprendizaje principal:</strong> separar copia local verificada y publicación remota opcional convierte un fallo de integración en un diagnóstico controlado, no en la pérdida del resultado útil.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="controls" aria-label="Controles de presentación">
+      <button class="nav-button" id="previous" type="button">← Anterior</button>
+      <div class="progress" aria-label="Ir a una diapositiva">
+        <button class="slide-button" type="button" data-go="0" aria-label="Ir a la diapositiva 1" aria-current="true">1</button>
+        <button class="slide-button" type="button" data-go="1" aria-label="Ir a la diapositiva 2">2</button>
+        <button class="slide-button" type="button" data-go="2" aria-label="Ir a la diapositiva 3">3</button>
+        <button class="slide-button" type="button" data-go="3" aria-label="Ir a la diapositiva 4">4</button>
+        <button class="slide-button" type="button" data-go="4" aria-label="Ir a la diapositiva 5">5</button>
+      </div>
+      <button class="nav-button" id="next" type="button">Siguiente →</button>
+      <p class="hint">Teclado: ← → · Inicio · Fin</p>
+    </footer>
+  </div>
+
+  <script>
+    (() => {
+      "use strict";
+      const slides = Array.from(document.querySelectorAll("[data-slide]"));
+      const previous = document.querySelector("#previous");
+      const next = document.querySelector("#next");
+      const counter = document.querySelector("#counter");
+      const destinations = Array.from(document.querySelectorAll("[data-go]"));
+      let activeIndex = 0;
+
+      const render = (index, focusTarget = false) => {
+        activeIndex = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach((slide, slideIndex) => {
+          slide.setAttribute("aria-hidden", String(slideIndex !== activeIndex));
+        });
+        destinations.forEach((button, buttonIndex) => {
+          button.setAttribute("aria-current", String(buttonIndex === activeIndex));
+        });
+        previous.disabled = activeIndex === 0;
+        next.disabled = activeIndex === slides.length - 1;
+        counter.textContent = `Diapositiva ${activeIndex + 1} de ${slides.length}`;
+        if (focusTarget) slides[activeIndex].focus({ preventScroll: true });
+      };
+
+      slides.forEach((slide) => slide.tabIndex = -1);
+      previous.addEventListener("click", () => render(activeIndex - 1, true));
+      next.addEventListener("click", () => render(activeIndex + 1, true));
+      destinations.forEach((button) => {
+        button.addEventListener("click", () => render(Number(button.dataset.go), true));
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.altKey || event.ctrlKey || event.metaKey) return;
+        if (event.key === "ArrowLeft") { event.preventDefault(); render(activeIndex - 1, true); }
+        if (event.key === "ArrowRight") { event.preventDefault(); render(activeIndex + 1, true); }
+        if (event.key === "Home") { event.preventDefault(); render(0, true); }
+        if (event.key === "End") { event.preventDefault(); render(slides.length - 1, true); }
+      });
+      render(0);
+    })();
+  </script>
+</body>
+</html>

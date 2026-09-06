@@ -1,0 +1,179 @@
+{
+  "version": 1,
+  "purpose": "Catálogo declarativo de escenarios sintéticos para la Fase 2. No es configuración ejecutable.",
+  "privacy": {
+    "contains_real_backup_content": false,
+    "contains_personal_data": false,
+    "contains_secrets_or_credentials": false,
+    "persists_hashes": false
+  },
+  "fixtures": {
+    "regular_file": {
+      "source_path": "data/fixtures/regular-file/sample-note.txt",
+      "source_type": "regular-file",
+      "final_basename": "sample-note.txt",
+      "expected_manifest": "data/expected/local-copy-manifests.json#regular-file-success"
+    },
+    "directory_tree": {
+      "source_path": "data/fixtures/directory-tree",
+      "source_type": "regular-directory",
+      "final_basename": "directory-tree",
+      "empty_directories_created_by_test": ["empty-folder"],
+      "expected_manifest": "data/expected/local-copy-manifests.json#directory-tree-success"
+    },
+    "empty_directory": {
+      "source_created_by_test": true,
+      "source_type": "empty-regular-directory",
+      "final_basename": "empty-directory",
+      "expected_manifest": "data/expected/local-copy-manifests.json#empty-directory-success"
+    }
+  },
+  "scenarios": [
+    {
+      "id": "regular-file-success",
+      "category": "success",
+      "fixture": "regular_file",
+      "expected": "local-backup-published-and-verified",
+      "future_exit_code": 0
+    },
+    {
+      "id": "directory-tree-success",
+      "category": "success",
+      "fixture": "directory_tree",
+      "expected": "local-backup-published-and-verified",
+      "future_exit_code": 0
+    },
+    {
+      "id": "empty-directory-success",
+      "category": "success",
+      "fixture": "empty_directory",
+      "expected": "local-backup-published-and-verified",
+      "future_exit_code": 0
+    },
+    {
+      "id": "missing-source",
+      "category": "validation-error",
+      "setup": "use-a-nonexistent-path",
+      "expected": "no-final-backup-and-no-temporary-artifact",
+      "future_exit_code": 1
+    },
+    {
+      "id": "destination-missing",
+      "category": "validation-error",
+      "setup": "use-a-nonexistent-destination-path",
+      "expected": "destination-is-not-created",
+      "future_exit_code": 1
+    },
+    {
+      "id": "destination-not-directory",
+      "category": "validation-error",
+      "setup": "use-a-regular-file-as-destination",
+      "expected": "destination-file-is-unchanged",
+      "future_exit_code": 1
+    },
+    {
+      "id": "final-name-conflict",
+      "category": "validation-error",
+      "setup": "precreate-the-final-entry",
+      "expected": "preexisting-final-entry-is-unchanged",
+      "future_exit_code": 1
+    },
+    {
+      "id": "same-final-location",
+      "category": "validation-error",
+      "setup": "make-source-and-final-location-resolve-to-the-same-path",
+      "expected": "no-operation",
+      "future_exit_code": 1
+    },
+    {
+      "id": "destination-inside-source",
+      "category": "validation-error",
+      "setup": "place-destination-under-a-directory-source",
+      "expected": "no-operation",
+      "future_exit_code": 1
+    },
+    {
+      "id": "destination-ancestor-of-source",
+      "category": "validation-error",
+      "setup": "use-an-ancestor-of-directory-source-as-destination",
+      "expected": "no-operation",
+      "future_exit_code": 1
+    },
+    {
+      "id": "source-symlink",
+      "category": "platform-conditional-validation-error",
+      "setup": "create-a-symbolic-link-or-junction-as-source",
+      "expected": "link-is-not-followed-or-copied",
+      "future_exit_code": 1
+    },
+    {
+      "id": "nested-symlink",
+      "category": "platform-conditional-validation-error",
+      "setup": "create-a-symbolic-link-or-junction-inside-source-tree",
+      "expected": "no-final-backup-is-published",
+      "future_exit_code": 1
+    },
+    {
+      "id": "unsupported-source-entry",
+      "category": "platform-conditional-validation-error",
+      "setup": "create-a-supported-special-filesystem-entry",
+      "expected": "special-entry-is-rejected",
+      "future_exit_code": 1
+    },
+    {
+      "id": "source-read-permission-denied",
+      "category": "platform-conditional-permission-error",
+      "setup": "revoke-source-read-or-directory-traversal-access",
+      "expected": "no-final-backup-is-published",
+      "future_exit_code": 1
+    },
+    {
+      "id": "destination-write-permission-denied",
+      "category": "platform-conditional-permission-error",
+      "setup": "revoke-destination-create-or-publish-access",
+      "expected": "no-final-backup-is-published",
+      "future_exit_code": 1
+    },
+    {
+      "id": "copy-interrupted",
+      "category": "injected-operation-error",
+      "setup": "inject-a-failure-while-creating-the-temporary-copy",
+      "expected": "no-final-backup-and-owned-temporary-cleanup-attempted",
+      "future_exit_code": 1
+    },
+    {
+      "id": "verification-mismatch",
+      "category": "injected-operation-error",
+      "setup": "inject-a-difference-between-source-and-temporary-copy",
+      "expected": "no-final-backup-and-owned-temporary-cleanup-attempted",
+      "future_exit_code": 1
+    },
+    {
+      "id": "publish-failure",
+      "category": "injected-operation-error",
+      "setup": "inject-a-failure-while-publishing-a-verified-temporary-copy",
+      "expected": "final-location-absent-or-unchanged-and-cleanup-attempted",
+      "future_exit_code": 1
+    }
+  ],
+  "azure_reserved_scenarios": [
+    {
+      "id": "azure-missing-configuration",
+      "double": "configuration-absent",
+      "expected": "no-local-content-created-and-clear-configuration-error",
+      "future_exit_code": 1
+    },
+    {
+      "id": "azure-upload-success",
+      "double": "all-upload-operations-succeed",
+      "expected": "local-and-remote-success",
+      "future_exit_code": 0
+    },
+    {
+      "id": "azure-upload-failure",
+      "double": "an-upload-operation-fails",
+      "expected": "local-backup-preserved-with-fallback-diagnostic",
+      "future_exit_code": 0
+    }
+  ]
+}

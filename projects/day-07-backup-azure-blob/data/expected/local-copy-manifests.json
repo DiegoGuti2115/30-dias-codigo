@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "purpose": "Referencias declarativas para comprobar estructura y tamaño durante la futura verificación local. Los SHA-256 se calculan de forma efímera y no se almacenan aquí.",
+  "verification_contract": {
+    "root_type_must_match": true,
+    "relative_directories_must_match_exactly": true,
+    "relative_regular_files_must_match_exactly": true,
+    "file_size_must_match": true,
+    "sha256_must_match_during_operation": true,
+    "copy_must_not_contain_links_or_special_entries": true
+  },
+  "manifests": {
+    "regular-file-success": {
+      "root_type": "regular-file",
+      "final_basename": "sample-note.txt",
+      "directories": [],
+      "files": [
+        {
+          "relative_path": ".",
+          "size_bytes": 73
+        }
+      ]
+    },
+    "directory-tree-success": {
+      "root_type": "regular-directory",
+      "final_basename": "directory-tree",
+      "directories": [".", "empty-folder", "nested"],
+      "files": [
+        {
+          "relative_path": "inventory.txt",
+          "size_bytes": 34
+        },
+        {
+          "relative_path": "nested/details.txt",
+          "size_bytes": 35
+        }
+      ]
+    },
+    "empty-directory-success": {
+      "root_type": "regular-directory",
+      "final_basename": "empty-directory",
+      "directories": ["."],
+      "files": []
+    }
+  },
+  "failure_references": {
+    "validation_error": {
+      "final_backup_published": false,
+      "preexisting_final_entry_modified": false
+    },
+    "copy_or_verification_or_publish_error": {
+      "final_backup_published": false,
+      "owned_temporary_cleanup_attempted": true,
+      "unrelated_destination_entries_modified": false
+    }
+  }
+}
