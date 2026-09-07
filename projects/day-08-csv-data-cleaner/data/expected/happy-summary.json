@@ -1,0 +1,66 @@
+{
+  "operations": [
+    {
+      "headers_changed": 1,
+      "operation": "normalize_headers"
+    },
+    {
+      "operation": "drop_empty_rows",
+      "rows_removed": 1
+    },
+    {
+      "fields_changed": 6,
+      "operation": "trim_fields"
+    },
+    {
+      "fields_replaced": 2,
+      "operation": "replace_missing_markers"
+    },
+    {
+      "operation": "drop_exact_duplicates",
+      "rows_removed": 1
+    }
+  ],
+  "plan": {
+    "requested_operations": [
+      "normalize_headers",
+      "drop_empty_rows",
+      "trim_fields",
+      "replace_missing_markers",
+      "drop_exact_duplicates"
+    ],
+    "version": 1
+  },
+  "profile_after": {
+    "empty_row_count": 0,
+    "empty_value_count": 3,
+    "exact_duplicate_row_count": 0,
+    "formula_like_cell_count": 1,
+    "headers": [
+      "Display Name",
+      "status",
+      "comment"
+    ]
+  },
+  "profile_before": {
+    "empty_row_count": 1,
+    "empty_value_count": 4,
+    "exact_duplicate_row_count": 0,
+    "formula_like_cell_count": 1,
+    "headers": [
+      " Display Name ",
+      "status",
+      "comment"
+    ]
+  },
+  "source": {
+    "column_count": 3,
+    "data_row_count": 5,
+    "file_name": "happy-input.csv",
+    "size_bytes": 118
+  },
+  "status": "success",
+  "warnings": [
+    "formula_like_cells_present"
+  ]
+}

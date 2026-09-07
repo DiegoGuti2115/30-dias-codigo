@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "operations": [
+    {"operation": "normalize_headers"}
+  ]
+}

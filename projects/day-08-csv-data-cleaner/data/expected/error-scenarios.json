@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "errors": [
+    {
+      "id": "csv_invalid_encoding",
+      "exit_code": 1,
+      "publication": "none",
+      "stage": "input_validation"
+    },
+    {
+      "id": "csv_irregular_row",
+      "exit_code": 1,
+      "publication": "none",
+      "stage": "csv_validation"
+    },
+    {
+      "id": "csv_malformed",
+      "exit_code": 1,
+      "publication": "none",
+      "stage": "csv_validation"
+    },
+    {
+      "id": "csv_missing_header",
+      "exit_code": 1,
+      "publication": "none",
+      "stage": "csv_validation"
+    },
+    {
+      "id": "csv_row_limit",
+      "exit_code": 1,
+      "publication": "none",
+      "stage": "csv_validation"
+    },
+    {
+      "id": "csv_size_limit",
+      "exit_code": 1,
+      "publication": "none",
+      "stage": "input_validation"
+    },
+    {
+      "id": "csv_column_limit",
+      "exit_code": 1,
+      "publication": "none",
+      "stage": "csv_validation"
+    },
+    {
+      "id": "header_normalization_collision",
+      "exit_code": 1,
+      "publication": "none",
+      "stage": "plan_compatibility"
+    },
+    {
+      "id": "output_path_conflict",
+      "exit_code": 1,
+      "publication": "none",
+      "stage": "path_validation"
+    },
+    {
+      "id": "plan_duplicate_operation",
+      "exit_code": 1,
+      "publication": "none",
+      "stage": "plan_validation"
+    },
+    {
+      "id": "plan_extra_root_key",
+      "exit_code": 1,
+      "publication": "none",
+      "stage": "plan_validation"
+    },
+    {
+      "id": "plan_invalid_markers",
+      "exit_code": 1,
+      "publication": "none",
+      "stage": "plan_validation"
+    },
+    {
+      "id": "plan_unknown_operation",
+      "exit_code": 1,
+      "publication": "none",
+      "stage": "plan_validation"
+    },
+    {
+      "id": "plan_unsupported_version",
+      "exit_code": 1,
+      "publication": "none",
+      "stage": "plan_validation"
+    },
+    {
+      "id": "publication_failed",
+      "exit_code": 1,
+      "publication": "no_complete_result",
+      "stage": "publication"
+    },
+    {
+      "id": "usage_error",
+      "exit_code": 2,
+      "publication": "none",
+      "stage": "argument_validation"
+    }
+  ]
+}

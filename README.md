@@ -33,7 +33,7 @@ Los servicios externos y cloud pueden usarse si su configuración es ágil y mej
 | 05 | Generador de índice Markdown | Utilidad | Python | [Ver](projects/day-05-markdown-toc) | Pendiente |
 | 06 | Validador de políticas de contraseña | Seguridad | Python | [Ver](projects/day-06-password-policy-checker) | Pendiente |
 | 07 | Backup local y Azure Blob | Cloud storage | Python, Azure SDK | [Ver](projects/day-07-backup-azure-blob) | Pendiente |
-| 08 | Limpiador de datos CSV | Datos | Python | [Ver](projects/day-08-csv-data-cleaner) | Pendiente |
+| 08 | Limpiador de datos CSV | Datos | Python | [Ver](projects/day-08-csv-data-cleaner) | [Demo local](projects/day-08-csv-data-cleaner/assets/DEMO_15S.md) |
 | 09 | API de portfolio | API | FastAPI | [Ver](projects/day-09-portfolio-api) | Pendiente |
 | 10 | API CRUD de tareas | API | FastAPI, Pydantic | [Ver](projects/day-10-task-api) | Pendiente |
 | 11 | API de análisis de texto | API | FastAPI | [Ver](projects/day-11-text-analysis-api) | Pendiente |

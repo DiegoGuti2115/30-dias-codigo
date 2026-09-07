@@ -1,0 +1,170 @@
+{
+  "version": 1,
+  "scenarios": [
+    {
+      "id": "happy-all-operations",
+      "input_csv": "happy-input.csv",
+      "plan": "plan-all-operations.json",
+      "expected_csv": "../expected/happy-cleaned.csv",
+      "expected_summary": "../expected/happy-summary.json",
+      "outcome": "success",
+      "requirements": [
+        "RF-01",
+        "RF-02",
+        "RF-03",
+        "RF-04",
+        "RF-05",
+        "RF-06",
+        "RF-07",
+        "RF-08",
+        "RF-09"
+      ]
+    },
+    {
+      "id": "valid-no-changes",
+      "input_csv": "no-changes-input.csv",
+      "plan": "plan-no-changes.json",
+      "expected_csv": "../expected/no-changes-cleaned.csv",
+      "expected_summary": "../expected/no-changes-summary.json",
+      "outcome": "success",
+      "requirements": [
+        "RF-02",
+        "RF-03",
+        "RF-05",
+        "RF-07",
+        "RF-09"
+      ]
+    },
+    {
+      "id": "header-normalization-collision",
+      "input_csv": "header-collision-input.csv",
+      "plan": "plan-normalize-headers.json",
+      "expected_errors": [
+        "header_normalization_collision"
+      ],
+      "outcome": "reject_before_publication",
+      "requirements": [
+        "RF-01",
+        "RF-04",
+        "RF-06",
+        "RF-08"
+      ]
+    },
+    {
+      "id": "invalid-plan-shapes",
+      "input_csv": "happy-input.csv",
+      "plans": [
+        "invalid-plan-extra-root.json",
+        "invalid-plan-unknown-operation.json",
+        "invalid-plan-duplicate-operation.json",
+        "invalid-plan-empty-markers.json",
+        "invalid-plan-version.json"
+      ],
+      "expected_errors": [
+        "plan_extra_root_key",
+        "plan_unknown_operation",
+        "plan_duplicate_operation",
+        "plan_invalid_markers",
+        "plan_unsupported_version"
+      ],
+      "outcome": "reject_before_publication",
+      "requirements": [
+        "RF-03",
+        "RF-04",
+        "RF-08"
+      ]
+    },
+    {
+      "id": "unsupported-encoding",
+      "input_csv": "invalid-utf8-input.csv",
+      "expected_errors": [
+        "csv_invalid_encoding"
+      ],
+      "outcome": "reject_before_publication",
+      "requirements": [
+        "RF-01",
+        "RF-08"
+      ]
+    },
+    {
+      "id": "malformed-csv",
+      "input_csv": "malformed-input.csv",
+      "expected_errors": [
+        "csv_malformed"
+      ],
+      "outcome": "reject_before_publication",
+      "requirements": [
+        "RF-01",
+        "RF-08"
+      ]
+    },
+    {
+      "id": "empty-or-irregular-csv",
+      "input_csvs": [
+        "empty-input.csv",
+        "irregular-input.csv"
+      ],
+      "expected_errors": [
+        "csv_missing_header",
+        "csv_irregular_row"
+      ],
+      "outcome": "reject_before_publication",
+      "requirements": [
+        "RF-01",
+        "RF-08"
+      ]
+    },
+    {
+      "id": "resource-limits",
+      "condition": "Generate files exceeding the size, row, or column limits in a temporary directory.",
+      "expected_errors": [
+        "csv_size_limit",
+        "csv_row_limit",
+        "csv_column_limit"
+      ],
+      "outcome": "reject_before_publication",
+      "requirements": [
+        "RF-01",
+        "RF-08"
+      ]
+    },
+    {
+      "id": "conflicting-output-routes",
+      "condition": "Use equal, existing, non-file, or unsafe output paths in a temporary directory.",
+      "expected_errors": [
+        "output_path_conflict"
+      ],
+      "outcome": "reject_before_publication",
+      "requirements": [
+        "RF-06",
+        "RF-08"
+      ]
+    },
+    {
+      "id": "permission-or-publication-failure",
+      "condition": "Revoke output permission or inject a publication failure in a temporary directory.",
+      "expected_errors": [
+        "publication_failed"
+      ],
+      "outcome": "failure_during_publication",
+      "requirements": [
+        "RF-06",
+        "RF-07",
+        "RF-08"
+      ]
+    },
+    {
+      "id": "repeated-identical-run",
+      "input_csv": "happy-input.csv",
+      "plan": "plan-all-operations.json",
+      "expected_csv": "../expected/happy-cleaned.csv",
+      "expected_summary": "../expected/happy-summary.json",
+      "outcome": "success",
+      "requirements": [
+        "RF-05",
+        "RF-07",
+        "RF-09"
+      ]
+    }
+  ]
+}

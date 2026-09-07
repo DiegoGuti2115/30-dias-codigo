@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Demo interactiva local del CSV Data Cleaner, Día 08.">
+  <title>CSV Data Cleaner · Demo local</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #08101e;
+      --panel: rgba(16, 29, 51, .66);
+      --panel-strong: rgba(17, 34, 59, .9);
+      --line: rgba(160, 203, 255, .18);
+      --text: #edf5ff;
+      --muted: #a9bbd1;
+      --cyan: #72e8ff;
+      --violet: #a99cff;
+      --green: #79f6bf;
+      --danger: #ff9ca8;
+      --shadow: 0 24px 70px rgba(0, 0, 0, .33);
+      --radius: 24px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 12% 0%, #1e315d 0, transparent 31rem), radial-gradient(circle at 88% 13%, #2b1d63 0, transparent 32rem), var(--bg);
+      line-height: 1.55;
+    }
+    body::before { content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .38; background-image: linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px); background-size: 48px 48px; mask-image: linear-gradient(to bottom, #000, transparent 78%); }
+    a { color: var(--cyan); }
+    button { font: inherit; }
+    .skip-link { position: fixed; top: .75rem; left: .75rem; transform: translateY(-170%); z-index: 20; padding: .7rem 1rem; border-radius: .75rem; background: #fff; color: #07101d; font-weight: 700; transition: transform .2s; }
+    .skip-link:focus { transform: translateY(0); }
+    .shell { width: min(1160px, calc(100% - 2rem)); margin: 0 auto; }
+    .hero { min-height: 72vh; display: grid; align-content: center; padding: 5.5rem 0 3.5rem; }
+    .eyebrow, .badge { display: inline-flex; align-items: center; gap: .5rem; width: fit-content; padding: .42rem .75rem; border: 1px solid var(--line); border-radius: 999px; background: rgba(114, 232, 255, .08); color: #c9f8ff; font-size: .82rem; font-weight: 700; letter-spacing: .04em; }
+    .eyebrow::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--green); box-shadow: 0 0 14px var(--green); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 850px; margin: 1rem 0; font-size: clamp(3rem, 8vw, 6.25rem); line-height: .98; letter-spacing: -.065em; }
+    h1 span { display: block; color: transparent; background: linear-gradient(90deg, var(--cyan), var(--violet)); background-clip: text; -webkit-background-clip: text; }
+    .lede { max-width: 700px; color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.3rem); }
+    .hero-actions, .controls { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
+    .button { cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .85rem 1.05rem; min-height: 46px; border: 1px solid var(--line); border-radius: 14px; color: var(--text); background: rgba(255,255,255,.07); box-shadow: inset 0 1px rgba(255,255,255,.12); text-decoration: none; transition: transform .2s ease, background .2s ease, border-color .2s ease; }
+    .button.primary { border-color: rgba(114,232,255,.5); background: linear-gradient(135deg, rgba(114,232,255,.22), rgba(169,156,255,.2)); }
+    .button:hover { transform: translateY(-2px); border-color: rgba(114,232,255,.72); background: rgba(114,232,255,.14); }
+    .button:active { transform: translateY(0) scale(.98); }
+    :focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
+    .promise { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2.75rem; color: var(--muted); font-size: .92rem; }
+    .promise span { padding: .45rem .7rem; border-left: 2px solid var(--cyan); background: rgba(255,255,255,.035); }
+    main { padding-bottom: 5rem; }
+    .demo { padding: 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); background: linear-gradient(145deg, rgba(17,34,59,.83), rgba(9,17,32,.8)); box-shadow: var(--shadow); backdrop-filter: blur(14px); }
+    .demo-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: .5rem .5rem 1.4rem; }
+    h2 { margin-bottom: .35rem; font-size: clamp(1.7rem, 4vw, 2.5rem); letter-spacing: -.04em; }
+    .muted { color: var(--muted); }
+    .clock { white-space: nowrap; color: #d9faff; font-variant-numeric: tabular-nums; }
+    .progress-wrap { padding: 0 .5rem 1.3rem; }
+    .progress-label { display: flex; justify-content: space-between; gap: 1rem; color: var(--muted); font-size: .85rem; }
+    progress { width: 100%; height: .45rem; margin-top: .55rem; accent-color: var(--cyan); }
+    .stepper { display: grid; grid-template-columns: repeat(4, 1fr); margin-bottom: 1.25rem; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+    .step-tab { cursor: pointer; min-height: 68px; padding: .7rem .5rem; border: 0; border-right: 1px solid var(--line); color: var(--muted); background: rgba(255,255,255,.025); text-align: left; }
+    .step-tab:last-child { border-right: 0; }
+    .step-tab[aria-selected="true"] { color: var(--text); background: linear-gradient(135deg, rgba(114,232,255,.15), rgba(169,156,255,.12)); }
+    .step-tab small { display: block; opacity: .75; }
+    .stage { min-height: 410px; padding: clamp(1rem, 3vw, 2rem); border-radius: 18px; border: 1px solid rgba(255,255,255,.07); background: rgba(3,10,22,.43); overflow: hidden; }
+    .stage[hidden] { display: none; }
+    .stage-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr); gap: 1.25rem; align-items: start; }
+    .stage-copy h3 { font-size: clamp(1.45rem, 3vw, 2rem); letter-spacing: -.04em; }
+    .timeline { display: inline-flex; align-items: center; gap: .45rem; padding: .35rem .65rem; border-radius: 999px; color: #d8d2ff; background: rgba(169,156,255,.12); font-size: .85rem; font-weight: 700; }
+    .file-card, .code-card, .notice, .result-card { border: 1px solid var(--line); border-radius: 17px; background: var(--panel); overflow: hidden; box-shadow: inset 0 1px rgba(255,255,255,.08); }
+    .file-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .75rem 1rem; border-bottom: 1px solid var(--line); color: #d8edff; font-size: .9rem; }
+    .file-icon { color: var(--cyan); }
+    pre { margin: 0; padding: 1rem; overflow: auto; color: #d6e8ff; font: .82rem/1.65 "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+    .code-card pre { color: #c8f3ff; }
+    .token-key { color: #a99cff; } .token-string { color: #8df5c9; } .token-op { color: #f6c687; }
+    table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+    th, td { padding: .65rem .75rem; border-bottom: 1px solid rgba(160,203,255,.12); text-align: left; vertical-align: top; }
+    th { color: #b8cbe1; font-weight: 650; background: rgba(255,255,255,.03); }
+    td { color: #e2efff; }
+    .blank { color: #8294ac; }
+    .notice { padding: 1rem; color: var(--muted); }
+    .notice strong { color: var(--text); }
+    .pipeline { display: grid; gap: .7rem; }
+    .pipe-item { display: flex; align-items: center; gap: .75rem; padding: .85rem; border-radius: 14px; border: 1px solid rgba(121,246,191,.2); background: rgba(121,246,191,.06); }
+    .pipe-num { display: grid; place-items: center; flex: 0 0 1.75rem; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: rgba(121,246,191,.17); color: var(--green); font-size: .8rem; font-weight: 800; }
+    .terminal { padding: .85rem 1rem; border-radius: 14px; border: 1px solid rgba(114,232,255,.28); background: #050b15; color: #c6f7ff; font: .78rem/1.65 "SFMono-Regular", Consolas, monospace; overflow-wrap: anywhere; }
+    .terminal .prompt { color: var(--green); }
+    .outputs { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .success { display: flex; align-items: center; gap: .6rem; padding: .85rem 1rem; margin-bottom: 1rem; border: 1px solid rgba(121,246,191,.33); border-radius: 14px; color: #d6ffeb; background: rgba(121,246,191,.1); }
+    .success i { display: grid; place-items: center; width: 1.35rem; height: 1.35rem; border-radius: 50%; background: var(--green); color: #062317; font-style: normal; font-weight: 900; }
+    .compare { display: grid; grid-template-columns: 1fr auto 1fr; gap: .75rem; align-items: stretch; }
+    .compare-arrow { display: grid; place-items: center; color: var(--cyan); font-size: 1.5rem; }
+    .compare .file-card { min-width: 0; }
+    .status-list { display: grid; gap: .7rem; margin: 0; padding: 0; list-style: none; }
+    .status-list li { display: flex; gap: .65rem; align-items: flex-start; color: var(--muted); }
+    .check { color: var(--green); font-weight: 800; }
+    .footer-summary { margin-top: 1.5rem; padding: clamp(1.4rem, 4vw, 2.4rem); border: 1px solid var(--line); border-radius: var(--radius); background: linear-gradient(120deg, rgba(114,232,255,.11), rgba(169,156,255,.1)); }
+    .footer-summary ul { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin: 1.2rem 0 0; padding: 0; list-style: none; }
+    .footer-summary li { padding: .85rem; border-radius: 14px; background: rgba(5,11,21,.28); color: var(--muted); }
+    .footer-summary strong { display: block; margin-bottom: .25rem; color: var(--text); }
+    .help { border-bottom: 1px dotted var(--muted); cursor: help; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    @media (max-width: 760px) { .shell { width: min(100% - 1rem, 1160px); } .hero { min-height: 65vh; padding-top: 3.5rem; } .demo { padding: .6rem; } .stage-grid, .outputs { grid-template-columns: 1fr; } .stepper { grid-template-columns: 1fr 1fr; } .step-tab:nth-child(2) { border-right: 0; } .step-tab:nth-child(-n+2) { border-bottom: 1px solid var(--line); } .compare { grid-template-columns: 1fr; } .compare-arrow { transform: rotate(90deg); min-height: 1.5rem; } .footer-summary ul { grid-template-columns: 1fr; } .demo-heading { display: block; } .clock { display: inline-block; margin-top: .45rem; } }
+    @media (prefers-reduced-motion: no-preference) { .stage:not([hidden]) { animation: reveal .35s ease both; } @keyframes reveal { from { opacity: .35; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#demo">Saltar a la demostración</a>
+  <header class="shell hero" id="inicio">
+    <span class="eyebrow">DEMO LOCAL · 15 SEGUNDOS</span>
+    <h1>CSV <span>Data Cleaner</span></h1>
+    <p class="lede">Una narrativa visual del flujo verificable de la v1: un CSV sintético y un plan explícito entran; un CSV limpio y un resumen JSON salen.</p>
+    <div class="hero-actions">
+      <a class="button primary" href="#demo" id="start-demo">Iniciar demostración <span aria-hidden="true">→</span></a>
+      <a class="button" href="#cierre">Ver qué se demuestra</a>
+    </div>
+    <div class="promise" aria-label="Condiciones de la demostración">
+      <span>Sin red</span><span>Sin secretos</span><span>Sin datos personales</span><span>Origen sin modificar</span>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="demo" id="demo" aria-labelledby="demo-title">
+      <div class="demo-heading">
+        <div><span class="badge">RECORRIDO GUIADO</span><h2 id="demo-title">Del fixture a las salidas finales</h2><p class="muted">Explora cada momento de la demo local. Puedes avanzar, volver o reiniciar sin ejecutar ningún comando.</p></div>
+        <strong class="clock" id="clock" aria-live="polite">0–3 s · Preparación</strong>
+      </div>
+      <div class="progress-wrap"><div class="progress-label"><span id="progress-text">Etapa 1 de 4</span><span>15 s de guion</span></div><progress id="progress" value="1" max="4">1 de 4</progress></div>
+      <div class="stepper" role="tablist" aria-label="Etapas de la demo">
+        <button class="step-tab" role="tab" id="tab-0" aria-selected="true" aria-controls="stage-0" data-step="0"><small>0–3 s</small>Entradas</button>
+        <button class="step-tab" role="tab" id="tab-1" aria-selected="false" aria-controls="stage-1" data-step="1"><small>3–7 s</small>Comando</button>
+        <button class="step-tab" role="tab" id="tab-2" aria-selected="false" aria-controls="stage-2" data-step="2"><small>7–11 s</small>CSV limpio</button>
+        <button class="step-tab" role="tab" id="tab-3" aria-selected="false" aria-controls="stage-3" data-step="3"><small>11–15 s</small>Resumen JSON</button>
+      </div>
+
+      <section class="stage" role="tabpanel" id="stage-0" aria-labelledby="tab-0">
+        <div class="stage-grid"><div class="stage-copy"><span class="timeline">0–3 s · Entradas aprobadas</span><h3>CSV sintético y plan JSON explícito.</h3><p class="muted">La preparación crea <code>demo-tmp</code> y utiliza exclusivamente los dos fixtures aprobados. No se muestran rutas personales, credenciales ni otros archivos.</p><div class="notice"><strong>Preparación visible</strong><br><code>mkdir demo-tmp</code></div></div><div class="file-card"><div class="file-top"><span><span class="file-icon" aria-hidden="true">▣</span> data/fixtures/happy-input.csv</span><span>CSV</span></div><table aria-label="Vista del CSV sintético de entrada"><thead><tr><th>Display Name</th><th>status</th><th>comment</th></tr></thead><tbody><tr><td>Ana</td><td>N/A</td><td>=demo</td></tr><tr><td class="blank">—</td><td class="blank">—</td><td class="blank">—</td></tr><tr><td>Ben</td><td class="blank">—</td><td>ready</td></tr><tr><td>Ben</td><td class="blank">—</td><td>ready</td></tr><tr><td>Cia</td><td>NULL</td><td>note</td></tr></tbody></table></div></div>
+        <div class="code-card" style="margin-top:1.25rem"><div class="file-top"><span><span class="file-icon" aria-hidden="true">{ }</span> data/fixtures/plan-all-operations.json</span><span>PLAN</span></div><pre aria-label="Plan JSON explícito">{
+  <span class="token-key">"version"</span>: 1,
+  <span class="token-key">"operations"</span>: [
+    {<span class="token-key">"operation"</span>: <span class="token-string">"drop_exact_duplicates"</span>},
+    {<span class="token-key">"operation"</span>: <span class="token-string">"replace_missing_markers"</span>, <span class="token-key">"markers"</span>: [<span class="token-string">"N/A"</span>, <span class="token-string">"NULL"</span>]},
+    {<span class="token-key">"operation"</span>: <span class="token-string">"trim_fields"</span>},
+    {<span class="token-key">"operation"</span>: <span class="token-string">"normalize_headers"</span>},
+    {<span class="token-key">"operation"</span>: <span class="token-string">"drop_empty_rows"</span>}
+  ]
+}</pre></div>
+      </section>
+
+      <section class="stage" role="tabpanel" id="stage-1" aria-labelledby="tab-1" hidden>
+        <div class="stage-grid"><div class="stage-copy"><span class="timeline">3–7 s · Ejecución</span><h3>La CLI valida, limpia y publica sin tocar el origen.</h3><p class="muted">El único comando de la demo une el CSV sintético, el plan explícito y las dos rutas finales. La salida correcta devuelve <strong>0</strong>.</p><div class="terminal" aria-label="Comando de la demostración"><span class="prompt">></span> python src/main.py clean data/fixtures/happy-input.csv data/fixtures/plan-all-operations.json demo-tmp/happy-cleaned.csv demo-tmp/happy-summary.json</div></div><div class="pipeline" aria-label="Flujo del comando"><div class="pipe-item"><span class="pipe-num">1</span><span><strong>Validar</strong><br><small class="muted">CSV y plan explícito</small></span></div><div class="pipe-item"><span class="pipe-num">2</span><span><strong>Limpiar</strong><br><small class="muted">Operaciones declaradas en el plan</small></span></div><div class="pipe-item"><span class="pipe-num">3</span><span><strong>Publicar</strong><br><small class="muted">Dos rutas de salida nuevas</small></span></div></div></div>
+        <div class="notice" style="margin-top:1.25rem"><strong>Diagnóstico cuidadoso.</strong> Cuando el flujo es correcto, stdout escribe las dos rutas finales. El diagnóstico no muestra valores de celdas.</div>
+      </section>
+
+      <section class="stage" role="tabpanel" id="stage-2" aria-labelledby="tab-2" hidden>
+        <div class="stage-copy"><span class="timeline">7–11 s · Primera salida</span><h3>El CSV limpio es una salida nueva.</h3><p class="muted">La comparación hace visible el resultado del flujo, mientras el archivo de origen permanece intacto.</p></div>
+        <div class="compare" aria-label="Comparación entre CSV de entrada y CSV limpio"><div class="file-card"><div class="file-top"><span>happy-input.csv</span><span>ANTES</span></div><table><thead><tr><th>Filas visibles</th><th>Señales</th></tr></thead><tbody><tr><td>5 datos</td><td>N/A, NULL, fila vacía y duplicado</td></tr><tr><td>Encabezado</td><td>" Display Name "</td></tr></tbody></table></div><div class="compare-arrow" aria-hidden="true">→</div><div class="file-card"><div class="file-top"><span>demo-tmp/happy-cleaned.csv</span><span>DESPUÉS</span></div><table><thead><tr><th>Display Name</th><th>status</th><th>comment</th></tr></thead><tbody><tr><td>Ana</td><td class="blank">—</td><td>=demo</td></tr><tr><td>Ben</td><td class="blank">—</td><td>ready</td></tr><tr><td>Cia</td><td class="blank">—</td><td>note</td></tr></tbody></table></div></div>
+        <div class="notice" style="margin-top:1.25rem"><strong>Resultado visible:</strong> <code>demo-tmp/happy-cleaned.csv</code>. Es una salida nueva, no una modificación del origen.</div>
+      </section>
+
+      <section class="stage" role="tabpanel" id="stage-3" aria-labelledby="tab-3" hidden>
+        <div class="stage-grid"><div class="stage-copy"><span class="timeline">11–15 s · Segunda salida</span><h3>El resumen registra solo estructura y contadores.</h3><p class="muted">La segunda ruta final es <code>demo-tmp/happy-summary.json</code>. Su papel en la demo es explicar el resultado sin exponer valores de celdas en el diagnóstico.</p><div class="success" role="status"><i aria-hidden="true">✓</i><span>Resultado correcto: código de salida <strong>0</strong></span></div><ul class="status-list"><li><span class="check" aria-hidden="true">✓</span><span>Se escriben las dos rutas finales en stdout.</span></li><li><span class="check" aria-hidden="true">✓</span><span>El origen no se toca.</span></li><li><span class="check" aria-hidden="true">✓</span><span>El resumen se limita a estructura y contadores.</span></li></ul></div><div class="code-card"><div class="file-top"><span><span class="file-icon" aria-hidden="true">{ }</span> demo-tmp/happy-summary.json</span><span>JSON</span></div><pre aria-label="Extracto del resumen JSON">{
+  <span class="token-key">"status"</span>: <span class="token-string">"success"</span>,
+  <span class="token-key">"source"</span>: {
+    <span class="token-key">"file_name"</span>: <span class="token-string">"happy-input.csv"</span>,
+    <span class="token-key">"data_row_count"</span>: 5,
+    <span class="token-key">"column_count"</span>: 3
+  },
+  <span class="token-key">"operations"</span>: [
+    {<span class="token-op">"headers_changed"</span>: 1},
+    {<span class="token-op">"rows_removed"</span>: 1},
+    {<span class="token-op">"fields_changed"</span>: 6},
+    {<span class="token-op">"fields_replaced"</span>: 2},
+    {<span class="token-op">"rows_removed"</span>: 1}
+  ]
+}</pre></div></div>
+      </section>
+      <div class="controls" aria-label="Controles de la demostración"><button class="button" id="previous" type="button">← Anterior</button><button class="button primary" id="next" type="button">Siguiente →</button><button class="button" id="restart" type="button" title="Vuelve a la primera etapa">↺ Reiniciar</button></div>
+      <p class="sr-only" id="live" aria-live="polite"></p>
+    </section>
+
+    <section class="footer-summary" id="cierre" aria-labelledby="summary-title">
+      <span class="badge">CIERRE</span><h2 id="summary-title">Qué demuestra este recorrido</h2><p class="muted">Una demo local debe publicarse únicamente cuando devuelve <strong>0</strong> y muestra solo los fixtures sintéticos aprobados.</p>
+      <ul><li><strong>Entradas controladas</strong>Un CSV sintético y un plan JSON explícito.</li><li><strong>Flujo verificable</strong>La CLI valida, limpia y publica sin tocar el origen.</li><li><strong>Salidas claras</strong>Un CSV limpio nuevo y un resumen JSON estructural.</li></ul>
+      <div class="notice" style="margin-top:1rem"><strong>Limpieza final.</strong> Al terminar la grabación se elimina exclusivamente el directorio creado: <code>rmdir /s /q demo-tmp</code>.</div>
+    </section>
+  </main>
+  <script>
+    (() => {
+      const stages = [...document.querySelectorAll('[role="tabpanel"]')];
+      const tabs = [...document.querySelectorAll('[role="tab"]')];
+      const next = document.querySelector('#next');
+      const previous = document.querySelector('#previous');
+      const restart = document.querySelector('#restart');
+      const progress = document.querySelector('#progress');
+      const progressText = document.querySelector('#progress-text');
+      const clock = document.querySelector('#clock');
+      const live = document.querySelector('#live');
+      const labels = ['0–3 s · Preparación', '3–7 s · Comando', '7–11 s · CSV limpio', '11–15 s · Resumen JSON'];
+      let current = 0;
+      function activate(index, focus = false) {
+        current = Math.max(0, Math.min(index, stages.length - 1));
+        stages.forEach((stage, i) => { stage.hidden = i !== current; });
+        tabs.forEach((tab, i) => { tab.setAttribute('aria-selected', String(i === current)); tab.tabIndex = i === current ? 0 : -1; });
+        progress.value = current + 1;
+        progressText.textContent = `Etapa ${current + 1} de ${stages.length}`;
+        clock.textContent = labels[current];
+        previous.disabled = current === 0;
+        next.textContent = current === stages.length - 1 ? 'Finalizar recorrido ✓' : 'Siguiente →';
+        live.textContent = `Mostrando ${labels[current]}. Etapa ${current + 1} de ${stages.length}.`;
+        if (focus) tabs[current].focus();
+      }
+      tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => activate(index));
+        tab.addEventListener('keydown', event => {
+          if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+          event.preventDefault();
+          const target = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+          activate(target, true);
+        });
+      });
+      next.addEventListener('click', () => current === stages.length - 1 ? activate(0, true) : activate(current + 1, true));
+      previous.addEventListener('click', () => activate(current - 1, true));
+      restart.addEventListener('click', () => activate(0, true));
+      document.querySelector('#start-demo').addEventListener('click', () => window.setTimeout(() => activate(0, true), 500));
+      activate(0);
+    })();
+  </script>
+</body>
+</html>

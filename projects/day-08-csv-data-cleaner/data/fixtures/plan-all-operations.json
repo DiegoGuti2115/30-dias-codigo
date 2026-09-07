@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "operations": [
+    {"operation": "drop_exact_duplicates"},
+    {"operation": "replace_missing_markers", "markers": ["N/A", "NULL"]},
+    {"operation": "trim_fields"},
+    {"operation": "normalize_headers"},
+    {"operation": "drop_empty_rows"}
+  ]
+}

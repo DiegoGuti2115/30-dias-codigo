@@ -1,0 +1,62 @@
+{
+  "operations": [
+    {
+      "headers_changed": 0,
+      "operation": "normalize_headers"
+    },
+    {
+      "operation": "drop_empty_rows",
+      "rows_removed": 0
+    },
+    {
+      "fields_changed": 0,
+      "operation": "trim_fields"
+    },
+    {
+      "fields_replaced": 0,
+      "operation": "replace_missing_markers"
+    },
+    {
+      "operation": "drop_exact_duplicates",
+      "rows_removed": 0
+    }
+  ],
+  "plan": {
+    "requested_operations": [
+      "normalize_headers",
+      "drop_empty_rows",
+      "trim_fields",
+      "replace_missing_markers",
+      "drop_exact_duplicates"
+    ],
+    "version": 1
+  },
+  "profile_after": {
+    "empty_row_count": 0,
+    "empty_value_count": 0,
+    "exact_duplicate_row_count": 0,
+    "formula_like_cell_count": 0,
+    "headers": [
+      "label",
+      "status"
+    ]
+  },
+  "profile_before": {
+    "empty_row_count": 0,
+    "empty_value_count": 0,
+    "exact_duplicate_row_count": 0,
+    "formula_like_cell_count": 0,
+    "headers": [
+      "label",
+      "status"
+    ]
+  },
+  "source": {
+    "column_count": 2,
+    "data_row_count": 2,
+    "file_name": "no-changes-input.csv",
+    "size_bytes": 41
+  },
+  "status": "success",
+  "warnings": []
+}
