@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "profile_public": true,
+  "profile": {
+    "name": "Jordan Vega",
+    "headline": "Backend developer focused on reliable APIs",
+    "summary": "Builds small, maintainable services with clear contracts and local-first demos.",
+    "location": "Remote, Europe",
+    "links": [
+      {
+        "label": "Portfolio",
+        "url": "https://portfolio.example.test"
+      }
+    ]
+  },
+  "projects": [
+    {
+      "public": true,
+      "slug": "portfolio-api",
+      "title": "Portfolio API",
+      "summary": "Read-only API contract for a professional portfolio.",
+      "description": "A local-first API design that exposes only public profile information, projects, skills and experience.",
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "Pydantic"
+      ],
+      "status": "active",
+      "featured": true,
+      "published_at": "2026-09",
+      "links": [
+        {
+          "label": "Repository",
+          "url": "https://code.example.test/portfolio-api"
+        }
+      ]
+    },
+    {
+      "public": true,
+      "slug": "log-summary-tool",
+      "title": "Log Summary Tool",
+      "summary": "Local utility for deterministic log summaries.",
+      "description": "Summarizes structured log samples without network access or external services.",
+      "technologies": [
+        "Python"
+      ],
+      "status": "completed",
+      "featured": false,
+      "published_at": "2026-08"
+    },
+    {
+      "public": false,
+      "slug": "draft-internal-notes",
+      "title": "Draft Internal Notes",
+      "summary": "Private draft used to verify visibility metadata handling.",
+      "description": "This synthetic source record must never be exposed by later public query layers.",
+      "technologies": [
+        "Python"
+      ],
+      "status": "archived",
+      "featured": false
+    }
+  ],
+  "skills": [
+    {
+      "public": true,
+      "name": "FastAPI",
+      "category": "backend",
+      "context": "API design and OpenAPI-first contracts."
+    },
+    {
+      "public": true,
+      "name": "Python",
+      "category": "backend"
+    },
+    {
+      "public": true,
+      "name": "Git",
+      "category": "tools",
+      "context": "Version control and reproducible delivery workflows."
+    },
+    {
+      "public": false,
+      "name": "Internal Planning",
+      "category": "other",
+      "context": "Private source-only record for visibility filtering tests."
+    }
+  ],
+  "experience": [
+    {
+      "public": true,
+      "organization": "Sample Systems Lab",
+      "role": "Backend Developer",
+      "summary": "Designed small HTTP services and their validation contracts.",
+      "started_at": "2025-02",
+      "technologies": [
+        "Python",
+        "FastAPI"
+      ]
+    },
+    {
+      "public": true,
+      "organization": "Example Learning Institute",
+      "role": "Software Engineering Program",
+      "summary": "Completed project-based practice in API and data tooling.",
+      "started_at": "2023-09",
+      "ended_at": "2024-06",
+      "technologies": [
+        "Python",
+        "Git"
+      ]
+    },
+    {
+      "public": false,
+      "organization": "Private Practice Group",
+      "role": "Draft Contributor",
+      "summary": "Synthetic source-only record that must not be made public.",
+      "started_at": "2022-01",
+      "ended_at": "2022-02"
+    }
+  ]
+}
