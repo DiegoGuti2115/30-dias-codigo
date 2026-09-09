@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Carrusel interactivo de la API CRUD de tareas del Día 10.">
+  <title>API CRUD de tareas · Carrusel</title>
+  <style>
+    :root { --bg:#07121f; --surface:#0e2034; --surface-2:#132b45; --line:#284764; --text:#edf6ff; --muted:#a9c0d5; --cyan:#57d8ff; --violet:#b29bff; --green:#7ee0b0; --amber:#ffd36b; --red:#ff8c9b; --shadow:0 24px 70px rgba(0,0,0,.34); }
+    * { box-sizing:border-box; }
+    body { margin:0; min-width:320px; color:var(--text); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; background:radial-gradient(circle at 10% 0%,#123c59 0,transparent 30rem),radial-gradient(circle at 94% 100%,#2b2158 0,transparent 34rem),var(--bg); }
+    button { font:inherit; } button:focus-visible { outline:3px solid var(--cyan); outline-offset:3px; }
+    .page { width:min(1180px,calc(100% - 2rem)); margin:auto; padding:2rem 0 3rem; }
+    header { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:1.2rem; }
+    .brand { font-weight:850; letter-spacing:-.03em; }.brand span { color:var(--cyan); }
+    .counter { color:var(--muted); font-size:.9rem; }
+    .carousel { position:relative; overflow:hidden; border:1px solid var(--line); border-radius:28px; background:linear-gradient(135deg,rgba(18,43,69,.95),rgba(7,18,31,.98)); box-shadow:var(--shadow); }
+    .track { display:flex; transition:transform .45s cubic-bezier(.2,.8,.2,1); }
+    .slide { flex:0 0 100%; min-height:610px; padding:clamp(1.5rem,5vw,4.5rem); display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(1.5rem,5vw,4rem); align-items:center; }
+    .kicker { margin:0 0 1rem; color:var(--cyan); text-transform:uppercase; letter-spacing:.12em; font-weight:800; font-size:.8rem; }
+    h1,h2,p { margin-top:0; } h1,h2 { letter-spacing:-.055em; line-height:.98; } h1 { max-width:10ch; font-size:clamp(3rem,7vw,6.3rem); margin-bottom:1.25rem; } h2 { font-size:clamp(2.45rem,5vw,4.8rem); margin-bottom:1rem; }
+    .lead { max-width:52ch; color:var(--muted); font-size:clamp(1.05rem,2vw,1.3rem); line-height:1.6; }
+    .pill { display:inline-flex; padding:.42rem .72rem; border:1px solid var(--line); border-radius:99px; background:rgba(87,216,255,.08); color:var(--cyan); font:700 .82rem ui-monospace,SFMono-Regular,Consolas,monospace; }
+    .visual { min-width:0; padding:1.25rem; border:1px solid var(--line); border-radius:22px; background:rgba(4,14,27,.45); box-shadow:0 12px 34px rgba(0,0,0,.18); }
+    .task-card { padding:1.25rem; border-left:4px solid var(--cyan); border-radius:15px; background:linear-gradient(135deg,#173a59,#102b45); }.task-card small,.muted { color:var(--muted); }.task-title { margin:.45rem 0 1rem; font-size:1.32rem; font-weight:800; }.meta { display:flex; gap:.5rem; flex-wrap:wrap; }.tag { padding:.3rem .55rem; border-radius:99px; background:rgba(126,224,176,.15); color:var(--green); font-size:.8rem; font-weight:750; }
+    .actions { display:grid; grid-template-columns:repeat(2,1fr); gap:.7rem; }.action { padding:.9rem; border:1px solid var(--line); border-radius:13px; background:rgba(255,255,255,.035); color:var(--text); font-weight:750; }.action b { display:block; color:var(--cyan); font:800 .78rem ui-monospace,SFMono-Regular,Consolas,monospace; margin-bottom:.25rem; }
+    .flow { display:grid; gap:.65rem; }.flow-item { display:flex; align-items:center; gap:.75rem; padding:.85rem 1rem; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.04); font-weight:750; }.flow-item i { margin-left:auto; color:var(--cyan); font-style:normal; }.flow-item:nth-child(2) { border-color:rgba(87,216,255,.55); color:var(--cyan); }.flow-item:nth-child(3) { border-color:rgba(178,155,255,.55); color:var(--violet); }.flow-item:nth-child(4) { border-color:rgba(126,224,176,.55); color:var(--green); }
+    pre { overflow:auto; margin:0; padding:1rem; border-radius:14px; color:#d9eeff; background:#06101c; font:.82rem/1.6 ui-monospace,SFMono-Regular,Consolas,monospace; } .key { color:var(--cyan); }.ok { color:var(--green); }.bad { color:var(--red); }.warning { color:var(--amber); }
+    .error-grid { display:grid; gap:.65rem; }.error { padding:.85rem 1rem; border-left:4px solid var(--red); border-radius:12px; background:rgba(255,140,155,.08); }.error strong { display:block; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; }.facts { display:flex; flex-wrap:wrap; gap:.55rem; margin-top:1rem; }.fact { padding:.48rem .65rem; border-radius:10px; background:rgba(178,155,255,.12); color:#d7ceff; font-size:.85rem; }
+    .quality { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; }.metric { padding:1rem; border:1px solid var(--line); border-radius:15px; background:rgba(255,255,255,.04); }.metric b { display:block; font-size:2rem; color:var(--green); }.docs { display:grid; gap:.6rem; margin-top:1rem; }.doc { padding:.75rem; border:1px solid var(--line); border-radius:11px; color:var(--muted); }.doc b { color:var(--text); }
+    .controls { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1rem; border-top:1px solid var(--line); background:rgba(1,10,19,.35); }.controls button { min-height:2.65rem; padding:.55rem .9rem; border:1px solid var(--line); border-radius:12px; cursor:pointer; color:var(--text); background:var(--surface); font-weight:800; }.controls button:hover { background:var(--surface-2); }.dots { display:flex; justify-content:center; gap:.45rem; }.dot { width:.65rem; min-height:.65rem!important; padding:0!important; border-radius:50%!important; background:#476078!important; }.dot[aria-current="true"] { width:1.55rem; background:var(--cyan)!important; }
+    footer { padding-top:1.25rem; color:var(--muted); text-align:center; font-size:.9rem; }.cta { color:var(--cyan); font-weight:800; }
+    @media (max-width:760px) { .slide { min-height:680px; grid-template-columns:1fr; }.visual { padding:1rem; } h1 { max-width:12ch; }.actions,.quality { grid-template-columns:1fr 1fr; } }
+    @media (max-width:440px) { .page { width:min(100% - 1rem,1180px); }.slide { min-height:720px; padding:1.5rem; }.actions,.quality { grid-template-columns:1fr; } .controls { flex-wrap:wrap; }.dots { order:-1; width:100%; } }
+    @media (prefers-reduced-motion:reduce) { .track { transition:none; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header><div class="brand">Día 10 <span>/</span> Task API</div><div id="counter" class="counter" aria-live="polite">Diapositiva 1 de 6</div></header>
+    <section class="carousel" aria-roledescription="carrusel" aria-label="Carrusel de la API CRUD de tareas">
+      <div id="track" class="track">
+        <article class="slide" aria-label="Portada">
+          <div><p class="kicker">Día 10 · 30 Días, 30 Proyectos</p><h1>API CRUD de tareas</h1><p class="lead">De contrato a pruebas: una API HTTP local, clara y verificable.</p><span class="pill">/api/v1/tasks</span></div>
+          <div class="visual"><p class="muted">Representación de una tarea</p><div class="task-card"><small>task #1 · UTC</small><div class="task-title">Preparar demostración</div><div class="meta"><span class="tag">✓ completada</span><span class="tag">descripción opcional</span></div></div><p class="muted" style="margin:1rem 0 0">FastAPI + Pydantic · arquitectura por capas</p></div>
+        </article>
+        <article class="slide" aria-label="Problema y alcance">
+          <div><p class="kicker">01 · Problema y alcance</p><h2>Gestionar tareas mediante una API local.</h2><p class="lead">Un CRUD con un alcance intencionadamente pequeño: reglas claras, respuestas coherentes y sin infraestructura externa.</p><p class="pill">Sin autenticación · base de datos · servicios externos</p></div>
+          <div class="visual"><div class="actions"><div class="action"><b>POST</b>Crear</div><div class="action"><b>GET</b>Listar</div><div class="action"><b>GET</b>Consultar</div><div class="action"><b>PUT</b>Reemplazar</div><div class="action"><b>PATCH</b>Actualizar</div><div class="action"><b>DELETE</b>Eliminar</div></div></div>
+        </article>
+        <article class="slide" aria-label="Arquitectura">
+          <div><p class="kicker">02 · Arquitectura</p><h2>Responsabilidades separadas.</h2><p class="lead">La capa HTTP no contiene las reglas de negocio: las rutas delegan en el servicio y este usa un repositorio local en memoria.</p></div>
+          <div class="visual"><div class="flow"><div class="flow-item">Cliente HTTP <i>↓</i></div><div class="flow-item">Aplicación FastAPI <i>↓</i></div><div class="flow-item">Pydantic y validación <i>↓</i></div><div class="flow-item">Servicio de tareas <i>↓</i></div><div class="flow-item">Repositorio en memoria</div></div></div>
+        </article>
+        <article class="slide" aria-label="Contrato y validaciones">
+          <div><p class="kicker">03 · Contrato y validaciones</p><h2>La entrada se valida antes de llegar al dominio.</h2><p class="lead">Los esquemas separan creación, reemplazo, actualización parcial, lectura y listado.</p></div>
+          <div class="visual"><pre>{
+  <span class="key">"title"</span>: <span class="ok">"  Preparar demo  "</span>  → <span class="ok">"Preparar demo"</span>,
+  <span class="key">"completed"</span>: <span class="ok">true</span>,
+  <span class="key">"id"</span>: <span class="bad">rechazado</span>
+}
+
+<span class="warning">PATCH</span> /api/v1/tasks/1
+{ <span class="key">"completed"</span>: <span class="ok">true</span> }</pre><div class="facts"><span class="fact">Título: 1–120 caracteres</span><span class="fact">Descripción: hasta 1.000</span><span class="fact">Booleanos estrictos</span><span class="fact">Campos extra rechazados</span></div></div>
+        </article>
+        <article class="slide" aria-label="Errores y decisiones">
+          <div><p class="kicker">04 · Errores y decisiones</p><h2>Casos límite con respuesta predecible.</h2><p class="lead">La API traduce errores de dominio y conserva el formato estándar de validación cuando la solicitud no cumple el contrato.</p></div>
+          <div class="visual"><div class="error-grid"><div class="error"><strong>404 · task_not_found</strong>Tarea inexistente</div><div class="error"><strong>400 · invalid_request</strong>PATCH sin campos editables</div><div class="error"><strong>405 · method_not_allowed</strong>Método no publicado</div><div class="error"><strong>422 · validation detail</strong>Ruta o cuerpo inválidos</div></div><div class="facts"><span class="fact">IDs no reutilizables</span><span class="fact">Orden de creación</span><span class="fact">Fechas UTC</span><span class="fact">Estado aislado por instancia</span></div></div>
+        </article>
+        <article class="slide" aria-label="Calidad y resultado">
+          <div><p class="kicker">05 · Calidad y resultado</p><h2>Una entrega demostrable y preparada para evolucionar.</h2><p class="lead">Las fases 0–7 están completadas. El proyecto incluye contrato, guía de entrega, demostración manual y pruebas de regresión.</p><p class="cta">¿Qué caso límite añadirías a esta API?</p></div>
+          <div class="visual"><div class="quality"><div class="metric"><b>0–7</b>fases completadas</div><div class="metric"><b>41</b>pruebas passing</div></div><pre style="margin-top:.8rem"><span class="ok">.........................................</span>
+41 passed</pre><div class="docs"><div class="doc"><b>CONTRATO_API_V1.md</b> · interfaz pública</div><div class="doc"><b>GUIA_DE_ENTREGA.md</b> · ejecución y límites</div><div class="doc"><b>DEMO_CRUD.md</b> · flujo manual completo</div></div></div>
+        </article>
+      </div>
+      <div class="controls"><button id="previous" type="button" aria-label="Diapositiva anterior">← Anterior</button><div id="dots" class="dots" role="tablist" aria-label="Seleccionar diapositiva"></div><button id="next" type="button" aria-label="Diapositiva siguiente">Siguiente →</button></div>
+    </section>
+    <footer>Contenido basado en el contrato, implementación, documentación y pruebas de la API CRUD de tareas.</footer>
+  </main>
+  <script>
+    const track = document.querySelector('#track');
+    const slides = [...document.querySelectorAll('.slide')];
+    const dots = document.querySelector('#dots');
+    const counter = document.querySelector('#counter');
+    let current = 0;
+    slides.forEach((slide, index) => { const dot = document.createElement('button'); dot.type = 'button'; dot.className = 'dot'; dot.setAttribute('role', 'tab'); dot.setAttribute('aria-label', `Ir a la diapositiva ${index + 1}`); dot.addEventListener('click', () => show(index)); dots.append(dot); });
+    const dotButtons = [...dots.children];
+    function show(index) { current = (index + slides.length) % slides.length; track.style.transform = `translateX(-${current * 100}%)`; counter.textContent = `Diapositiva ${current + 1} de ${slides.length}`; dotButtons.forEach((dot, dotIndex) => dot.setAttribute('aria-current', String(dotIndex === current))); }
+    document.querySelector('#previous').addEventListener('click', () => show(current - 1));
+    document.querySelector('#next').addEventListener('click', () => show(current + 1));
+    document.addEventListener('keydown', event => { if (event.key === 'ArrowLeft') show(current - 1); if (event.key === 'ArrowRight') show(current + 1); });
+    let touchStart = 0; track.addEventListener('touchstart', event => touchStart = event.changedTouches[0].screenX, { passive: true }); track.addEventListener('touchend', event => { const change = event.changedTouches[0].screenX - touchStart; if (Math.abs(change) > 40) show(current + (change < 0 ? 1 : -1)); }, { passive: true });
+    show(0);
+  </script>
+</body>
+</html>
