@@ -1,0 +1,12 @@
+# Runtime
+fastapi>=0.115,<1.0
+pydantic>=2.10,<3.0
+uvicorn>=0.30,<1.0
+
+# Tests
+pytest>=8.0,<9.0
+httpx>=0.27,<1.0
+
+# Quality
+ruff>=0.6,<1.0
+mypy>=1.11,<2.0

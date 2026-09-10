@@ -1,0 +1,26 @@
+{
+  "metrics": {
+    "character_count": 54,
+    "character_count_without_whitespace": 46,
+    "word_count": 9,
+    "sentence_count": 2,
+    "paragraph_count": 1,
+    "estimated_reading_time_seconds": 3
+  },
+  "word_frequencies": [
+    {"word": "api", "count": 2},
+    {"word": "la", "count": 2},
+    {"word": "analiza", "count": 1},
+    {"word": "devuelve", "count": 1},
+    {"word": "métricas", "count": 1},
+    {"word": "texto", "count": 1},
+    {"word": "útiles", "count": 1}
+  ],
+  "keywords": [
+    {"word": "api", "count": 2},
+    {"word": "analiza", "count": 1},
+    {"word": "devuelve", "count": 1},
+    {"word": "métricas", "count": 1},
+    {"word": "texto", "count": 1}
+  ]
+}

@@ -1,0 +1,24 @@
+# Entornos virtuales y cachés locales
+.venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Cobertura y artefactos de compilación
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Configuración y archivos locales
+.env
+.env.*
+!.env.example
+
+# Archivos del editor y sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
