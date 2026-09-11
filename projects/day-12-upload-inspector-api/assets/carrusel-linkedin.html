@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Carrusel LinkedIn — Día 12: API de inspección de archivos</title>
+  <style>
+    :root {
+      --ink: #f2f8ff;
+      --muted: #bed0e6;
+      --cyan: #73f1d1;
+      --blue: #78b9ff;
+      --violet: #b69cff;
+      --danger: #ffabbc;
+      --line: rgba(218, 236, 255, .22);
+      --surface: rgba(12, 31, 57, .72);
+      --shadow: 0 28px 80px rgba(0, 0, 0, .48);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 8%, rgba(120, 185, 255, .22), transparent 27%),
+        radial-gradient(circle at 90% 18%, rgba(182, 156, 255, .18), transparent 25%),
+        radial-gradient(circle at 52% 100%, rgba(115, 241, 209, .14), transparent 30%),
+        #06101f;
+    }
+
+    button:focus-visible, a:focus-visible {
+      outline: 3px solid var(--cyan);
+      outline-offset: 4px;
+    }
+
+    .toolbar {
+      position: sticky;
+      z-index: 5;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      background: linear-gradient(180deg, rgba(6, 16, 31, .96), rgba(6, 16, 31, .72));
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      color: var(--cyan);
+      font-size: .82rem;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .counter { color: var(--muted); font-size: .9rem; font-weight: 700; }
+    .actions { display: flex; gap: 8px; }
+
+    button {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 14px;
+      color: var(--ink);
+      font: inherit;
+      font-size: .84rem;
+      font-weight: 800;
+      cursor: pointer;
+      background: rgba(120, 185, 255, .13);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .13);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    button:hover { border-color: var(--cyan); background: rgba(115, 241, 209, .17); transform: translateY(-1px); }
+
+    main {
+      display: grid;
+      place-items: center;
+      min-height: calc(100vh - 68px);
+      padding: 26px 18px 44px;
+    }
+
+    .carousel { width: min(100%, 680px); }
+
+    .slide {
+      position: relative;
+      isolation: isolate;
+      display: none;
+      min-height: min(860px, calc(100vh - 140px));
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      padding: clamp(30px, 7vw, 66px);
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: linear-gradient(145deg, rgba(17, 43, 79, .94), rgba(7, 20, 38, .96));
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, .1);
+    }
+
+    .slide.active { display: flex; flex-direction: column; }
+
+    .slide::before, .slide::after {
+      position: absolute;
+      z-index: -1;
+      width: 330px;
+      height: 330px;
+      border-radius: 50%;
+      content: "";
+      filter: blur(7px);
+      opacity: .66;
+    }
+
+    .slide::before { top: -165px; right: -130px; background: radial-gradient(circle, rgba(120, 185, 255, .72), transparent 68%); }
+    .slide::after { bottom: -190px; left: -145px; background: radial-gradient(circle, rgba(182, 156, 255, .55), transparent 68%); }
+
+    .eyebrow { margin: 0 0 20px; color: var(--cyan); font-size: .78rem; font-weight: 900; letter-spacing: .15em; text-transform: uppercase; }
+    h1, h2, p { margin-top: 0; }
+    h1, h2 { max-width: 570px; margin-bottom: 20px; font-size: clamp(2.35rem, 7.1vw, 4.8rem); line-height: .98; letter-spacing: -.06em; }
+    h1 span, h2 span, .accent { color: var(--cyan); }
+    .lede { max-width: 540px; margin-bottom: 28px; color: var(--muted); font-size: clamp(1rem, 2.8vw, 1.38rem); line-height: 1.46; }
+    .footer { margin-top: auto; padding-top: 22px; color: var(--muted); font-size: .82rem; line-height: 1.4; }
+
+    .glass {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--surface);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 18px 40px rgba(0, 0, 0, .18);
+      backdrop-filter: blur(18px);
+    }
+
+    .signal { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; padding: 20px; margin: auto 0; }
+    .signal strong, .feature strong { display: block; margin-bottom: 6px; font-size: 1.06rem; }
+    .signal p, .feature p { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.42; }
+    .badge { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 16px; color: #05231e; font-size: 1.5rem; font-weight: 900; background: linear-gradient(135deg, var(--cyan), #b4fff0); }
+
+    .steps { display: grid; gap: 12px; margin: auto 0; }
+    .step { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: center; padding: 15px 17px; }
+    .number { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; color: #061e1a; font-size: .84rem; font-weight: 950; background: var(--cyan); }
+    .step strong { font-size: .98rem; }
+    .step small { display: block; margin-top: 4px; color: var(--muted); line-height: 1.35; }
+
+    .features { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: auto 0; }
+    .feature { min-height: 145px; padding: 18px; }
+    .feature .icon { display: grid; place-items: center; width: 36px; height: 36px; margin-bottom: 13px; border-radius: 11px; color: var(--cyan); background: rgba(115, 241, 209, .13); font-weight: 950; }
+
+    .request { padding: 20px; margin: auto 0 18px; }
+    .method { display: inline-block; margin-bottom: 13px; padding: 6px 9px; border-radius: 8px; color: #06221c; font-size: .72rem; font-weight: 950; letter-spacing: .08em; background: var(--cyan); }
+    code { color: #d9ecff; font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; font-size: .93rem; overflow-wrap: anywhere; }
+    .response { display: grid; gap: 10px; }
+    .response-line { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; }
+    .ok { color: #06231a; background: #79eebe; }
+    .status { padding: 5px 8px; border-radius: 99px; font-size: .7rem; font-weight: 950; }
+
+    .limits { display: grid; gap: 12px; margin: auto 0; }
+    .limit { padding: 17px; }
+    .limit strong { color: var(--cyan); font-size: 1.1rem; }
+    .limit p { margin: 6px 0 0; color: var(--muted); font-size: .9rem; line-height: 1.4; }
+
+    .dots { display: flex; justify-content: center; gap: 8px; margin-top: 18px; }
+    .dot { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 50%; background: rgba(190, 208, 230, .36); box-shadow: none; }
+    .dot:hover { transform: none; background: var(--cyan); }
+    .dot[aria-current="true"] { width: 24px; border-radius: 99px; background: var(--cyan); }
+
+    .hint { margin: 16px 0 0; color: var(--muted); font-size: .78rem; text-align: center; }
+
+    @media (max-width: 520px) {
+      .toolbar { padding: 12px 14px; }
+      .brand { font-size: .68rem; }
+      .counter { font-size: .78rem; }
+      .actions button { padding: 9px 11px; }
+      .slide { min-height: calc(100vh - 118px); border-radius: 22px; }
+      .features { grid-template-columns: 1fr; }
+      .feature { min-height: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header class="toolbar" aria-label="Controles del carrusel">
+    <div class="brand">Día 12 · 30 proyectos</div>
+    <div id="counter" class="counter" aria-live="polite">1 / 8</div>
+    <div class="actions">
+      <button type="button" id="previous" aria-label="Ver diapositiva anterior">← Anterior</button>
+      <button type="button" id="next" aria-label="Ver diapositiva siguiente">Siguiente →</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="carousel" aria-roledescription="carrusel" aria-label="Carrusel de presentación de la API de inspección de archivos">
+      <article id="slide-1" class="slide active" aria-labelledby="slide-1-title" aria-hidden="false">
+        <p class="eyebrow">API local · sin estado · v1</p>
+        <h1 id="slide-1-title">¿Qué pasa con un archivo <span>antes</span> de confiar en él?</h1>
+        <p class="lede">Día 12: construí una API que inspecciona una carga y devuelve metadatos verificables, sin almacenarla.</p>
+        <div class="signal glass"><div><strong>Una sola carga por solicitud</strong><p>Nombre, tamaño, tipo declarado, extensión y huella SHA-256.</p></div><span class="badge" aria-hidden="true">↗</span></div>
+        <p class="footer">Desliza, usa las flechas o pulsa ← / → para navegar.</p>
+      </article>
+
+      <article id="slide-2" class="slide" aria-labelledby="slide-2-title" aria-hidden="true" hidden>
+        <p class="eyebrow">El problema</p>
+        <h2 id="slide-2-title">Un archivo recibido no es una <span>verdad</span>.</h2>
+        <p class="lede">Su nombre, extensión y tipo MIME vienen del cliente. Pueden orientar, pero no prueban qué contiene el archivo ni que sea seguro.</p>
+        <div class="signal glass"><div><strong>El riesgo de asumir demasiado</strong><p>Usar el nombre como ruta, guardar bytes innecesariamente o presentar metadatos como validación de contenido.</p></div><span class="badge" aria-hidden="true">!</span></div>
+        <p class="footer">La API no detecta malware ni identifica el formato real: esa limitación es intencional y explícita.</p>
+      </article>
+
+      <article id="slide-3" class="slide" aria-labelledby="slide-3-title" aria-hidden="true" hidden>
+        <p class="eyebrow">Contexto</p>
+        <h2 id="slide-3-title">La primera decisión fue <span>reducir alcance</span>.</h2>
+        <p class="lede">Nada de almacenamiento, cuentas, colas, URLs remotas, análisis semántico ni Azure Blob en la versión 1.</p>
+        <div class="limits">
+          <div class="limit glass"><strong>Local y efímero</strong><p>La carga se procesa durante la solicitud; no se persisten bytes, resultados ni metadatos.</p></div>
+          <div class="limit glass"><strong>Un límite concreto</strong><p>Máximo 5 MiB de contenido para mantener un procesamiento acotado.</p></div>
+          <div class="limit glass"><strong>Un contrato claro</strong><p>Solo existe <code>POST /api/v1/inspect</code> con un campo multipart llamado <code>file</code>.</p></div>
+        </div>
+      </article>
+
+      <article id="slide-4" class="slide" aria-labelledby="slide-4-title" aria-hidden="true" hidden>
+        <p class="eyebrow">La solución</p>
+        <h2 id="slide-4-title">Inspeccionar sin <span>interpretar</span> el archivo.</h2>
+        <p class="lede">La API trata cada entrada como no confiable, valida el nombre y calcula una huella sobre los bytes originales.</p>
+        <div class="steps">
+          <div class="step glass"><span class="number">1</span><div><strong>Recibe multipart</strong><small>Exactamente un archivo en <code>file</code>.</small></div></div>
+          <div class="step glass"><span class="number">2</span><div><strong>Valida el nombre</strong><small>Sin separadores, traversal ni caracteres de control.</small></div></div>
+          <div class="step glass"><span class="number">3</span><div><strong>Lee por bloques</strong><small>Mide bytes y aplica el límite de 5 MiB.</small></div></div>
+          <div class="step glass"><span class="number">4</span><div><strong>Devuelve SHA-256</strong><small>Una huella determinista del contenido recibido.</small></div></div>
+        </div>
+      </article>
+
+      <article id="slide-5" class="slide" aria-labelledby="slide-5-title" aria-hidden="true" hidden>
+        <p class="eyebrow">Funcionalidades principales</p>
+        <h2 id="slide-5-title">Metadatos útiles, con límites <span>honestos</span>.</h2>
+        <div class="features">
+          <div class="feature glass"><span class="icon" aria-hidden="true">#</span><strong>SHA-256</strong><p>Huella hexadecimal de 64 caracteres sobre los bytes exactos.</p></div>
+          <div class="feature glass"><span class="icon" aria-hidden="true">↧</span><strong>Extensión normalizada</strong><p>Deriva el último sufijo y señala extensiones ambiguas.</p></div>
+          <div class="feature glass"><span class="icon" aria-hidden="true">M</span><strong>Tipo declarado</strong><p>Refleja el MIME de la parte multipart, si existe; no lo valida contra el contenido.</p></div>
+          <div class="feature glass"><span class="icon" aria-hidden="true">✓</span><strong>Errores uniformes</strong><p>Respuestas seguras para multipart, tamaño, validación, método y fallos internos.</p></div>
+        </div>
+        <p class="footer">Los nombres con varios sufijos se informan como ambiguos; no se bloquean por ese único motivo.</p>
+      </article>
+
+      <article id="slide-6" class="slide" aria-labelledby="slide-6-title" aria-hidden="true" hidden>
+        <p class="eyebrow">Flujo de uso</p>
+        <h2 id="slide-6-title">Una petición. Una respuesta <span>estructurada</span>.</h2>
+        <div class="request glass"><span class="method">POST</span><br><code>/api/v1/inspect</code><p class="lede" style="margin: 16px 0 0; font-size: 1rem;">Envía el fixture local como <code>file</code> usando <code>multipart/form-data</code>.</p></div>
+        <div class="response">
+          <div class="response-line glass"><span>Archivo</span><code>phase-4-sample.txt</code></div>
+          <div class="response-line glass"><span>Tamaño</span><code>19 bytes</code></div>
+          <div class="response-line glass"><span>Huella</span><span class="status ok">SHA-256</span></div>
+        </div>
+        <p class="footer">El mismo contenido y metadatos definidos producen el mismo resultado.</p>
+      </article>
+
+      <article id="slide-7" class="slide" aria-labelledby="slide-7-title" aria-hidden="true" hidden>
+        <p class="eyebrow">Valor diferencial</p>
+        <h2 id="slide-7-title">Diseñada para no prometer más de lo que <span>hace</span>.</h2>
+        <div class="limits">
+          <div class="limit glass"><strong>Separación de responsabilidades</strong><p>FastAPI gestiona transporte; la inspección pura valida, limita y calcula la huella.</p></div>
+          <div class="limit glass"><strong>Seguridad observable</strong><p>Los errores no exponen contenido, nombres de archivo, rutas del sistema, trazas ni detalles internos.</p></div>
+          <div class="limit glass"><strong>Comportamiento comprobado</strong><p>Pruebas unitarias, HTTP y de entrega cubren límites, errores, determinismo y aislamiento entre solicitudes.</p></div>
+        </div>
+      </article>
+
+      <article id="slide-8" class="slide" aria-labelledby="slide-8-title" aria-hidden="true" hidden>
+        <p class="eyebrow">Día 12 · cierre</p>
+        <h2 id="slide-8-title">Una base pequeña para tratar cargas con más <span>claridad</span>.</h2>
+        <p class="lede">La versión 1 resuelve una inspección local y reproducible. Lo demás —cloud, análisis avanzado o persistencia— queda conscientemente fuera.</p>
+        <div class="signal glass"><div><strong>¿Qué comprobarías primero al recibir un archivo?</strong><p>Comparte tu enfoque para límites, metadatos no confiables o trazabilidad de contenido.</p></div><span class="badge" aria-hidden="true">?</span></div>
+        <p class="footer">#30Dias30Proyectos · Python · FastAPI · SeguridadDeAPIs</p>
+      </article>
+
+      <div class="dots" role="tablist" aria-label="Elegir diapositiva">
+        <button class="dot" type="button" role="tab" aria-label="Ir a la diapositiva 1" aria-controls="slide-1" aria-current="true" aria-selected="true"></button>
+        <button class="dot" type="button" role="tab" aria-label="Ir a la diapositiva 2" aria-controls="slide-2" aria-selected="false"></button>
+        <button class="dot" type="button" role="tab" aria-label="Ir a la diapositiva 3" aria-controls="slide-3" aria-selected="false"></button>
+        <button class="dot" type="button" role="tab" aria-label="Ir a la diapositiva 4" aria-controls="slide-4" aria-selected="false"></button>
+        <button class="dot" type="button" role="tab" aria-label="Ir a la diapositiva 5" aria-controls="slide-5" aria-selected="false"></button>
+        <button class="dot" type="button" role="tab" aria-label="Ir a la diapositiva 6" aria-controls="slide-6" aria-selected="false"></button>
+        <button class="dot" type="button" role="tab" aria-label="Ir a la diapositiva 7" aria-controls="slide-7" aria-selected="false"></button>
+        <button class="dot" type="button" role="tab" aria-label="Ir a la diapositiva 8" aria-controls="slide-8" aria-selected="false"></button>
+      </div>
+      <p class="hint">Navegación: botones, teclado (← / →) o gesto horizontal.</p>
+    </section>
+  </main>
+
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const dots = [...document.querySelectorAll('.dot')];
+    const counter = document.querySelector('#counter');
+    const previous = document.querySelector('#previous');
+    const next = document.querySelector('#next');
+    let activeIndex = 0;
+    let touchStartX = 0;
+
+    function showSlide(index) {
+      activeIndex = (index + slides.length) % slides.length;
+      slides.forEach((slide, position) => {
+        const isActive = position === activeIndex;
+        slide.classList.toggle('active', isActive);
+        slide.hidden = !isActive;
+        slide.setAttribute('aria-hidden', String(!isActive));
+      });
+      dots.forEach((dot, position) => {
+        const isActive = position === activeIndex;
+        dot.setAttribute('aria-current', String(isActive));
+        dot.setAttribute('aria-selected', String(isActive));
+      });
+      counter.textContent = `${activeIndex + 1} / ${slides.length}`;
+    }
+
+    previous.addEventListener('click', () => showSlide(activeIndex - 1));
+    next.addEventListener('click', () => showSlide(activeIndex + 1));
+    dots.forEach((dot, index) => dot.addEventListener('click', () => showSlide(index)));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') showSlide(activeIndex - 1);
+      if (event.key === 'ArrowRight') showSlide(activeIndex + 1);
+    });
+    document.addEventListener('touchstart', (event) => { touchStartX = event.changedTouches[0].screenX; }, { passive: true });
+    document.addEventListener('touchend', (event) => {
+      const distance = event.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(distance) > 45) showSlide(activeIndex + (distance < 0 ? 1 : -1));
+    }, { passive: true });
+  </script>
+</body>
+</html>

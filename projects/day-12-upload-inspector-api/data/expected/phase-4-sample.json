@@ -1,0 +1,17 @@
+{
+  "filename": "phase-4-sample.txt",
+  "size_bytes": 19,
+  "media_type_declared": "text/plain",
+  "extension": "txt",
+  "filename_checks": {
+    "is_safe": true,
+    "has_path_separator": false,
+    "has_traversal_sequence": false,
+    "has_control_characters": false,
+    "has_ambiguous_extension": false
+  },
+  "content_fingerprint": {
+    "algorithm": "sha256",
+    "value": "2d1defc09b2948c1d59fde60b0fedd4c0155f8d28e954ab3c9dd28e2e64ab167"
+  }
+}
