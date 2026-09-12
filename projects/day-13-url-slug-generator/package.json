@@ -1,0 +1,26 @@
+{
+  "name": "day-13-url-slug-generator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "CLI local TypeScript para el generador de slugs del día 13.",
+  "bin": {
+    "slug-generator": "dist/cli.js"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "test": "npm run build && node --test",
+    "format": "prettier --write package.json tsconfig.json .prettierrc.json README.md ROADMAP.md docs/*.md assets/*.md assets/*.html src/environment.d.ts src/slug.ts src/cli.ts tests/slug.test.mjs tests/cli.test.mjs",
+    "format:check": "prettier --check package.json tsconfig.json .prettierrc.json README.md ROADMAP.md docs/*.md assets/*.md assets/*.html src/environment.d.ts src/slug.ts src/cli.ts tests/slug.test.mjs tests/cli.test.mjs",
+    "quality": "npm run typecheck && npm run format:check"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2"
+  }
+}

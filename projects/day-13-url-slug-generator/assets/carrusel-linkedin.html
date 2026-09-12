@@ -1,0 +1,1124 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Presentación interactiva del proyecto Día 13 — Generador de slugs."
+    />
+    <title>Generador de slugs — Presentación</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #07111f;
+        --surface: rgba(14, 29, 49, 0.66);
+        --surface-strong: rgba(18, 38, 64, 0.86);
+        --line: rgba(190, 224, 255, 0.18);
+        --text: #f4f8ff;
+        --muted: #aebed4;
+        --cyan: #58e0df;
+        --blue: #72a9ff;
+        --violet: #b89aff;
+        --danger: #ff9eae;
+        --shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
+        --radius: 24px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        background: var(--bg);
+      }
+      body {
+        min-width: 320px;
+        min-height: 100vh;
+        margin: 0;
+        overflow: hidden;
+        color: var(--text);
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          sans-serif;
+        background:
+          radial-gradient(circle at 13% 16%, rgba(81, 151, 255, 0.2), transparent 28rem),
+          radial-gradient(circle at 88% 82%, rgba(151, 98, 255, 0.18), transparent 27rem),
+          radial-gradient(circle at 78% 12%, rgba(55, 224, 204, 0.11), transparent 22rem), var(--bg);
+      }
+      body::before {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        content: '';
+        opacity: 0.38;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+        background-size: 42px 42px;
+        mask-image: linear-gradient(to bottom, black, transparent 82%);
+      }
+      button,
+      a {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      button:focus-visible,
+      a:focus-visible {
+        outline: 3px solid var(--cyan);
+        outline-offset: 4px;
+      }
+
+      .presentation {
+        height: 100svh;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        padding: clamp(16px, 2vw, 30px);
+        gap: 14px;
+      }
+      .topbar,
+      .controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .brand-mark {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: var(--cyan);
+        box-shadow: 0 0 22px var(--cyan);
+      }
+      .counter {
+        color: var(--muted);
+        font-size: 0.9rem;
+        font-variant-numeric: tabular-nums;
+      }
+      .counter strong {
+        color: var(--text);
+        font-size: 1.1rem;
+      }
+
+      .stage {
+        position: relative;
+        min-height: 0;
+        overflow: hidden;
+      }
+      .slide {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        gap: clamp(14px, 2vh, 24px);
+        overflow: hidden auto;
+        padding: clamp(4px, 0.6vw, 10px) 0;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateX(36px) scale(0.985);
+        transition:
+          opacity 0.48s ease,
+          transform 0.48s cubic-bezier(0.2, 0.75, 0.25, 1),
+          visibility 0.48s;
+      }
+      .slide.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0) scale(1);
+      }
+      .slide.leaving {
+        opacity: 0;
+        transform: translateX(-36px) scale(0.985);
+      }
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0;
+        color: var(--cyan);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .eyebrow::before {
+        width: 30px;
+        height: 1px;
+        content: '';
+        background: currentColor;
+      }
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+      h1,
+      h2 {
+        max-width: 1000px;
+        font-weight: 720;
+        letter-spacing: -0.055em;
+        line-height: 0.98;
+      }
+      h1 {
+        font-size: clamp(2.75rem, 5.2vw, 5.85rem);
+      }
+      h2 {
+        font-size: clamp(2.1rem, 3.85vw, 4.35rem);
+      }
+      .lead {
+        max-width: 720px;
+        color: var(--muted);
+        font-size: clamp(0.96rem, 1.25vw, 1.13rem);
+        line-height: 1.52;
+      }
+      .slide-heading {
+        display: grid;
+        gap: 16px;
+      }
+      .glass {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.035));
+        box-shadow:
+          var(--shadow),
+          inset 0 1px rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(18px);
+      }
+      .caption {
+        color: var(--muted);
+        font-size: 0.83rem;
+        line-height: 1.55;
+      }
+      code,
+      .mono {
+        font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+      }
+      code {
+        color: #cfe7ff;
+        font-size: 0.94em;
+      }
+
+      .hero {
+        display: grid;
+        place-items: center;
+        align-content: center;
+        gap: clamp(12px, 2.4vh, 24px);
+        text-align: center;
+      }
+      .hero .lead {
+        max-width: 800px;
+      }
+      .transform {
+        width: min(960px, 100%);
+        display: grid;
+        justify-items: center;
+        gap: 16px;
+      }
+      .text-card {
+        width: min(830px, 100%);
+        padding: clamp(15px, 1.7vw, 23px);
+        border-radius: 20px;
+        font-size: clamp(1.02rem, 2.1vw, 2rem);
+        font-weight: 650;
+        letter-spacing: -0.035em;
+        overflow-wrap: anywhere;
+      }
+      .text-card.output {
+        color: var(--cyan);
+        border-color: rgba(88, 224, 223, 0.35);
+        background: linear-gradient(135deg, rgba(88, 224, 223, 0.17), rgba(119, 148, 255, 0.08));
+      }
+      .arrow-down {
+        color: var(--violet);
+        font-size: 2rem;
+        line-height: 1;
+        text-shadow: 0 0 22px rgba(184, 154, 255, 0.7);
+      }
+
+      .comparison-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        align-items: stretch;
+      }
+      .comparison {
+        display: grid;
+        align-content: center;
+        gap: 16px;
+        min-height: 220px;
+        padding: 22px;
+      }
+      .comparison .input,
+      .comparison .output {
+        overflow-wrap: anywhere;
+        font-size: clamp(1.02rem, 1.8vw, 1.45rem);
+        font-weight: 650;
+        letter-spacing: -0.025em;
+      }
+      .comparison .input {
+        color: #f6ddc0;
+      }
+      .comparison .output {
+        color: var(--cyan);
+      }
+      .arrow {
+        color: var(--violet);
+        font-size: 1.6rem;
+      }
+      .source-note {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-top: auto;
+        padding-top: 18px;
+      }
+
+      .promise-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        max-width: 1000px;
+      }
+      .promise {
+        min-height: 125px;
+        display: grid;
+        align-content: end;
+        gap: 11px;
+        padding: 21px;
+      }
+      .promise-icon {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(88, 224, 223, 0.45);
+        border-radius: 12px;
+        color: var(--cyan);
+        background: rgba(88, 224, 223, 0.08);
+        font-weight: 800;
+      }
+      .promise strong {
+        font-size: clamp(1.1rem, 2vw, 1.55rem);
+        letter-spacing: -0.03em;
+      }
+
+      .flow-wrap {
+        display: grid;
+        align-content: center;
+        gap: 27px;
+      }
+      .flow {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        overflow-x: auto;
+        padding: 12px 2px 22px;
+        scrollbar-color: var(--line) transparent;
+      }
+      .step {
+        flex: 0 0 142px;
+        min-height: 102px;
+        display: grid;
+        place-items: center;
+        padding: 15px;
+        border: 1px solid var(--line);
+        border-radius: 17px;
+        background: var(--surface);
+        color: #dce8fa;
+        text-align: center;
+        font-size: 0.94rem;
+        line-height: 1.3;
+      }
+      .step:nth-child(4n + 1) {
+        border-color: rgba(88, 224, 223, 0.36);
+      }
+      .flow-arrow {
+        flex: 0 0 auto;
+        color: var(--violet);
+        font-size: 1.35rem;
+      }
+      .technical-foot {
+        max-width: 910px;
+        padding: 19px 22px;
+        border-left: 3px solid var(--cyan);
+        color: #d7e4f5;
+        line-height: 1.55;
+      }
+
+      .architecture {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 0.72fr);
+        align-items: center;
+        gap: clamp(24px, 6vw, 86px);
+      }
+      .arch-flow {
+        display: grid;
+        justify-items: center;
+        gap: 11px;
+      }
+      .arch-node {
+        width: min(460px, 100%);
+        padding: 19px 24px;
+        border-radius: 18px;
+        text-align: center;
+        font-size: clamp(1.05rem, 1.8vw, 1.45rem);
+        font-weight: 700;
+        letter-spacing: -0.025em;
+      }
+      .arch-node.adapter {
+        border-color: rgba(114, 169, 255, 0.43);
+        background: rgba(114, 169, 255, 0.1);
+      }
+      .arch-node.domain {
+        border-color: rgba(88, 224, 223, 0.45);
+        background: rgba(88, 224, 223, 0.1);
+        color: var(--cyan);
+      }
+      .arch-arrow {
+        color: var(--violet);
+        font-size: 1.6rem;
+      }
+      .arch-copy {
+        display: grid;
+        gap: 20px;
+        padding: 28px;
+      }
+      .arch-copy strong {
+        font-size: clamp(1.3rem, 2.5vw, 2rem);
+        line-height: 1.12;
+        letter-spacing: -0.04em;
+      }
+
+      .terminal-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.65fr);
+        gap: 20px;
+        align-items: center;
+      }
+      .terminal {
+        overflow: hidden;
+        border-radius: 22px;
+        border: 1px solid rgba(142, 181, 238, 0.25);
+        box-shadow: var(--shadow);
+        background: #08111e;
+      }
+      .terminal-top {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 17px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #ff9caa;
+      }
+      .dot:nth-child(2) {
+        background: #fbd17b;
+      }
+      .dot:nth-child(3) {
+        background: #75dfb5;
+      }
+      pre {
+        margin: 0;
+        padding: clamp(22px, 4vw, 42px);
+        overflow: auto;
+        color: #e8f1ff;
+        font-size: clamp(0.88rem, 1.65vw, 1.22rem);
+        line-height: 1.8;
+        white-space: pre-wrap;
+      }
+      .command {
+        color: #c5d6ff;
+      }
+      .prompt {
+        color: var(--violet);
+      }
+      .success {
+        color: var(--cyan);
+      }
+      .error {
+        color: var(--danger);
+      }
+      .contract-points {
+        display: grid;
+        gap: 12px;
+      }
+      .contract-point {
+        padding: 17px;
+        color: #dce8fa;
+        font-size: 0.93rem;
+        line-height: 1.45;
+      }
+
+      .quality-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.65fr);
+        gap: 28px;
+        align-items: start;
+      }
+      .checklist {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 13px;
+      }
+      .check {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 70px;
+        padding: 16px;
+        color: #e2edfb;
+      }
+      .check::before {
+        flex: 0 0 auto;
+        width: 25px;
+        height: 25px;
+        display: grid;
+        place-items: center;
+        content: '✓';
+        border-radius: 50%;
+        color: #031516;
+        background: var(--cyan);
+        box-shadow: 0 0 20px rgba(88, 224, 223, 0.28);
+        font-weight: 900;
+      }
+      .quality-note {
+        display: grid;
+        gap: 16px;
+        padding: 25px;
+      }
+      .warning {
+        padding: 14px;
+        border: 1px solid rgba(255, 205, 137, 0.25);
+        border-radius: 13px;
+        color: #f2d7ae;
+        background: rgba(255, 185, 82, 0.06);
+        font-size: 0.83rem;
+        line-height: 1.5;
+      }
+
+      .closing {
+        display: grid;
+        align-content: center;
+        justify-items: start;
+        gap: 25px;
+        max-width: 980px;
+      }
+      .closing .lead {
+        max-width: 850px;
+        font-size: clamp(1.15rem, 2vw, 1.55rem);
+        color: #dbe8f9;
+      }
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 13px;
+      }
+      .btn {
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 12px 18px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.07);
+        text-decoration: none;
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease,
+          border-color 0.2s ease,
+          opacity 0.2s ease;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        border-color: rgba(88, 224, 223, 0.55);
+        background: rgba(88, 224, 223, 0.14);
+      }
+      .btn:active {
+        transform: translateY(0);
+      }
+      .btn.primary {
+        border-color: rgba(88, 224, 223, 0.5);
+        color: #031415;
+        background: linear-gradient(135deg, var(--cyan), #8dbfff);
+        font-weight: 800;
+      }
+      .btn.primary:hover {
+        background: linear-gradient(135deg, #8ef2eb, #b3d1ff);
+      }
+      .file-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+      }
+      .file-chip {
+        padding: 8px 11px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.04);
+        font-size: 0.78rem;
+      }
+
+      .progress {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: min(530px, 58vw);
+      }
+      .progress-dot {
+        width: 100%;
+        height: 5px;
+        padding: 0;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.14);
+        transition:
+          background 0.2s ease,
+          transform 0.2s ease;
+      }
+      .progress-dot:hover {
+        background: rgba(184, 154, 255, 0.75);
+      }
+      .progress-dot.active {
+        background: var(--cyan);
+        box-shadow: 0 0 15px rgba(88, 224, 223, 0.65);
+      }
+      .nav-buttons {
+        display: flex;
+        gap: 10px;
+      }
+      .nav {
+        width: 49px;
+        height: 49px;
+        display: grid;
+        place-items: center;
+        padding: 0;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.07);
+        font-size: 1.35rem;
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease,
+          opacity 0.2s ease;
+      }
+      .nav:hover:not(:disabled) {
+        transform: translateY(-2px);
+        background: rgba(114, 169, 255, 0.16);
+      }
+      .nav:active:not(:disabled) {
+        transform: translateY(0);
+      }
+      .nav:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+      }
+      .keyboard-hint {
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+
+      @media (max-width: 800px) {
+        body {
+          overflow: auto;
+        }
+        .presentation {
+          min-height: 100svh;
+          padding: 18px;
+        }
+        .topbar {
+          align-items: flex-start;
+        }
+        .brand {
+          max-width: 65%;
+          line-height: 1.4;
+        }
+        .stage {
+          min-height: 650px;
+        }
+        .slide {
+          gap: 21px;
+        }
+        .comparison-grid,
+        .terminal-layout,
+        .quality-layout,
+        .architecture {
+          grid-template-columns: 1fr;
+        }
+        .comparison {
+          min-height: 0;
+        }
+        .promise-grid,
+        .checklist {
+          grid-template-columns: 1fr;
+        }
+        .source-note {
+          display: grid;
+        }
+        .flow {
+          align-items: stretch;
+        }
+        .step {
+          flex-basis: 132px;
+        }
+        .controls {
+          align-items: flex-end;
+        }
+        .progress {
+          order: 2;
+          width: 100%;
+        }
+        .controls {
+          flex-wrap: wrap;
+        }
+        .keyboard-hint {
+          display: none;
+        }
+      }
+      @media (max-width: 480px) {
+        .presentation {
+          padding: 15px;
+          gap: 15px;
+        }
+        .stage {
+          min-height: 680px;
+        }
+        h1 {
+          font-size: clamp(2.8rem, 13vw, 4rem);
+        }
+        h2 {
+          font-size: clamp(2.25rem, 11vw, 3.35rem);
+        }
+        .text-card {
+          font-size: 1.16rem;
+        }
+        .terminal-top {
+          font-size: 0.69rem;
+        }
+        pre {
+          font-size: 0.76rem;
+          padding: 19px;
+        }
+        .counter {
+          font-size: 0.78rem;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="presentation" aria-label="Presentación del Generador de slugs">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span> Día 13 · Generador de slugs
+        </div>
+        <div class="counter" aria-live="polite"><strong id="current-slide">01</strong> / 08</div>
+      </header>
+
+      <section class="stage" aria-live="polite">
+        <article class="slide active" data-slide="0" aria-label="Diapositiva 1 de 8: portada">
+          <div class="hero">
+            <p class="eyebrow">01 · El problema</p>
+            <h1>De títulos desordenados a URLs limpias y predecibles</h1>
+            <p class="lead">
+              Generador de slugs local con TypeScript · Día 13 de 30 Días, 30 Proyectos
+            </p>
+            <div class="transform" aria-label="Transformación de texto a slug">
+              <div class="text-card glass">Guía rápida de TypeScript</div>
+              <div class="arrow-down" aria-hidden="true">↓</div>
+              <div class="text-card output glass mono">guia-rapida-de-typescript</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="1" aria-label="Diapositiva 2 de 8: problema resuelto">
+          <div class="slide-heading">
+            <p class="eyebrow">02 · Normalizar</p>
+            <h2>Una ruta técnica necesita una forma canónica</h2>
+            <p class="lead">
+              Los títulos pueden contener espacios, mayúsculas, acentos, puntuación y símbolos. Un
+              slug estable elimina esa ambigüedad.
+            </p>
+          </div>
+          <div class="comparison-grid">
+            <section class="comparison glass">
+              <span class="input">Café, té y azúcar</span
+              ><span class="arrow" aria-hidden="true">↓</span
+              ><span class="output mono">cafe-te-y-azucar</span>
+            </section>
+            <section class="comparison glass">
+              <span class="input">API_v2: novedades</span
+              ><span class="arrow" aria-hidden="true">↓</span
+              ><span class="output mono">api-v2-novedades</span>
+            </section>
+            <section class="comparison glass">
+              <span class="input">Straße & Æsir</span><span class="arrow" aria-hidden="true">↓</span
+              ><span class="output mono">strasse-aesir</span>
+            </section>
+          </div>
+          <div class="source-note">
+            <p class="caption">
+              Ejemplos documentados en <code>README.md</code> y cubiertos por
+              <code>tests/slug.test.mjs</code>.
+            </p>
+            <span class="file-chip">texto humano → identificador técnico</span>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="2" aria-label="Diapositiva 3 de 8: promesa del proyecto">
+          <div class="slide-heading">
+            <p class="eyebrow">03 · Alcance P0</p>
+            <h2>Una CLI pequeña, determinista y sin estado</h2>
+            <p class="lead">
+              Una herramienta local diseñada para hacer una sola tarea de forma predecible.
+            </p>
+          </div>
+          <div class="promise-grid">
+            <section class="promise glass">
+              <span class="promise-icon" aria-hidden="true">1</span
+              ><strong>Un único texto de entrada</strong>
+            </section>
+            <section class="promise glass">
+              <span class="promise-icon" aria-hidden="true">→</span
+              ><strong>Un slug ASCII como salida</strong>
+            </section>
+            <section class="promise glass">
+              <span class="promise-icon" aria-hidden="true">⊘</span
+              ><strong>Sin red, secretos, almacenamiento ni servicios externos</strong>
+            </section>
+            <section class="promise glass">
+              <span class="promise-icon" aria-hidden="true">!</span
+              ><strong>Errores claros y automatizables</strong>
+            </section>
+          </div>
+          <p class="caption">
+            Refleja el alcance P0 definido en <code>ROADMAP.md</code> y los límites descritos en
+            <code>README.md</code>.
+          </p>
+        </article>
+
+        <article class="slide" data-slide="3" aria-label="Diapositiva 4 de 8: normalización">
+          <div class="slide-heading">
+            <p class="eyebrow">04 · Transformación</p>
+            <h2>El slug no es un reemplazo superficial</h2>
+            <p class="lead">
+              El resultado se obtiene mediante una secuencia definida de normalización y filtrado.
+            </p>
+          </div>
+          <div class="flow-wrap">
+            <div class="flow" aria-label="Flujo de normalización">
+              <span class="step">Texto</span><span class="flow-arrow" aria-hidden="true">→</span>
+              <span class="step">recorte de extremos</span
+              ><span class="flow-arrow" aria-hidden="true">→</span>
+              <span class="step">normalización NFKD</span
+              ><span class="flow-arrow" aria-hidden="true">→</span>
+              <span class="step">eliminación de diacríticos</span
+              ><span class="flow-arrow" aria-hidden="true">→</span>
+              <span class="step">minúsculas</span
+              ><span class="flow-arrow" aria-hidden="true">→</span>
+              <span class="step">tabla latina mínima</span
+              ><span class="flow-arrow" aria-hidden="true">→</span>
+              <span class="step">ASCII + dígitos</span
+              ><span class="flow-arrow" aria-hidden="true">→</span>
+              <span class="step">guiones canónicos</span>
+            </div>
+            <div class="technical-foot glass">
+              Los símbolos y separadores generan una frontera con guion; los guiones no quedan
+              duplicados ni en los extremos.
+            </div>
+            <p class="caption">
+              Implementado por <code>normalizeSlug()</code> y detallado en
+              <code>docs/CONTRATO_V1.md</code>.
+            </p>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="4" aria-label="Diapositiva 5 de 8: arquitectura">
+          <div class="slide-heading">
+            <p class="eyebrow">05 · Arquitectura</p>
+            <h2>Dominio puro + adaptador de terminal</h2>
+          </div>
+          <div class="architecture">
+            <div class="arch-flow" aria-label="Flujo de arquitectura">
+              <div class="arch-node glass">Argumentos CLI</div>
+              <div class="arch-arrow" aria-hidden="true">↓</div>
+              <div class="arch-node adapter glass"><code>cli.ts</code> · adaptador de terminal</div>
+              <div class="arch-arrow" aria-hidden="true">↓</div>
+              <div class="arch-node domain glass"><code>slug.ts</code> · núcleo de dominio</div>
+              <div class="arch-arrow" aria-hidden="true">↓</div>
+              <div class="arch-node glass"><code>stdout / stderr</code> + código de salida</div>
+            </div>
+            <aside class="arch-copy glass">
+              <strong
+                >El núcleo no conoce la terminal; la CLI no duplica la lógica de
+                normalización.</strong
+              >
+              <p class="caption">
+                El dominio se prueba directamente desde <code>src/slug.ts</code>; el comportamiento
+                de proceso se comprueba desde <code>src/cli.ts</code>.
+              </p>
+            </aside>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="5" aria-label="Diapositiva 6 de 8: uso de la CLI">
+          <div class="slide-heading">
+            <p class="eyebrow">06 · En acción</p>
+            <h2>Uso simple, contrato claro</h2>
+          </div>
+          <div class="terminal-layout">
+            <section class="terminal" aria-label="Ejemplos de ejecución en terminal">
+              <div class="terminal-top">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span
+                ><span style="margin-left: 6px">slug-generator · terminal local</span>
+              </div>
+              <pre><span class="prompt">$</span> <span class="command">node dist/cli.js "Guía rápida de TypeScript"</span>
+<span class="success">guia-rapida-de-typescript</span>
+
+<span class="prompt">$</span> <span class="command">node dist/cli.js "---"</span>
+<span class="error">Error: el texto no contiene caracteres que puedan formar un slug.</span></pre>
+            </section>
+            <div class="contract-points">
+              <div class="contract-point glass">Éxito y ayuda: código <code>0</code></div>
+              <div class="contract-point glass">Error de contenido: código <code>1</code></div>
+              <div class="contract-point glass">Error de uso: código <code>2</code></div>
+              <div class="contract-point glass">
+                Resultado por salida estándar; diagnóstico por salida de error
+              </div>
+              <p class="caption">
+                La ayuda, los mensajes y los códigos se verifican en
+                <code>tests/cli.test.mjs</code>.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="6" aria-label="Diapositiva 7 de 8: calidad">
+          <div class="slide-heading">
+            <p class="eyebrow">07 · Verificabilidad</p>
+            <h2>No solo funciona: se puede comprobar</h2>
+          </div>
+          <div class="quality-layout">
+            <div class="checklist" aria-label="Controles de calidad implementados">
+              <div class="check glass">TypeScript estricto</div>
+              <div class="check glass">Prettier</div>
+              <div class="check glass">Compilación a <code>dist/</code></div>
+              <div class="check glass">Pruebas unitarias</div>
+              <div class="check glass">Pruebas de integración CLI</div>
+              <div class="check glass">49 pruebas aprobadas</div>
+            </div>
+            <aside class="quality-note glass">
+              <p class="caption">
+                Las verificaciones documentadas incluyen formato, comprobación de tipos, compilación
+                y pruebas. Los scripts reales están en <code>package.json</code>, y el proyecto usa
+                configuración estricta en <code>tsconfig.json</code>.
+              </p>
+              <div class="warning">
+                Sin datos disponibles de cobertura porcentual, rendimiento medido ni integración
+                continua: no deben afirmarse como capacidades del proyecto.
+              </div>
+            </aside>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="7" aria-label="Diapositiva 8 de 8: llamada a la acción">
+          <div class="closing">
+            <p class="eyebrow">08 · Cierre</p>
+            <h2>Un microproyecto, decisiones explícitas</h2>
+            <p class="lead">
+              El reto no era solo generar guiones: era definir un contrato, controlar Unicode,
+              separar responsabilidades y entregar una herramienta local reproducible.
+            </p>
+            <div class="cta-row">
+              <a
+                class="btn primary"
+                href="../README.md"
+                aria-label="Consultar el README del repositorio"
+                >Consulta el repositorio <span aria-hidden="true">↗</span></a
+              >
+              <a class="btn" href="../docs/USO_LOCAL.md" aria-label="Ver guía de uso local"
+                >Ver uso local <span aria-hidden="true">↗</span></a
+              >
+            </div>
+            <div class="file-chips" aria-label="Recursos disponibles">
+              <span class="file-chip">docs/CONTRATO_V1.md</span
+              ><span class="file-chip">tests/slug.test.mjs</span
+              ><span class="file-chip">tests/cli.test.mjs</span
+              ><span class="file-chip">docs/USO_LOCAL.md</span
+              ><span class="file-chip">assets/DEMO_15S.md</span>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <footer class="controls" aria-label="Controles de presentación">
+        <div class="keyboard-hint">Usa <kbd>←</kbd> y <kbd>→</kbd> para navegar</div>
+        <div class="progress" role="tablist" aria-label="Ir a una diapositiva">
+          <button
+            class="progress-dot active"
+            role="tab"
+            aria-selected="true"
+            aria-label="Ir a diapositiva 1"
+            data-go="0"
+          ></button>
+          <button
+            class="progress-dot"
+            role="tab"
+            aria-selected="false"
+            aria-label="Ir a diapositiva 2"
+            data-go="1"
+          ></button>
+          <button
+            class="progress-dot"
+            role="tab"
+            aria-selected="false"
+            aria-label="Ir a diapositiva 3"
+            data-go="2"
+          ></button>
+          <button
+            class="progress-dot"
+            role="tab"
+            aria-selected="false"
+            aria-label="Ir a diapositiva 4"
+            data-go="3"
+          ></button>
+          <button
+            class="progress-dot"
+            role="tab"
+            aria-selected="false"
+            aria-label="Ir a diapositiva 5"
+            data-go="4"
+          ></button>
+          <button
+            class="progress-dot"
+            role="tab"
+            aria-selected="false"
+            aria-label="Ir a diapositiva 6"
+            data-go="5"
+          ></button>
+          <button
+            class="progress-dot"
+            role="tab"
+            aria-selected="false"
+            aria-label="Ir a diapositiva 7"
+            data-go="6"
+          ></button>
+          <button
+            class="progress-dot"
+            role="tab"
+            aria-selected="false"
+            aria-label="Ir a diapositiva 8"
+            data-go="7"
+          ></button>
+        </div>
+        <div class="nav-buttons">
+          <button
+            class="nav"
+            id="previous"
+            type="button"
+            aria-label="Diapositiva anterior"
+            disabled
+          >
+            ←
+          </button>
+          <button class="nav" id="next" type="button" aria-label="Diapositiva siguiente">→</button>
+        </div>
+      </footer>
+    </main>
+    <script>
+      (() => {
+        const slides = [...document.querySelectorAll('.slide')];
+        const dots = [...document.querySelectorAll('.progress-dot')];
+        const previous = document.querySelector('#previous');
+        const next = document.querySelector('#next');
+        const current = document.querySelector('#current-slide');
+        let index = 0;
+        let locked = false;
+
+        function showSlide(nextIndex) {
+          if (nextIndex === index || nextIndex < 0 || nextIndex >= slides.length || locked) return;
+          locked = true;
+          const outgoing = slides[index];
+          outgoing.classList.add('leaving');
+          outgoing.classList.remove('active');
+          const incoming = slides[nextIndex];
+          incoming.classList.add('active');
+          window.setTimeout(() => {
+            outgoing.classList.remove('leaving');
+            locked = false;
+          }, 500);
+          index = nextIndex;
+          current.textContent = String(index + 1).padStart(2, '0');
+          dots.forEach((dot, dotIndex) => {
+            const isActive = dotIndex === index;
+            dot.classList.toggle('active', isActive);
+            dot.setAttribute('aria-selected', String(isActive));
+          });
+          previous.disabled = index === 0;
+          next.disabled = index === slides.length - 1;
+        }
+
+        previous.addEventListener('click', () => showSlide(index - 1));
+        next.addEventListener('click', () => showSlide(index + 1));
+        dots.forEach((dot) =>
+          dot.addEventListener('click', () => showSlide(Number(dot.dataset.go))),
+        );
+        document.addEventListener('keydown', (event) => {
+          if (
+            event.altKey ||
+            event.ctrlKey ||
+            event.metaKey ||
+            event.target.matches('input, textarea, select')
+          )
+            return;
+          if (event.key === 'ArrowLeft') {
+            event.preventDefault();
+            showSlide(index - 1);
+          }
+          if (event.key === 'ArrowRight') {
+            event.preventDefault();
+            showSlide(index + 1);
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
