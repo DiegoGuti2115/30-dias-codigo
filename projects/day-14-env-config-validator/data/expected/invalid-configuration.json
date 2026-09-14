@@ -1,0 +1,27 @@
+{
+  "error": {
+    "code": "E_CONFIG_TYPE",
+    "category": "configuration",
+    "message": "La configuración no cumple el esquema.",
+    "issues": [
+      {
+        "code": "E_CONFIG_TYPE",
+        "key": "APP_PORT",
+        "rule": "type",
+        "message": "El valor no cumple el tipo declarado."
+      },
+      {
+        "code": "E_CONFIG_CONSTRAINT",
+        "key": "PLAN",
+        "rule": "constraint",
+        "message": "El valor no cumple las restricciones declaradas."
+      },
+      {
+        "code": "E_CONFIG_CONSTRAINT",
+        "key": "PUBLIC_URL",
+        "rule": "constraint",
+        "message": "El valor no cumple las restricciones declaradas."
+      }
+    ]
+  }
+}

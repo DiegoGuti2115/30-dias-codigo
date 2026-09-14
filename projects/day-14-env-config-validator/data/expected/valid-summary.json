@@ -1,0 +1,55 @@
+{
+  "valid": true,
+  "schemaVersion": "v1",
+  "summary": {
+    "declared": 6,
+    "provided": 6,
+    "defaulted": 0,
+    "warnings": 1
+  },
+  "variables": [
+    {
+      "key": "API_TOKEN",
+      "status": "valid",
+      "source": "env",
+      "secret": true
+    },
+    {
+      "key": "APP_PORT",
+      "status": "valid",
+      "source": "env",
+      "secret": false
+    },
+    {
+      "key": "ENABLED",
+      "status": "valid",
+      "source": "env",
+      "secret": false
+    },
+    {
+      "key": "HOSTS",
+      "status": "valid",
+      "source": "env",
+      "secret": false
+    },
+    {
+      "key": "PLAN",
+      "status": "valid",
+      "source": "env",
+      "secret": false
+    },
+    {
+      "key": "PUBLIC_URL",
+      "status": "valid",
+      "source": "env",
+      "secret": false
+    }
+  ],
+  "warnings": [
+    {
+      "code": "W_CONFIG_UNKNOWN_KEY",
+      "key": "LEGACY_FLAG",
+      "message": "La clave no está declarada en el esquema."
+    }
+  ]
+}

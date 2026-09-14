@@ -1,0 +1,40 @@
+{
+  "version": "v1",
+  "unknownKeys": "warn",
+  "variables": {
+    "API_TOKEN": {
+      "type": "string",
+      "required": true,
+      "secret": true,
+      "minLength": 12
+    },
+    "APP_PORT": {
+      "type": "number",
+      "required": true,
+      "integer": true,
+      "min": 1,
+      "max": 65535,
+      "transforms": ["trim"]
+    },
+    "ENABLED": {
+      "type": "boolean",
+      "default": "TRUE",
+      "transforms": ["lowercase"]
+    },
+    "HOSTS": {
+      "type": "list",
+      "items": "string",
+      "minItems": 1,
+      "transforms": ["splitComma"]
+    },
+    "PLAN": {
+      "type": "enum",
+      "values": ["free", "pro"],
+      "transforms": ["lowercase"]
+    },
+    "PUBLIC_URL": {
+      "type": "url",
+      "protocols": ["https:"]
+    }
+  }
+}

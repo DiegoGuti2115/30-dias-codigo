@@ -1,0 +1,31 @@
+{
+  "name": "day-14-env-config-validator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Base TypeScript local para el validador de configuración del día 14.",
+  "type": "module",
+  "bin": {
+    "env-config-validator": "dist/cli.js"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "test": "npm run build && node --test",
+    "format": "prettier --write package.json tsconfig.json .prettierrc.json README.md ROADMAP.md docs/*.md assets/*.md src/**/*.ts tests/**/*.mjs data/**/*.json data/**/*.env --ignore-unknown",
+    "format:check": "prettier --check package.json tsconfig.json .prettierrc.json README.md ROADMAP.md docs/*.md assets/*.md src/**/*.ts tests/**/*.mjs data/**/*.json data/**/*.env --ignore-unknown",
+    "quality": "npm run typecheck && npm run format:check"
+  },
+  "dependencies": {
+    "dotenv": "16.4.7",
+    "zod": "3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "22.14.1",
+    "prettier": "3.5.3",
+    "typescript": "5.8.2"
+  }
+}
