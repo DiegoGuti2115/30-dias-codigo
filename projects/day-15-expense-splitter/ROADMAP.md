@@ -1,6 +1,6 @@
 # Roadmap — Divisor de gastos
 
-Este roadmap organiza el desarrollo del proyecto 15 como una utilidad TypeScript para dividir gastos. Las Fases 0 a 4 han cerrado el contrato, el entorno, el núcleo y la CLI local reproducible; las pruebas de regresión completas y la entrega permanecen en fases posteriores.
+Este roadmap organiza el desarrollo del proyecto 15 como una utilidad TypeScript para dividir gastos. Las Fases 0 a 6 han cerrado el contrato, el entorno, el núcleo, la CLI local reproducible, las pruebas de regresión completas y la entrega .
 
 ## Objetivo de la primera versión funcional
 
