@@ -1,0 +1,27 @@
+{
+  "version": "v1",
+  "currency": "EUR",
+  "participants": [
+    {
+      "id": "ana",
+      "name": "Ana"
+    },
+    {
+      "id": "bruno",
+      "name": "Bruno"
+    },
+    {
+      "id": "carla",
+      "name": "Carla"
+    }
+  ],
+  "expenses": [
+    {
+      "id": "cena",
+      "description": "Cena de viaje",
+      "amountMinor": 1001,
+      "paidBy": "ana",
+      "splitAmong": ["ana", "bruno", "carla"]
+    }
+  ]
+}

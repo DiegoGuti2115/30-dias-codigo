@@ -1,0 +1,40 @@
+{
+  "version": "v1",
+  "currency": "EUR",
+  "totalMinor": 1001,
+  "balances": [
+    {
+      "participantId": "ana",
+      "name": "Ana",
+      "paidMinor": 1001,
+      "owedMinor": 334,
+      "balanceMinor": 667
+    },
+    {
+      "participantId": "bruno",
+      "name": "Bruno",
+      "paidMinor": 0,
+      "owedMinor": 334,
+      "balanceMinor": -334
+    },
+    {
+      "participantId": "carla",
+      "name": "Carla",
+      "paidMinor": 0,
+      "owedMinor": 333,
+      "balanceMinor": -333
+    }
+  ],
+  "transfers": [
+    {
+      "from": "bruno",
+      "to": "ana",
+      "amountMinor": 334
+    },
+    {
+      "from": "carla",
+      "to": "ana",
+      "amountMinor": 333
+    }
+  ]
+}

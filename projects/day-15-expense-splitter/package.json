@@ -1,0 +1,27 @@
+{
+  "name": "day-15-expense-splitter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Entorno TypeScript local para el divisor de gastos del día 15.",
+  "type": "module",
+  "bin": {
+    "expense-splitter": "dist/cli.js"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "format": "prettier --write package.json tsconfig.json .prettierrc.json .gitignore README.md ROADMAP.md docs/*.md src/**/*.ts tests/**/*.mjs data/**/*.json --ignore-unknown --no-error-on-unmatched-pattern",
+    "format:check": "prettier --check package.json tsconfig.json .prettierrc.json .gitignore README.md ROADMAP.md docs/*.md src/**/*.ts tests/**/*.mjs data/**/*.json --ignore-unknown --no-error-on-unmatched-pattern",
+    "quality": "npm run typecheck && npm run format:check && npm test"
+  },
+  "devDependencies": {
+    "@types/node": "22.14.1",
+    "prettier": "3.5.3",
+    "typescript": "5.8.2"
+  }
+}
