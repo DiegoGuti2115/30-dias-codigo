@@ -1,0 +1,42 @@
+[
+  {
+    "id": "note-001",
+    "title": "Ideas para el dashboard de métricas",
+    "content": "Mostrar actividad semanal, proyectos completados y tiempo invertido. Revisar si los indicadores necesitan una vista móvil.",
+    "tags": ["producto", "frontend", "ideas"],
+    "createdAt": "2026-09-14T08:30:00.000Z",
+    "updatedAt": "2026-09-16T07:45:00.000Z"
+  },
+  {
+    "id": "note-002",
+    "title": "Checklist antes de publicar una API",
+    "content": "Revisar validación de entradas, respuestas de error, documentación, pruebas y variables de entorno.",
+    "tags": ["backend", "calidad", "checklist"],
+    "createdAt": "2026-09-12T10:15:00.000Z",
+    "updatedAt": "2026-09-15T16:20:00.000Z"
+  },
+  {
+    "id": "note-003",
+    "title": "Atajos para la sesión de estudio",
+    "content": "Usar bloques de 25 minutos y dejar una nota breve con el siguiente paso antes de hacer una pausa.",
+    "tags": ["estudio", "productividad"],
+    "createdAt": "2026-09-10T18:00:00.000Z",
+    "updatedAt": "2026-09-14T18:25:00.000Z"
+  },
+  {
+    "id": "note-004",
+    "title": "Decisiones del proyecto de notas",
+    "content": "La búsqueda será local y la persistencia usará IndexedDB. La interfaz debe continuar funcionando sin conexión.",
+    "tags": ["notas", "offline-first", "arquitectura"],
+    "createdAt": "2026-09-16T09:00:00.000Z",
+    "updatedAt": "2026-09-16T09:00:00.000Z"
+  },
+  {
+    "id": "note-005",
+    "title": "Preguntas para la retrospectiva",
+    "content": "¿Qué parte del flujo fue más lenta? ¿Qué decisión técnica conviene documentar? ¿Qué automatización ahorraría tiempo mañana?",
+    "tags": ["retrospectiva", "equipo"],
+    "createdAt": "2026-09-08T12:10:00.000Z",
+    "updatedAt": "2026-09-13T11:40:00.000Z"
+  }
+]
