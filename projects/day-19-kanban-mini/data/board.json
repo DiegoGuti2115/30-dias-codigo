@@ -1,0 +1,47 @@
+{
+  "id": "board-main",
+  "title": "Reto de 30 días",
+  "columns": [
+    { "id": "todo", "title": "Por hacer" },
+    { "id": "in-progress", "title": "En progreso" },
+    { "id": "done", "title": "Completado" }
+  ],
+  "cards": [
+    {
+      "id": "card-001",
+      "title": "Definir el modelo del tablero",
+      "description": "Acordar columnas, tarjetas, posiciones y reglas de validación.",
+      "columnId": "todo",
+      "position": 0,
+      "createdAt": "2026-09-17T08:00:00.000Z",
+      "updatedAt": "2026-09-17T08:00:00.000Z"
+    },
+    {
+      "id": "card-002",
+      "title": "Diseñar la vista responsive",
+      "description": "Preparar una lectura clara del tablero en escritorio y móvil.",
+      "columnId": "todo",
+      "position": 1,
+      "createdAt": "2026-09-17T08:15:00.000Z",
+      "updatedAt": "2026-09-17T08:15:00.000Z"
+    },
+    {
+      "id": "card-003",
+      "title": "Escribir las pruebas de reglas",
+      "description": "Cubrir creación, movimiento, reordenación y eliminación.",
+      "columnId": "in-progress",
+      "position": 0,
+      "createdAt": "2026-09-17T08:30:00.000Z",
+      "updatedAt": "2026-09-17T09:00:00.000Z"
+    },
+    {
+      "id": "card-004",
+      "title": "Documentar el alcance del MVP",
+      "description": "Dejar claras las decisiones técnicas y las mejoras futuras.",
+      "columnId": "done",
+      "position": 0,
+      "createdAt": "2026-09-17T07:30:00.000Z",
+      "updatedAt": "2026-09-17T08:45:00.000Z"
+    }
+  ]
+}
