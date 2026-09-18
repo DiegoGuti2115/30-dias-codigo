@@ -1,0 +1,67 @@
+{
+  "id": "contact-form",
+  "name": "contact_form",
+  "title": "Contacto",
+  "description": "Formulario de contacto para una consulta general.",
+  "fields": [
+    {
+      "id": "full-name",
+      "name": "full_name",
+      "type": "text",
+      "label": "Nombre completo",
+      "helpText": "Indica tu nombre y apellidos.",
+      "placeholder": "Ana García",
+      "required": true,
+      "position": 0,
+      "minLength": 2,
+      "maxLength": 80
+    },
+    {
+      "id": "email",
+      "name": "email",
+      "type": "email",
+      "label": "Correo electrónico",
+      "helpText": "Usaremos este correo para responderte.",
+      "placeholder": "ana@example.com",
+      "required": true,
+      "position": 1
+    },
+    {
+      "id": "topic",
+      "name": "topic",
+      "type": "select",
+      "label": "Tema",
+      "helpText": "Selecciona el motivo de tu consulta.",
+      "placeholder": "Elige un tema",
+      "required": true,
+      "position": 2,
+      "options": [
+        { "id": "support", "label": "Soporte", "value": "support" },
+        { "id": "partnership", "label": "Colaboración", "value": "partnership" },
+        { "id": "other", "label": "Otro", "value": "other" }
+      ]
+    },
+    {
+      "id": "message",
+      "name": "message",
+      "type": "textarea",
+      "label": "Mensaje",
+      "helpText": "Cuéntanos en qué podemos ayudarte.",
+      "placeholder": "Escribe tu mensaje",
+      "required": true,
+      "position": 3,
+      "minLength": 10,
+      "maxLength": 1000
+    },
+    {
+      "id": "newsletter",
+      "name": "newsletter",
+      "type": "checkbox",
+      "label": "Quiero recibir novedades",
+      "helpText": "Puedes cancelar la suscripción más adelante.",
+      "placeholder": "",
+      "required": false,
+      "position": 4
+    }
+  ]
+}
