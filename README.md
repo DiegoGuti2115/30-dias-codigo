@@ -46,7 +46,7 @@ Los servicios externos y cloud pueden usarse si su configuración es ágil y mej
 | 18 | Buscador de notas | Frontend | React, IndexedDB | [Ver](projects/day-18-notes-search) | Pendiente |
 | 19 | Kanban mínimo | Frontend | React, TypeScript | [Ver](projects/day-19-kanban-mini) | Pendiente |
 | 20 | Constructor de formularios | Frontend | React, Zod | [Ver](projects/day-20-form-builder) | Pendiente |
-| 21 | Dashboard de métricas | Frontend | Next.js, Tailwind CSS | [Ver](projects/day-21-dashboard-metrics) | Pendiente |
+| 21 | Dashboard de métricas | Frontend | Next.js, Tailwind CSS | [Ver](projects/day-21-dashboard-metrics) | [Demo](projects/day-21-dashboard-metrics/docs/DEMO_SCRIPT.md) · [Post](projects/day-21-dashboard-metrics/docs/LINKEDIN_POST.md) |
 | 22 | Playground de cliente API | Frontend | Next.js, SWR | [Ver](projects/day-22-api-client-playground) | Pendiente |
 | 23 | Asistente de chat IA | IA | React, Foundry/OpenAI opcional | [Ver](projects/day-23-ai-chat-assistant) | Pendiente |
 | 24 | Laboratorio de plantillas de prompt | IA | React, Zod, Foundry/OpenAI opcional | [Ver](projects/day-24-prompt-template-lab) | Pendiente |

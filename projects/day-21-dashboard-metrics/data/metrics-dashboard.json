@@ -1,0 +1,101 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-09-19T08:30:00.000Z",
+  "quality": "good",
+  "defaultPeriod": "30d",
+  "periods": [
+    { "id": "30d", "label": "Últimos 30 días", "days": 30 },
+    { "id": "7d", "label": "Últimos 7 días", "days": 7 },
+    { "id": "90d", "label": "Últimos 90 días", "days": 90 }
+  ],
+  "metrics": [
+    {
+      "id": "active-users",
+      "label": "Usuarios activos",
+      "description": "Personas con al menos una sesión durante el periodo.",
+      "unit": "count",
+      "currentValue": 12840,
+      "previousValue": 11920,
+      "series": [
+        { "date": "2026-09-19", "value": 12840 },
+        { "date": "2026-09-18", "value": 12610 },
+        { "date": "2026-09-17", "value": 12480 },
+        { "date": "2026-09-16", "value": 12120 },
+        { "date": "2026-09-15", "value": 11980 },
+        { "date": "2026-09-14", "value": 11840 },
+        { "date": "2026-09-13", "value": 11620 }
+      ],
+      "breakdown": [
+        { "id": "web", "label": "Web", "value": 6840 },
+        { "id": "mobile", "label": "Móvil", "value": 4230 },
+        { "id": "tablet", "label": "Tablet", "value": 1770 }
+      ]
+    },
+    {
+      "id": "conversion-rate",
+      "label": "Conversión",
+      "description": "Porcentaje de sesiones que completan el objetivo principal.",
+      "unit": "percentage",
+      "currentValue": 4.8,
+      "previousValue": 4.3,
+      "series": [
+        { "date": "2026-09-19", "value": 4.8 },
+        { "date": "2026-09-18", "value": 4.7 },
+        { "date": "2026-09-17", "value": 4.5 },
+        { "date": "2026-09-16", "value": 4.6 },
+        { "date": "2026-09-15", "value": 4.4 },
+        { "date": "2026-09-14", "value": 4.2 },
+        { "date": "2026-09-13", "value": 4.1 }
+      ],
+      "breakdown": [
+        { "id": "organic", "label": "Orgánico", "value": 5.7 },
+        { "id": "referral", "label": "Referidos", "value": 4.9 },
+        { "id": "paid", "label": "Campañas", "value": 3.6 }
+      ]
+    },
+    {
+      "id": "monthly-revenue",
+      "label": "Ingresos del mes",
+      "description": "Ingresos confirmados acumulados durante el mes actual.",
+      "unit": "currency",
+      "currentValue": 48620,
+      "previousValue": 45200,
+      "series": [
+        { "date": "2026-09-19", "value": 48620 },
+        { "date": "2026-09-18", "value": 45110 },
+        { "date": "2026-09-17", "value": 42680 },
+        { "date": "2026-09-16", "value": 39840 },
+        { "date": "2026-09-15", "value": 37420 },
+        { "date": "2026-09-14", "value": 34890 },
+        { "date": "2026-09-13", "value": 32100 }
+      ],
+      "breakdown": [
+        { "id": "subscriptions", "label": "Suscripciones", "value": 28600 },
+        { "id": "services", "label": "Servicios", "value": 12400 },
+        { "id": "add-ons", "label": "Complementos", "value": 7620 }
+      ]
+    },
+    {
+      "id": "avg-response-time",
+      "label": "Tiempo medio de respuesta",
+      "description": "Tiempo medio hasta la primera respuesta del equipo.",
+      "unit": "duration",
+      "currentValue": 18,
+      "previousValue": 22,
+      "series": [
+        { "date": "2026-09-19", "value": 18 },
+        { "date": "2026-09-18", "value": 19 },
+        { "date": "2026-09-17", "value": 20 },
+        { "date": "2026-09-16", "value": 21 },
+        { "date": "2026-09-15", "value": 20 },
+        { "date": "2026-09-14", "value": 23 },
+        { "date": "2026-09-13", "value": 22 }
+      ],
+      "breakdown": [
+        { "id": "priority", "label": "Prioridad alta", "value": 11 },
+        { "id": "standard", "label": "Estándar", "value": 18 },
+        { "id": "low", "label": "Baja", "value": 31 }
+      ]
+    }
+  ]
+}
