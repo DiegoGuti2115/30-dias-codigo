@@ -1,0 +1,18 @@
+[
+  {
+    "method": "GET",
+    "url": "http://localhost:3000/api/mock/profile",
+    "query": [{ "key": "include", "value": "preferences", "enabled": true }],
+    "headers": [{ "key": "Accept", "value": "application/json", "enabled": true }],
+    "bodyFormat": "none",
+    "body": ""
+  },
+  {
+    "method": "POST",
+    "url": "http://localhost:3000/api/mock/echo",
+    "query": [],
+    "headers": [{ "key": "Content-Type", "value": "application/json", "enabled": true }],
+    "bodyFormat": "json",
+    "body": "{\n  \"message\": \"Hola desde el playground\"\n}"
+  }
+]
