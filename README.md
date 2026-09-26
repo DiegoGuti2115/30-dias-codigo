@@ -51,7 +51,7 @@ Los servicios externos y cloud pueden usarse si su configuración es ágil y mej
 | 23 | Asistente de chat IA | IA | React, Foundry/OpenAI opcional | [Ver](projects/day-23-ai-chat-assistant) | Pendiente |
 | 24 | Laboratorio de plantillas de prompt | IA | React, Zod, Foundry/OpenAI opcional | [Ver](projects/day-24-prompt-template-lab) | Pendiente |
 | 25 | Fragmentador de documentos | IA / Datos | Python | [Ver](projects/day-25-document-chunker) | Pendiente |
-| 26 | Recuperador por palabras clave | IA / Búsqueda | Python, Azure AI Search opcional | [Ver](projects/day-26-keyword-retriever) | Pendiente |
+| 26 | Recuperador de palabras clave | IA / Búsqueda | Python, Azure AI Search opcional | [Ver](projects/day-26-keyword-retrieval-tool) | [Demo local](projects/day-26-keyword-retrieval-tool/assets/demo-local.md) |
 | 27 | Flujo de agentes | IA / Agentes | Python, Foundry/AutoGen opcional | [Ver](projects/day-27-agent-workflow) | Pendiente |
 | 28 | Validador de datasets de evaluación | IA / Calidad | Python, Pydantic | [Ver](projects/day-28-evaluation-dataset-validator) | Pendiente |
 | 29 | Dashboard de salud full-stack | Full stack | FastAPI, React | [Ver](projects/day-29-fullstack-health-dashboard) | Pendiente |

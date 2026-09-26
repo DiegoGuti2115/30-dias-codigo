@@ -1,0 +1,14 @@
+[
+  {
+    "id": "local-fallback",
+    "content": "The local corpus keeps the keyword retrieval demo available without cloud credentials."
+  },
+  {
+    "id": "azure-optional",
+    "content": "Azure AI Search remains optional and must never block the local workflow."
+  },
+  {
+    "id": "deterministic-results",
+    "content": "Future retrieval phases will return deterministic keyword matches."
+  }
+]
