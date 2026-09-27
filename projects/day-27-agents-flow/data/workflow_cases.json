@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "approved": {
+    "prompt": "Explica la trazabilidad del café local.",
+    "expected": {
+      "topic": "Explica la trazabilidad del café local",
+      "decision": "approved",
+      "observations": [
+        "The draft covers the topic, objective, and declared constraints.",
+        "The draft is structurally clear for the local workflow."
+      ]
+    }
+  },
+  "changes_requested": {
+    "brief": {
+      "topic": "Cobertura necesaria",
+      "objective": "Explicar criterios",
+      "constraints": [
+        "No usar red",
+        "Mantener determinismo"
+      ],
+      "findings": [
+        "El revisor recibe contratos explícitos"
+      ]
+    },
+    "draft": "Cobertura necesaria",
+    "expected": {
+      "decision": "changes_requested",
+      "observations": [
+        "Missing required coverage: Explicar criterios",
+        "Missing required coverage: No usar red",
+        "Missing required coverage: Mantener determinismo"
+      ]
+    }
+  },
+  "invalid_request": {
+    "prompt": "   ",
+    "expected_error_code": "invalid_prompt"
+  }
+}

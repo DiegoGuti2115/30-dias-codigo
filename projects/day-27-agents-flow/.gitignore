@@ -1,0 +1,11 @@
+# Artefactos locales de Python, instalación editable y pruebas.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+
+# Configuración local que no debe versionarse.
+.env
+.env.local
