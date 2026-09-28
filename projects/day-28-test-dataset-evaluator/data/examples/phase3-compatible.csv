@@ -1,0 +1,3 @@
+id,input,expected_output,metadata.task,metadata.label_set,metadata.source,metadata.partition
+format-001,Clasifica el texto,positivo,classification,"[""positivo"", ""negativo""]",,test
+format-002,Resume el contenido,Resumen breve,summarization,,manual,test

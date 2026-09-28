@@ -1,0 +1,22 @@
+[
+  {
+    "id": "clasificacion-001",
+    "input": "Clasifica este mensaje como urgente o normal.",
+    "expected_output": "urgente",
+    "metadata": {
+      "task": "classification",
+      "label_set": "prioridad-v1",
+      "locale": "es-ES"
+    }
+  },
+  {
+    "id": "resumen-002",
+    "input": "El validador aplica reglas locales y genera informes deterministas.",
+    "expected_output": "Resume el documento en una frase.",
+    "metadata": {
+      "task": "summarization",
+      "source": "manual-operativo",
+      "locale": "es-ES"
+    }
+  }
+]

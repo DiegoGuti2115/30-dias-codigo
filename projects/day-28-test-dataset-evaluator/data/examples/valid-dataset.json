@@ -1,0 +1,25 @@
+[
+  {
+    "id": "saludo-es-001",
+    "input": "¿Cómo puedo restablecer mi contraseña?",
+    "expected_output": "Explica los pasos de restablecimiento sin solicitar credenciales.",
+    "metadata": {
+      "locale": "es-ES",
+      "category": "soporte",
+      "priority": "alta"
+    }
+  },
+  {
+    "id": "resumen-001",
+    "input": {
+      "document": "La herramienta valida datasets locales y genera informes JSON."
+    },
+    "expected_output": {
+      "max_sentences": 1,
+      "must_include": ["valida datasets"]
+    },
+    "metadata": {
+      "task": "summarization"
+    }
+  }
+]

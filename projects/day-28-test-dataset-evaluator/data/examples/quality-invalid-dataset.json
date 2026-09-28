@@ -1,0 +1,45 @@
+[
+  {
+    "id": "unicode-001",
+    "input": "  ¡HOLA   MUNDO!  ",
+    "expected_output": "",
+    "metadata": {
+      "task": "classification"
+    }
+  },
+  {
+    "id": "unicode-002",
+    "input": "¡hola mundo!",
+    "expected_output": "normal",
+    "metadata": {
+      "task": "summarization",
+      "source": ""
+    }
+  },
+  {
+    "id": "empty-input-003",
+    "input": "   ",
+    "expected_output": "resultado",
+    "metadata": {
+      "task": "conversation"
+    }
+  },
+  {
+    "id": "nested-004",
+    "input": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "Hola"
+        }
+      ]
+    },
+    "expected_output": {
+      "answer": "Hola, ¿en qué puedo ayudarte?"
+    },
+    "metadata": {
+      "task": "conversation",
+      "locale": "es-ES"
+    }
+  }
+]

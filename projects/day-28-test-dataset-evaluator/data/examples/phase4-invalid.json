@@ -1,0 +1,42 @@
+[
+  {
+    "id": "train-source",
+    "input": "Dato compartido",
+    "expected_output": "A",
+    "metadata": {
+      "task_schema": "classification/v1",
+      "evaluator": "label_match",
+      "label_set": ["A", "B"],
+      "class": "A",
+      "language": "es",
+      "category": "sentiment",
+      "partition": "train"
+    }
+  },
+  {
+    "id": "test-leak",
+    "input": "Dato compartido",
+    "expected_output": "C",
+    "metadata": {
+      "task_schema": "classification/v1",
+      "evaluator": "wrong_evaluator",
+      "label_set": ["A", "B"],
+      "class": "C",
+      "language": "es",
+      "category": "sentiment",
+      "partition": "test"
+    }
+  },
+  {
+    "id": "bad-conversation",
+    "input": [{"role": "user"}],
+    "expected_output": "respuesta",
+    "metadata": {
+      "task_schema": "conversation/v1",
+      "evaluator": "turn_match",
+      "language": "es",
+      "category": "support",
+      "partition": "test"
+    }
+  }
+]

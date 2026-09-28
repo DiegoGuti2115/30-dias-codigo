@@ -1,0 +1,11 @@
+{
+  "disabled_rules": ["empty_metadata", "semantic_duplicate_input", "required_metadata_fields"],
+  "coverage_required_values": {
+    "metadata.language": ["es", "en", "ca"],
+    "metadata.partition": ["train", "test", "validation"]
+  },
+  "leakage_hash_fields": ["input"],
+  "rule_severities": {
+    "train_evaluation_leakage": "error"
+  }
+}

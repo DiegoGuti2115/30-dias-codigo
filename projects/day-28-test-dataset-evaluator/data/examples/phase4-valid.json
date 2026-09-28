@@ -1,0 +1,58 @@
+[
+  {
+    "id": "text-001",
+    "input": "Responde con una palabra.",
+    "expected_output": "sí",
+    "metadata": {
+      "task": "text",
+      "task_schema": "text/v1",
+      "evaluator": "exact_match",
+      "language": "es",
+      "category": "instruction",
+      "partition": "train"
+    }
+  },
+  {
+    "id": "class-001",
+    "input": "El servicio fue excelente.",
+    "expected_output": "positive",
+    "metadata": {
+      "task": "classification",
+      "task_schema": "classification/v1",
+      "evaluator": "label_match",
+      "label_set": ["positive", "negative"],
+      "class": "positive",
+      "language": "es",
+      "category": "sentiment",
+      "partition": "test"
+    }
+  },
+  {
+    "id": "extract-001",
+    "input": "Ana vive en Madrid.",
+    "expected_output": {"person": "Ana", "city": "Madrid"},
+    "metadata": {
+      "task": "extraction",
+      "task_schema": "extraction/v1",
+      "evaluator": "field_match",
+      "extraction_fields": ["person", "city"],
+      "language": "es",
+      "category": "entities",
+      "partition": "validation"
+    }
+  },
+  {
+    "id": "conversation-001",
+    "input": [{"role": "user", "content": "Hola"}],
+    "expected_output": "Hola, ¿en qué puedo ayudarte?",
+    "metadata": {
+      "task": "conversation",
+      "task_schema": "conversation/v1",
+      "evaluator": "turn_match",
+      "locale": "es-ES",
+      "language": "es",
+      "category": "support",
+      "partition": "test"
+    }
+  }
+]

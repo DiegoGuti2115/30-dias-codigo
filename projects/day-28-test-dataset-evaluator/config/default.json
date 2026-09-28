@@ -1,0 +1,29 @@
+{
+  "required_fields": ["id", "input", "expected_output"],
+  "require_unique_ids": true,
+  "warn_on_empty_metadata": true,
+  "detect_semantic_duplicates": true,
+  "supported_task_schemas": ["text/v1", "classification/v1", "extraction/v1", "conversation/v1"],
+  "coverage_required_values": {},
+  "leakage_hash_fields": [],
+  "leakage_train_partitions": ["train"],
+  "leakage_evaluation_partitions": ["validation", "test", "evaluation"],
+  "metadata_required_fields_by_task": {
+    "classification": ["label_set"],
+    "summarization": ["source"],
+    "conversation": ["locale"]
+  },
+  "disabled_rules": [],
+  "rule_severities": {
+    "unique_id": "error",
+    "empty_metadata": "warning",
+    "empty_input": "error",
+    "empty_expected_output": "error",
+    "required_metadata_fields": "error",
+    "semantic_duplicate_input": "warning",
+    "evaluation_task_schema": "error",
+    "coverage": "warning",
+    "train_evaluation_leakage": "warning"
+  },
+  "max_issues": 100
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "format-001",
+    "input": "Clasifica el texto",
+    "expected_output": "positivo",
+    "metadata": {
+      "task": "classification",
+      "label_set": ["positivo", "negativo"],
+      "partition": "test"
+    }
+  },
+  {
+    "id": "format-002",
+    "input": "Resume el contenido",
+    "expected_output": "Resumen breve",
+    "metadata": {
+      "task": "summarization",
+      "source": "manual",
+      "partition": "test"
+    }
+  }
+]

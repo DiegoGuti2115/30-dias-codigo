@@ -1,0 +1,20 @@
+[
+  {
+    "id": "duplicado-001",
+    "input": "Pregunta sin contexto",
+    "expected_output": "Respuesta esperada",
+    "metadata": {}
+  },
+  {
+    "id": "duplicado-001",
+    "input": "Otra pregunta",
+    "expected_output": "Otra respuesta",
+    "metadata": {
+      "category": "prueba"
+    }
+  },
+  {
+    "id": "incompleto-001",
+    "input": "Falta el resultado esperado"
+  }
+]
