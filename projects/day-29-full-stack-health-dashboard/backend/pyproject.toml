@@ -1,0 +1,9 @@
+[project]
+name = "health-dashboard-backend"
+version = "0.1.0"
+description = "Base de API para el dashboard de salud full-stack"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

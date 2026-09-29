@@ -1,0 +1,31 @@
+# Entornos y secretos locales
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env.local
+
+# Python
+backend/.venv/
+backend/__pycache__/
+backend/.pytest_cache/
+backend/.coverage
+**/__pycache__/
+*.py[cod]
+
+# Node.js / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/coverage/
+*.tsbuildinfo
+
+# Herramientas y sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Registros y artefactos
+*.log
+coverage/

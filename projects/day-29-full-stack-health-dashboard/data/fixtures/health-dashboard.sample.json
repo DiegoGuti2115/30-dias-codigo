@@ -1,0 +1,55 @@
+{
+  "metadata": {
+    "contractVersion": "v1",
+    "source": "synthetic-fixture",
+    "generatedAt": "2026-09-01T09:00:00Z",
+    "notice": "Datos ficticios para estructura y pruebas; no usar como información de salud real ni para decisiones clínicas."
+  },
+  "profile": {
+    "id": "sample-profile",
+    "displayName": "Perfil de demostración"
+  },
+  "metrics": [
+    {
+      "id": "daily-steps",
+      "label": "Pasos registrados",
+      "unit": "steps",
+      "category": "activity"
+    },
+    {
+      "id": "water-intake",
+      "label": "Hidratación registrada",
+      "unit": "ml",
+      "category": "hydration"
+    },
+    {
+      "id": "rest-hours",
+      "label": "Descanso autodeclarado",
+      "unit": "hours",
+      "category": "rest"
+    }
+  ],
+  "measurements": [
+    {
+      "id": "sample-steps-20260901",
+      "metricId": "daily-steps",
+      "value": 4200,
+      "recordedAt": "2026-09-01T08:00:00Z",
+      "source": "synthetic"
+    },
+    {
+      "id": "sample-water-20260901",
+      "metricId": "water-intake",
+      "value": 750,
+      "recordedAt": "2026-09-01T09:00:00Z",
+      "source": "synthetic"
+    },
+    {
+      "id": "sample-rest-20260831",
+      "metricId": "rest-hours",
+      "value": 7.5,
+      "recordedAt": "2026-08-31T07:00:00Z",
+      "source": "synthetic"
+    }
+  ]
+}

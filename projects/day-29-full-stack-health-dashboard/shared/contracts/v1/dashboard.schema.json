@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://health-dashboard.local/contracts/v1/dashboard.schema.json",
+  "title": "HealthDashboardFixtureV1",
+  "description": "Contrato no clínico para fixtures locales del dashboard. No define rangos, diagnósticos, alertas ni recomendaciones.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["metadata", "profile", "metrics", "measurements"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contractVersion", "source", "generatedAt", "notice"],
+      "properties": {
+        "contractVersion": { "const": "v1" },
+        "source": { "const": "synthetic-fixture" },
+        "generatedAt": { "type": "string", "format": "date-time" },
+        "notice": { "type": "string", "minLength": 1 }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "displayName"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]{2,63}$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 80 }
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/metric" }
+    },
+    "measurements": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/measurement" }
+    }
+  },
+  "$defs": {
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "unit", "category"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]{2,63}$" },
+        "label": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "unit": { "type": "string", "minLength": 1, "maxLength": 24 },
+        "category": { "enum": ["activity", "rest", "hydration", "wellbeing"] }
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "metricId", "value", "recordedAt", "source"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]{2,63}$" },
+        "metricId": { "type": "string", "pattern": "^[a-z][a-z0-9-]{2,63}$" },
+        "value": { "type": "number" },
+        "recordedAt": { "type": "string", "format": "date-time" },
+        "source": { "enum": ["manual", "synthetic"] }
+      }
+    }
+  }
+}
