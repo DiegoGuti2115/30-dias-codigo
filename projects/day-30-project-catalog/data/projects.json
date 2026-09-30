@@ -1,0 +1,538 @@
+{
+  "version": 1,
+  "projects": [
+    {
+      "id": "day-01-download-sorter",
+      "day": 1,
+      "name": "Clasificador de descargas",
+      "summary": "Organiza archivos descargados por tipo.",
+      "category": "automation",
+      "technologies": [
+        "Python"
+      ],
+      "repositoryPath": "../day-01-download-sorter",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-01-download-sorter"
+        }
+      ]
+    },
+    {
+      "id": "day-02-bulk-file-renamer",
+      "day": 2,
+      "name": "Renombrador masivo",
+      "summary": "Renombra grupos de archivos con reglas definidas.",
+      "category": "automation",
+      "technologies": [
+        "Python"
+      ],
+      "repositoryPath": "../day-02-bulk-file-renamer",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-02-bulk-file-renamer"
+        }
+      ]
+    },
+    {
+      "id": "day-03-json-csv-converter",
+      "day": 3,
+      "name": "Conversor JSON a CSV",
+      "summary": "Convierte datos estructurados entre JSON y CSV.",
+      "category": "data",
+      "technologies": [
+        "Python"
+      ],
+      "repositoryPath": "../day-03-json-csv-converter",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-03-json-csv-converter"
+        }
+      ]
+    },
+    {
+      "id": "day-04-log-analyzer",
+      "day": 4,
+      "name": "Analizador de logs",
+      "summary": "Analiza registros para identificar eventos relevantes.",
+      "category": "monitoring",
+      "technologies": [
+        "Python"
+      ],
+      "repositoryPath": "../day-04-log-analyzer",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-04-log-analyzer"
+        }
+      ]
+    },
+    {
+      "id": "day-05-markdown-toc",
+      "day": 5,
+      "name": "Generador de índice Markdown",
+      "summary": "Genera índices de contenido para documentos Markdown.",
+      "category": "utility",
+      "technologies": [
+        "Python"
+      ],
+      "repositoryPath": "../day-05-markdown-toc",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-05-markdown-toc"
+        }
+      ]
+    },
+    {
+      "id": "day-06-password-policy-checker",
+      "day": 6,
+      "name": "Validador de políticas de contraseña",
+      "summary": "Comprueba contraseñas frente a reglas de seguridad.",
+      "category": "security",
+      "technologies": [
+        "Python"
+      ],
+      "repositoryPath": "../day-06-password-policy-checker",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-06-password-policy-checker"
+        }
+      ]
+    },
+    {
+      "id": "day-07-backup-azure-blob",
+      "day": 7,
+      "name": "Backup local y Azure Blob",
+      "summary": "Respalda archivos localmente y en Azure Blob opcionalmente.",
+      "category": "cloud-storage",
+      "technologies": [
+        "Python",
+        "Azure SDK"
+      ],
+      "repositoryPath": "../day-07-backup-azure-blob",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-07-backup-azure-blob"
+        }
+      ]
+    },
+    {
+      "id": "day-08-csv-data-cleaner",
+      "day": 8,
+      "name": "Limpiador de datos CSV",
+      "summary": "Limpia y normaliza conjuntos de datos CSV.",
+      "category": "data",
+      "technologies": [
+        "Python"
+      ],
+      "repositoryPath": "../day-08-csv-data-cleaner",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-08-csv-data-cleaner"
+        }
+      ]
+    },
+    {
+      "id": "day-09-portfolio-api",
+      "day": 9,
+      "name": "API de portfolio",
+      "summary": "Expone información de portfolio mediante una API.",
+      "category": "api",
+      "technologies": [
+        "FastAPI"
+      ],
+      "repositoryPath": "../day-09-portfolio-api",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-09-portfolio-api"
+        }
+      ]
+    },
+    {
+      "id": "day-10-task-api",
+      "day": 10,
+      "name": "API CRUD de tareas",
+      "summary": "Gestiona tareas mediante una API CRUD.",
+      "category": "api",
+      "technologies": [
+        "FastAPI",
+        "Pydantic"
+      ],
+      "repositoryPath": "../day-10-task-api",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-10-task-api"
+        }
+      ]
+    },
+    {
+      "id": "day-11-text-analysis-api",
+      "day": 11,
+      "name": "API de análisis de texto",
+      "summary": "Ofrece operaciones de análisis de texto por API.",
+      "category": "api",
+      "technologies": [
+        "FastAPI"
+      ],
+      "repositoryPath": "../day-11-text-analysis-api",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-11-text-analysis-api"
+        }
+      ]
+    },
+    {
+      "id": "day-12-upload-inspector-api",
+      "day": 12,
+      "name": "API de inspección de archivos",
+      "summary": "Inspecciona archivos recibidos por una API.",
+      "category": "api",
+      "technologies": [
+        "FastAPI",
+        "Azure Blob"
+      ],
+      "repositoryPath": "../day-12-upload-inspector-api",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-12-upload-inspector-api"
+        }
+      ]
+    },
+    {
+      "id": "day-13-url-slug-generator",
+      "day": 13,
+      "name": "Generador de slugs",
+      "summary": "Genera slugs seguros para URL.",
+      "category": "cli",
+      "technologies": [
+        "TypeScript"
+      ],
+      "repositoryPath": "../day-13-url-slug-generator",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-13-url-slug-generator"
+        }
+      ]
+    },
+    {
+      "id": "day-14-env-config-validator",
+      "day": 14,
+      "name": "Validador de configuración",
+      "summary": "Valida variables de configuración de entorno.",
+      "category": "configuration",
+      "technologies": [
+        "TypeScript",
+        "Zod"
+      ],
+      "repositoryPath": "../day-14-env-config-validator",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-14-env-config-validator"
+        }
+      ]
+    },
+    {
+      "id": "day-15-expense-splitter",
+      "day": 15,
+      "name": "Divisor de gastos",
+      "summary": "Calcula repartos de gastos compartidos.",
+      "category": "utility",
+      "technologies": [
+        "TypeScript"
+      ],
+      "repositoryPath": "../day-15-expense-splitter",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-15-expense-splitter"
+        }
+      ]
+    },
+    {
+      "id": "day-16-pomodoro-timer",
+      "day": 16,
+      "name": "Temporizador Pomodoro",
+      "summary": "Gestiona sesiones de enfoque con la técnica Pomodoro.",
+      "category": "frontend",
+      "technologies": [
+        "React",
+        "TypeScript"
+      ],
+      "repositoryPath": "../day-16-pomodoro-timer",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-16-pomodoro-timer"
+        }
+      ]
+    },
+    {
+      "id": "day-17-habit-tracker",
+      "day": 17,
+      "name": "Rastreador de hábitos",
+      "summary": "Registra hábitos con almacenamiento local.",
+      "category": "frontend",
+      "technologies": [
+        "React",
+        "IndexedDB",
+        "Redis"
+      ],
+      "repositoryPath": "../day-17-habit-tracker",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-17-habit-tracker"
+        }
+      ]
+    },
+    {
+      "id": "day-18-notes-search",
+      "day": 18,
+      "name": "Buscador de notas",
+      "summary": "Busca notas almacenadas localmente.",
+      "category": "frontend",
+      "technologies": [
+        "React",
+        "IndexedDB"
+      ],
+      "repositoryPath": "../day-18-notes-search",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-18-notes-search"
+        }
+      ]
+    },
+    {
+      "id": "day-19-kanban-mini",
+      "day": 19,
+      "name": "Kanban mínimo",
+      "summary": "Organiza tareas en un tablero Kanban compacto.",
+      "category": "frontend",
+      "technologies": [
+        "React",
+        "TypeScript"
+      ],
+      "repositoryPath": "../day-19-kanban-mini",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-19-kanban-mini"
+        }
+      ]
+    },
+    {
+      "id": "day-20-form-builder",
+      "day": 20,
+      "name": "Constructor de formularios",
+      "summary": "Compone y valida formularios configurables.",
+      "category": "frontend",
+      "technologies": [
+        "React",
+        "Zod"
+      ],
+      "repositoryPath": "../day-20-form-builder",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-20-form-builder"
+        }
+      ]
+    },
+    {
+      "id": "day-21-dashboard-metrics",
+      "day": 21,
+      "name": "Dashboard de métricas",
+      "summary": "Presenta métricas operativas en un dashboard local.",
+      "category": "frontend",
+      "technologies": [
+        "Next.js",
+        "Tailwind CSS"
+      ],
+      "repositoryPath": "../day-21-dashboard-metrics",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-21-dashboard-metrics"
+        }
+      ]
+    },
+    {
+      "id": "day-22-api-client-playground",
+      "day": 22,
+      "name": "Playground de cliente API",
+      "summary": "Construye y prueba solicitudes HTTP desde el navegador.",
+      "category": "frontend",
+      "technologies": [
+        "Next.js",
+        "SWR"
+      ],
+      "repositoryPath": "../day-22-api-client-playground",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-22-api-client-playground"
+        }
+      ]
+    },
+    {
+      "id": "day-23-ai-chat-assistant",
+      "day": 23,
+      "name": "Asistente de chat IA",
+      "summary": "Explora una experiencia de chat con IA opcional.",
+      "category": "ai",
+      "technologies": [
+        "React",
+        "Azure AI Foundry",
+        "OpenAI API"
+      ],
+      "repositoryPath": "../day-23-ai-chat-assistant",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-23-ai-chat-assistant"
+        }
+      ]
+    },
+    {
+      "id": "day-24-prompt-template-lab",
+      "day": 24,
+      "name": "Laboratorio de plantillas de prompt",
+      "summary": "Crea y valida plantillas reutilizables de prompts.",
+      "category": "ai",
+      "technologies": [
+        "React",
+        "Zod",
+        "Azure AI Foundry",
+        "OpenAI API"
+      ],
+      "repositoryPath": "../day-24-prompt-template-lab",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-24-prompt-template-lab"
+        }
+      ]
+    },
+    {
+      "id": "day-25-document-splitter",
+      "day": 25,
+      "name": "Fragmentador de documentos",
+      "summary": "Divide documentos en fragmentos para procesamiento posterior.",
+      "category": "ai-data",
+      "technologies": [
+        "Python"
+      ],
+      "repositoryPath": "../day-25-document-splitter",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-25-document-splitter"
+        }
+      ]
+    },
+    {
+      "id": "day-26-keyword-retrieval-tool",
+      "day": 26,
+      "name": "Recuperador de palabras clave",
+      "summary": "Recupera contenido mediante palabras clave.",
+      "category": "ai-search",
+      "technologies": [
+        "Python",
+        "Azure AI Search"
+      ],
+      "repositoryPath": "../day-26-keyword-retrieval-tool",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-26-keyword-retrieval-tool"
+        }
+      ]
+    },
+    {
+      "id": "day-27-agents-flow",
+      "day": 27,
+      "name": "Flujo de agentes",
+      "summary": "Orquesta un flujo de agentes de IA.",
+      "category": "ai-agents",
+      "technologies": [
+        "Python",
+        "Azure AI Foundry",
+        "AutoGen"
+      ],
+      "repositoryPath": "../day-27-agents-flow",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-27-agents-flow"
+        }
+      ]
+    },
+    {
+      "id": "day-28-test-dataset-evaluator",
+      "day": 28,
+      "name": "Validador de datasets de evaluación",
+      "summary": "Valida conjuntos de datos para evaluación de IA.",
+      "category": "ai-quality",
+      "technologies": [
+        "Python",
+        "Pydantic"
+      ],
+      "repositoryPath": "../day-28-test-dataset-evaluator",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-28-test-dataset-evaluator"
+        }
+      ]
+    },
+    {
+      "id": "day-29-full-stack-health-dashboard",
+      "day": 29,
+      "name": "Dashboard de salud full-stack",
+      "summary": "Muestra el estado de un sistema desde una aplicación full-stack.",
+      "category": "full-stack",
+      "technologies": [
+        "FastAPI",
+        "React"
+      ],
+      "repositoryPath": "../day-29-full-stack-health-dashboard",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-29-full-stack-health-dashboard"
+        }
+      ]
+    },
+    {
+      "id": "day-30-project-catalog",
+      "day": 30,
+      "name": "Catálogo de proyectos",
+      "summary": "Reúne las entregas del reto en un catálogo de portfolio.",
+      "category": "portfolio",
+      "technologies": [
+        "Next.js",
+        "Tailwind CSS"
+      ],
+      "repositoryPath": "../day-30-project-catalog",
+      "links": [
+        {
+          "label": "Código",
+          "href": "https://github.com/DiegoGuti2115/30-dias-codigo/tree/main/projects/day-30-project-catalog"
+        }
+      ]
+    }
+  ]
+}
